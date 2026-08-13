@@ -1,0 +1,16 @@
+.git
+.gitignore
+.codegraph
+.omo
+.playwright-mcp
+.sisyphus
+venv
+__pycache__
+*.py[cod]
+*.db
+temp
+data
+secrets
+.env*
+!.env.example
+3600
