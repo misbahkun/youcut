@@ -68,6 +68,45 @@ document.addEventListener('DOMContentLoaded', function() {
     let quality = '720p';
     let orientation = 'landscape';
 
+    const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+    async function readJsonResponse(resp, fallbackMessage) {
+        let data = {};
+        try {
+            data = await resp.json();
+        } catch (error) {
+            if (resp.ok) return data;
+            throw new Error(fallbackMessage);
+        }
+        if (!resp.ok) {
+            throw new Error(data.error || fallbackMessage);
+        }
+        return data;
+    }
+
+    async function waitForOperationJob(operationJobId) {
+        if (!operationJobId) {
+            throw new Error('Job download tidak valid');
+        }
+        while (true) {
+            await wait(1000);
+            const resp = await fetch(`/api/manual/job_status/${operationJobId}`);
+            const status = await readJsonResponse(resp, 'Gagal memeriksa status');
+            if (status.status === 'completed') return;
+            if (status.status === 'error' || status.status === 'not_found') {
+                throw new Error(status.error || 'Pekerjaan tidak ditemukan');
+            }
+        }
+    }
+
+    function triggerAttachmentDownload(url) {
+        const a = document.createElement('a');
+        a.href = url;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+    }
+
     function resetAll() {
         inputSection.style.display = 'block';
         timelineSection.style.display = 'none';
@@ -153,19 +192,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({job_id: jobId, start, end, quality, orientation})
                 });
-                if (!resp.ok) {
-                    const errData = await resp.json();
-                    throw new Error(errData.error || 'Gagal memotong');
-                }
-                const blob = await resp.blob();
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `clip_${start.toFixed(1)}-${end.toFixed(1)}.mp4`;
-                document.body.appendChild(a);
-                a.click();
-                a.remove();
-                window.URL.revokeObjectURL(url);
+                const data = await readJsonResponse(resp, 'Gagal memotong');
+                await waitForOperationJob(data.job_id);
+                triggerAttachmentDownload(`/api/download_clip/${data.job_id}/0`);
             } catch (error) {
                 alert('Gagal mengunduh: ' + error.message);
                 console.error(error);
@@ -289,19 +318,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({ job_id: jobId, cuts, quality, orientation })
             });
-            if (!resp.ok) {
-                const err = await resp.json();
-                throw new Error(err.error || 'Gagal');
-            }
-            const blob = await resp.blob();
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'youcut_clips.zip';
-            document.body.appendChild(a);
-            a.click();
-            a.remove();
-            window.URL.revokeObjectURL(url);
+            const data = await readJsonResponse(resp, 'Gagal');
+            await waitForOperationJob(data.job_id);
+            triggerAttachmentDownload(`/api/manual/download_zip/${data.job_id}`);
         } catch (err) {
             alert('Gagal mengunduh: ' + err.message);
         } finally {

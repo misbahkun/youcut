@@ -98,8 +98,11 @@ class Config:
 
     MAX_POTONGAN_PER_LINK = 15
 
-    TEMP_DIR = os.path.join(
-        basedir,
-        "temp"
+    TEMP_DIR = (
+        os.environ.get("TEMP_DIR")
+        or os.path.join(
+            basedir,
+            "temp"
+        )
     )
 

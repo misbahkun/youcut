@@ -35,6 +35,7 @@ from flask_bcrypt import Bcrypt
 from apscheduler.schedulers.background import (
     BackgroundScheduler
 )
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 from config import Config
 
@@ -78,6 +79,13 @@ app = Flask(
 )
 
 app.config.from_object(Config)
+
+app.wsgi_app = ProxyFix(
+    app.wsgi_app,
+    x_for=1,
+    x_proto=1,
+    x_host=1,
+)
 
 
 # =========================================================
@@ -318,7 +326,6 @@ def service_worker():
 
     )
 
-
 # =========================================================
 # USER LOADER
 # =========================================================
@@ -344,6 +351,14 @@ def load_user(user_id):
 # =========================================================
 # PUBLIC PAGES
 # =========================================================
+
+@app.get("/healthz")
+def healthz():
+
+    return jsonify(
+        status="ok"
+    ), 200
+
 
 @app.route("/")
 def index():
@@ -2302,6 +2317,113 @@ def timeline_cut_process():
 # TIMELINE SINGLE CUT
 # =========================================================
 
+def process_timeline_operation(
+    operation_id
+):
+
+    with jobs_lock:
+
+        job = jobs.get(
+            operation_id
+        )
+
+
+        if not job:
+
+            return
+
+
+        video_path = job["video_path"]
+        job_folder = job["folder"]
+        cuts = job["cuts"]
+        quality = job["quality"]
+        orientation = job["orientation"]
+        create_archive = job["create_archive"]
+
+
+        job["status"] = "processing"
+
+
+    try:
+
+        for idx, cut in enumerate(
+            cuts
+        ):
+
+            out_name = f"clip_{idx + 1}.mp4"
+
+
+            cut_video_ffmpeg(
+                video_path,
+                os.path.join(
+                    job_folder,
+                    out_name
+                ),
+                cut["start"],
+                cut["end"],
+                orientation,
+                quality
+            )
+
+
+            with jobs_lock:
+
+                job["outputs"].append(
+                    out_name
+                )
+
+
+                job["progress"] = int(
+                    ((idx + 1) / len(cuts))
+                    * (90 if create_archive else 100)
+                )
+
+
+        zip_name = None
+
+
+        if create_archive:
+
+            zip_name = "all_clips.zip"
+
+
+            create_zip(
+                job_folder,
+                os.path.join(
+                    job_folder,
+                    zip_name
+                )
+            )
+
+
+        timer = threading.Timer(
+            600,
+            cleanup_temp_folder,
+            args=[job_folder]
+        )
+
+
+        timer.daemon = True
+
+
+        with jobs_lock:
+
+            job["zip_path"] = zip_name
+            job["status"] = "completed"
+            job["progress"] = 100
+            job["timer"] = timer
+
+
+        timer.start()
+
+
+    except Exception as exc:
+
+        with jobs_lock:
+
+            job["status"] = "error"
+            job["error"] = str(exc)
+
 @app.route(
     "/api/timeline/cut_single",
     methods=["POST"]
@@ -2494,89 +2616,54 @@ def timeline_cut_single():
         ]
 
 
-        job_folder = job[
-            "folder"
-        ]
-
-
-    clip_name = (
-
-        "clip_single_"
-
-        +
-
-        f"{uuid.uuid4().hex}.mp4"
-
-    )
-
-
-    out_path = os.path.join(
-
-        job_folder,
-
-        clip_name
-
-    )
-
-
-    try:
-
-        cut_video_ffmpeg(
-
-            video_path,
-
-            out_path,
-
-            start,
-
-            end,
-
-            orientation,
-
-            quality
-
+        operation_id = str(
+            uuid.uuid4()
         )
 
 
-        response = make_response(
-
-            send_file(
-
-                out_path,
-
-                as_attachment=True,
-
-                download_name=
-                    "clip.mp4"
-
-            )
-
+        operation_folder = os.path.join(
+            app.config["TEMP_DIR"],
+            str(current_user.get_id()),
+            operation_id
         )
 
 
-        @response.call_on_close
-        def cleanup():
-
-            if os.path.exists(
-                out_path
-            ):
-
-                os.remove(
-                    out_path
-                )
+        os.makedirs(
+            operation_folder,
+            exist_ok=True
+        )
 
 
-        return response
+        jobs[operation_id] = {
+            "id": operation_id,
+            "user_id": str(current_user.get_id()),
+            "status": "processing",
+            "progress": 0,
+            "folder": operation_folder,
+            "video_path": video_path,
+            "cuts": [{"start": start, "end": end}],
+            "quality": quality,
+            "orientation": orientation,
+            "create_archive": False,
+            "timer": None,
+            "outputs": [],
+            "zip_path": None,
+            "error": "",
+        }
 
 
-    except Exception as exc:
+    threading.Thread(
+        target=process_timeline_operation,
+        args=(operation_id,),
+        daemon=True
+    ).start()
 
-        return jsonify(
-            {
-                "error":
-                    str(exc)
-            }
-        ), 500
+
+    return jsonify(
+        {
+            "job_id": operation_id
+        }
+    ), 202
 
 
 # =========================================================
@@ -2752,156 +2839,100 @@ def timeline_download_all_zip():
         ]
 
 
-    zip_folder = os.path.join(
-
-        job_folder,
-
-        "zip_temp"
-
-    )
-
-
-    os.makedirs(
-        zip_folder,
-        exist_ok=True
-    )
-
-
     try:
 
-        for idx, cut in enumerate(
-            cuts
-        ):
-
-            start = float(
-                cut["start"]
-            )
+        operation_cuts = []
 
 
-            end = float(
-                cut["end"]
-            )
+        for cut in cuts:
+
+            start = float(cut["start"])
+            end = float(cut["end"])
 
 
             if start < 0:
 
-                raise RuntimeError(
-                    "Start time tidak valid."
-                )
+                return jsonify(
+                    {"error": "Start time tidak valid."}
+                ), 400
 
 
             if end <= start:
 
-                raise RuntimeError(
-                    "End time harus lebih besar dari start time."
-                )
+                return jsonify(
+                    {"error": "End time harus lebih besar dari start time."}
+                ), 400
 
 
             if end > duration:
 
-                raise RuntimeError(
-                    "End time melebihi durasi video."
-                )
+                return jsonify(
+                    {"error": "End time melebihi durasi video."}
+                ), 400
 
 
-            out_path = os.path.join(
-
-                zip_folder,
-
-                f"clip_{idx + 1}.mp4"
-
+            operation_cuts.append(
+                {"start": start, "end": end}
             )
 
 
-            cut_video_ffmpeg(
-
-                video_path,
-
-                out_path,
-
-                start,
-
-                end,
-
-                orientation,
-
-                quality
-
-            )
-
-
-        zip_filename = (
-            "youcut_clips.zip"
-        )
-
-
-        zip_path = os.path.join(
-
-            job_folder,
-
-            zip_filename
-
-        )
-
-
-        create_zip(
-
-            zip_folder,
-
-            zip_path
-
-        )
-
-
-        response = make_response(
-
-            send_file(
-
-                zip_path,
-
-                as_attachment=True,
-
-                download_name=
-                    zip_filename
-
-            )
-
-        )
-
-
-        @response.call_on_close
-        def cleanup():
-
-            cleanup_temp_folder(
-                zip_folder
-            )
-
-
-            if os.path.exists(
-                zip_path
-            ):
-
-                os.remove(
-                    zip_path
-                )
-
-
-        return response
-
-
-    except Exception as exc:
-
-        cleanup_temp_folder(
-            zip_folder
-        )
-
+    except (
+        KeyError,
+        ValueError,
+        TypeError
+    ):
 
         return jsonify(
-            {
-                "error":
-                    str(exc)
-            }
-        ), 500
+            {"error": "Start/end tidak valid."}
+        ), 400
+
+
+    operation_id = str(uuid.uuid4())
+
+
+    operation_folder = os.path.join(
+        app.config["TEMP_DIR"],
+        str(current_user.get_id()),
+        operation_id
+    )
+
+
+    os.makedirs(
+        operation_folder,
+        exist_ok=True
+    )
+
+
+    with jobs_lock:
+
+        jobs[operation_id] = {
+            "id": operation_id,
+            "user_id": str(current_user.get_id()),
+            "status": "processing",
+            "progress": 0,
+            "folder": operation_folder,
+            "video_path": video_path,
+            "cuts": operation_cuts,
+            "quality": quality,
+            "orientation": orientation,
+            "create_archive": True,
+            "timer": None,
+            "outputs": [],
+            "zip_path": None,
+            "error": "",
+        }
+
+
+    threading.Thread(
+        target=process_timeline_operation,
+        args=(operation_id,),
+        daemon=True
+    ).start()
+
+
+    return jsonify(
+        {"job_id": operation_id}
+    ), 202
 
 
 # =========================================================
