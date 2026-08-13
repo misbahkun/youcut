@@ -1,0 +1,10 @@
+venv/
+__pycache__/
+*.py[cod]
+youcut.db
+temp/
+.codegraph/
+.omo/
+.playwright-mcp/
+.sisyphus/
+/3600

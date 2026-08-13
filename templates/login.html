@@ -1,0 +1,1410 @@
+{% extends "base.html" %}
+
+{% block title %}
+Login — Youcut
+{% endblock %}
+
+
+{% block content %}
+
+<div class="yc-auth-page">
+
+
+    <div class="yc-auth-shell">
+
+
+        <!-- =================================================
+             LEFT
+        ================================================== -->
+
+        <section class="yc-auth-visual">
+
+            <div class="yc-auth-visual-content">
+
+                <div class="yc-auth-brand">
+
+                    <span class="yc-auth-brand-mark">
+
+                        <i class="bi bi-scissors"></i>
+
+                    </span>
+
+
+                    <span>
+                        YOUCUT
+                    </span>
+
+                </div>
+
+
+                <div class="yc-auth-visual-copy">
+
+                    <span>
+                        WELCOME BACK
+                    </span>
+
+
+                    <h1>
+
+                        Lanjutkan
+                        <br>
+
+                        clipping-mu.
+
+                    </h1>
+
+
+                    <p>
+
+                        Masuk ke akun kamu dan lanjutkan
+                        workflow video tanpa perlu mulai dari awal.
+
+                    </p>
+
+                </div>
+
+
+                <div class="yc-auth-visual-footer">
+
+                    <div>
+
+                        <i class="bi bi-scissors"></i>
+
+                        Manual Cut
+
+                    </div>
+
+
+                    <div>
+
+                        <i class="bi bi-sliders2"></i>
+
+                        Timeline Cut
+
+                    </div>
+
+
+                    <div>
+
+                        <i class="bi bi-download"></i>
+
+                        Ready to use
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="yc-auth-visual-decoration">
+
+                <span></span>
+                <span></span>
+                <span></span>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             RIGHT
+        ================================================== -->
+
+        <section class="yc-auth-form-side">
+
+            <div class="yc-auth-form-wrap">
+
+                <div class="yc-auth-mobile-brand">
+
+                    <span>
+                        <i class="bi bi-scissors"></i>
+                    </span>
+
+                    YOUCUT
+
+                </div>
+
+
+                <div class="yc-auth-heading">
+
+                    <span class="yc-auth-kicker">
+                        SIGN IN
+                    </span>
+
+
+                    <h2>
+                        Selamat datang lagi.
+                    </h2>
+
+
+                    <p>
+                        Masukkan akun kamu untuk masuk ke workspace.
+                    </p>
+
+                </div>
+
+
+                {% if error %}
+
+                <div class="yc-auth-error">
+
+                    <i class="bi bi-exclamation-circle"></i>
+
+                    <span>
+                        {{ error }}
+                    </span>
+
+                </div>
+
+                {% endif %}
+
+
+                <form
+                    method="POST"
+                    class="yc-auth-form"
+                >
+
+                    <div class="yc-auth-field">
+
+                        <label for="email">
+                            Email
+                        </label>
+
+
+                        <div class="yc-input-wrap">
+
+                            <i class="bi bi-envelope"></i>
+
+
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                placeholder="nama@email.com"
+                                autocomplete="email"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="yc-auth-field">
+
+                        <div class="yc-field-label-row">
+
+                            <label for="password">
+                                Password
+                            </label>
+
+                        </div>
+
+
+                        <div class="yc-input-wrap">
+
+                            <i class="bi bi-lock"></i>
+
+
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                placeholder="Masukkan password"
+                                autocomplete="current-password"
+                                required
+                            >
+
+
+                            <button
+                                type="button"
+                                class="yc-password-toggle"
+                                data-target="password"
+                                aria-label="Tampilkan password"
+                            >
+
+                                <i class="bi bi-eye"></i>
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        class="yc-auth-submit"
+                    >
+
+                        Masuk ke Youcut
+
+                        <i class="bi bi-arrow-right"></i>
+
+                    </button>
+
+                </form>
+
+
+                <div class="yc-auth-divider">
+
+                    <span>
+                        atau
+                    </span>
+
+                </div>
+
+
+                <div class="yc-auth-switch">
+
+                    Belum punya akun?
+
+                    <a href="/register">
+                        Buat akun gratis
+                    </a>
+
+                </div>
+
+
+                <div class="yc-auth-note">
+
+                    <i class="bi bi-shield-check"></i>
+
+                    Akun kamu digunakan untuk menyimpan
+                    akses dan penggunaan workspace.
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+    </div>
+
+</div>
+
+
+
+<style>
+
+/* =========================================================
+   AUTH PAGE
+========================================================= */
+
+.yc-auth-page {
+
+    min-height:
+        calc(
+            100vh - 140px
+        );
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    padding:
+        30px 15px 55px;
+
+}
+
+
+.yc-auth-shell {
+
+    width:
+        min(
+            1050px,
+            100%
+        );
+
+    display:
+        grid;
+
+    grid-template-columns:
+        .9fr
+        1.1fr;
+
+    overflow:
+        hidden;
+
+    background:
+        var(--yc-surface-raised);
+
+    border:
+        1px solid
+        var(--yc-border);
+
+    border-radius:
+        18px;
+
+    box-shadow:
+        0 25px 70px
+        rgba(
+            20,
+            20,
+            40,
+            .10
+        );
+
+}
+
+
+/* =========================================================
+   VISUAL
+========================================================= */
+
+.yc-auth-visual {
+
+    position:
+        relative;
+
+    overflow:
+        hidden;
+
+    min-height:
+        620px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    padding:
+        42px;
+
+    background:
+        var(--yc-surface);
+
+    border-right:
+        1px solid
+        var(--yc-border);
+
+}
+
+
+.yc-auth-visual-content {
+
+    position:
+        relative;
+
+    z-index:
+        2;
+
+}
+
+
+.yc-auth-brand {
+
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    gap:
+        8px;
+
+    color:
+        var(--yc-text);
+
+    font-size:
+        .69rem;
+
+    font-weight:
+        850;
+
+    letter-spacing:
+        .13em;
+
+}
+
+
+.yc-auth-brand-mark {
+
+    width:
+        31px;
+
+    height:
+        31px;
+
+    display:
+        grid;
+
+    place-items:
+        center;
+
+    background:
+        var(--yc-primary);
+
+    color:
+        #fff;
+
+    border-radius:
+        8px;
+
+}
+
+
+.yc-auth-visual-copy {
+
+    margin-top:
+        110px;
+
+}
+
+
+.yc-auth-visual-copy > span {
+
+    color:
+        var(--yc-primary);
+
+    font-size:
+        .59rem;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        .13em;
+
+}
+
+
+.yc-auth-visual-copy h1 {
+
+    margin:
+        9px 0 15px;
+
+    font-size:
+        3.3rem;
+
+    line-height:
+        1;
+
+    letter-spacing:
+        -.06em;
+
+}
+
+
+.yc-auth-visual-copy p {
+
+    max-width:
+        380px;
+
+    margin:
+        0;
+
+    color:
+        var(--yc-text-2);
+
+    font-size:
+        .78rem;
+
+    line-height:
+        1.75;
+
+}
+
+
+.yc-auth-visual-footer {
+
+    display:
+        flex;
+
+    flex-wrap:
+        wrap;
+
+    gap:
+        7px;
+
+    margin-top:
+        45px;
+
+}
+
+
+.yc-auth-visual-footer div {
+
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    gap:
+        5px;
+
+    padding:
+        7px 9px;
+
+    background:
+        var(--yc-surface-raised);
+
+    border:
+        1px solid
+        var(--yc-border);
+
+    border-radius:
+        7px;
+
+    color:
+        var(--yc-text-3);
+
+    font-size:
+        .59rem;
+
+}
+
+
+.yc-auth-visual-footer i {
+
+    color:
+        var(--yc-primary);
+
+}
+
+
+.yc-auth-visual-decoration {
+
+    position:
+        absolute;
+
+    width:
+        310px;
+
+    height:
+        310px;
+
+    right:
+        -150px;
+
+    top:
+        -90px;
+
+    border-radius:
+        50%;
+
+    background:
+        var(--yc-primary-soft);
+
+    filter:
+        blur(10px);
+
+}
+
+
+.yc-auth-visual-decoration span {
+
+    position:
+        absolute;
+
+    border:
+        1px solid
+        var(--yc-border);
+
+    border-radius:
+        50%;
+
+}
+
+
+.yc-auth-visual-decoration span:nth-child(1) {
+
+    width:
+        120px;
+
+    height:
+        120px;
+
+    left:
+        40px;
+
+    top:
+        90px;
+
+}
+
+
+.yc-auth-visual-decoration span:nth-child(2) {
+
+    width:
+        185px;
+
+    height:
+        185px;
+
+    left:
+        5px;
+
+    top:
+        55px;
+
+}
+
+
+.yc-auth-visual-decoration span:nth-child(3) {
+
+    width:
+        250px;
+
+    height:
+        250px;
+
+    left:
+        -27px;
+
+    top:
+        21px;
+
+}
+
+
+/* =========================================================
+   FORM SIDE
+========================================================= */
+
+.yc-auth-form-side {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    padding:
+        48px;
+
+}
+
+
+.yc-auth-form-wrap {
+
+    width:
+        min(
+            410px,
+            100%
+        );
+
+    margin:
+        0 auto;
+
+}
+
+
+.yc-auth-mobile-brand {
+
+    display:
+        none;
+
+}
+
+
+.yc-auth-kicker {
+
+    color:
+        var(--yc-primary);
+
+    font-size:
+        .59rem;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        .13em;
+
+}
+
+
+.yc-auth-heading h2 {
+
+    margin:
+        8px 0 7px;
+
+    color:
+        var(--yc-text);
+
+    font-size:
+        2rem;
+
+    letter-spacing:
+        -.045em;
+
+}
+
+
+.yc-auth-heading p {
+
+    margin:
+        0;
+
+    color:
+        var(--yc-text-3);
+
+    font-size:
+        .75rem;
+
+    line-height:
+        1.6;
+
+}
+
+
+/* =========================================================
+   ERROR
+========================================================= */
+
+.yc-auth-error {
+
+    display:
+        flex;
+
+    gap:
+        8px;
+
+    align-items:
+        center;
+
+    margin-top:
+        20px;
+
+    padding:
+        10px 11px;
+
+    background:
+        color-mix(
+            in srgb,
+            #dc3545 7%,
+            var(--yc-surface)
+        );
+
+    border:
+        1px solid
+        color-mix(
+            in srgb,
+            #dc3545 25%,
+            var(--yc-border)
+        );
+
+    border-radius:
+        8px;
+
+    color:
+        #dc3545;
+
+    font-size:
+        .69rem;
+
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.yc-auth-form {
+
+    margin-top:
+        27px;
+
+}
+
+
+.yc-auth-field {
+
+    margin-bottom:
+        17px;
+
+}
+
+
+.yc-auth-field label {
+
+    display:
+        block;
+
+    margin-bottom:
+        7px;
+
+    color:
+        var(--yc-text);
+
+    font-size:
+        .69rem;
+
+    font-weight:
+        700;
+
+}
+
+
+.yc-input-wrap {
+
+    position:
+        relative;
+
+}
+
+
+.yc-input-wrap > i {
+
+    position:
+        absolute;
+
+    left:
+        13px;
+
+    top:
+        50%;
+
+    transform:
+        translateY(
+            -50%
+        );
+
+    z-index:
+        2;
+
+    color:
+        var(--yc-text-3);
+
+    font-size:
+        .88rem;
+
+}
+
+
+.yc-input-wrap input {
+
+    width:
+        100%;
+
+    min-height:
+        45px;
+
+    padding:
+        11px 42px;
+
+    background:
+        var(--yc-surface);
+
+    border:
+        1px solid
+        var(--yc-border-strong);
+
+    border-radius:
+        9px;
+
+    color:
+        var(--yc-text);
+
+    font-size:
+        .75rem;
+
+    outline:
+        none;
+
+    transition:
+        border-color .15s ease,
+        box-shadow .15s ease;
+
+}
+
+
+.yc-input-wrap input::placeholder {
+
+    color:
+        var(--yc-text-3);
+
+}
+
+
+.yc-input-wrap input:focus {
+
+    border-color:
+        var(--yc-primary);
+
+    box-shadow:
+        0 0 0 3px
+        var(--yc-primary-soft);
+
+}
+
+
+.yc-password-toggle {
+
+    position:
+        absolute;
+
+    right:
+        9px;
+
+    top:
+        50%;
+
+    transform:
+        translateY(
+            -50%
+        );
+
+    display:
+        grid;
+
+    place-items:
+        center;
+
+    width:
+        28px;
+
+    height:
+        28px;
+
+    border:
+        0;
+
+    background:
+        transparent;
+
+    color:
+        var(--yc-text-3);
+
+}
+
+
+.yc-password-toggle:hover {
+
+    color:
+        var(--yc-text);
+
+}
+
+
+/* =========================================================
+   SUBMIT
+========================================================= */
+
+.yc-auth-submit {
+
+    width:
+        100%;
+
+    min-height:
+        46px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    gap:
+        8px;
+
+    margin-top:
+        8px;
+
+    border:
+        0;
+
+    border-radius:
+        9px;
+
+    background:
+        var(--yc-primary);
+
+    color:
+        #fff;
+
+    font-size:
+        .75rem;
+
+    font-weight:
+        750;
+
+    transition:
+        transform .15s ease,
+        filter .15s ease;
+
+}
+
+
+.yc-auth-submit:hover {
+
+    transform:
+        translateY(-1px);
+
+    filter:
+        brightness(
+            .97
+        );
+
+}
+
+
+/* =========================================================
+   DIVIDER / SWITCH
+========================================================= */
+
+.yc-auth-divider {
+
+    position:
+        relative;
+
+    margin:
+        22px 0;
+
+    text-align:
+        center;
+
+}
+
+
+.yc-auth-divider::before {
+
+    content:
+        "";
+
+    position:
+        absolute;
+
+    left:
+        0;
+
+    right:
+        0;
+
+    top:
+        50%;
+
+    height:
+        1px;
+
+    background:
+        var(--yc-border);
+
+}
+
+
+.yc-auth-divider span {
+
+    position:
+        relative;
+
+    z-index:
+        2;
+
+    display:
+        inline-block;
+
+    padding:
+        0 9px;
+
+    background:
+        var(--yc-surface-raised);
+
+    color:
+        var(--yc-text-3);
+
+    font-size:
+        .62rem;
+
+}
+
+
+.yc-auth-switch {
+
+    text-align:
+        center;
+
+    color:
+        var(--yc-text-3);
+
+    font-size:
+        .68rem;
+
+}
+
+
+.yc-auth-switch a {
+
+    margin-left:
+        3px;
+
+    color:
+        var(--yc-primary);
+
+    font-weight:
+        750;
+
+    text-decoration:
+        none;
+
+}
+
+
+.yc-auth-note {
+
+    display:
+        flex;
+
+    gap:
+        7px;
+
+    margin-top:
+        26px;
+
+    padding-top:
+        16px;
+
+    border-top:
+        1px solid
+        var(--yc-border);
+
+    color:
+        var(--yc-text-3);
+
+    font-size:
+        .61rem;
+
+    line-height:
+        1.55;
+
+}
+
+
+.yc-auth-note i {
+
+    color:
+        var(--yc-success);
+
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (
+    max-width: 850px
+) {
+
+    .yc-auth-shell {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+
+    .yc-auth-visual {
+
+        display:
+            none;
+
+    }
+
+
+    .yc-auth-form-side {
+
+        padding:
+            38px 25px;
+
+    }
+
+
+    .yc-auth-mobile-brand {
+
+        display:
+            inline-flex;
+
+        align-items:
+            center;
+
+        gap:
+            7px;
+
+        margin-bottom:
+            35px;
+
+        color:
+            var(--yc-text);
+
+        font-size:
+            .7rem;
+
+        font-weight:
+            850;
+
+        letter-spacing:
+            .1em;
+
+    }
+
+
+    .yc-auth-mobile-brand span {
+
+        width:
+            28px;
+
+        height:
+            28px;
+
+        display:
+            grid;
+
+        place-items:
+            center;
+
+        border-radius:
+            7px;
+
+        background:
+            var(--yc-primary);
+
+        color:
+            #fff;
+
+    }
+
+}
+
+
+@media (
+    max-width: 480px
+) {
+
+    .yc-auth-page {
+
+        padding:
+            15px 10px 40px;
+
+    }
+
+
+    .yc-auth-shell {
+
+        border-radius:
+            14px;
+
+    }
+
+
+    .yc-auth-form-side {
+
+        padding:
+            30px 18px;
+
+    }
+
+
+    .yc-auth-heading h2 {
+
+        font-size:
+            1.75rem;
+
+    }
+
+}
+
+</style>
+
+
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function ()
+    {
+
+        document
+            .querySelectorAll(
+                ".yc-password-toggle"
+            )
+            .forEach(
+                function (
+                    button
+                )
+                {
+
+                    button.addEventListener(
+                        "click",
+                        function ()
+                        {
+
+                            const targetId =
+                                button.dataset.target;
+
+
+                            const input =
+                                document.getElementById(
+                                    targetId
+                                );
+
+
+                            const icon =
+                                button.querySelector(
+                                    "i"
+                                );
+
+
+                            if (
+                                !input
+                            )
+                            {
+                                return;
+                            }
+
+
+                            if (
+                                input.type
+                                ===
+                                "password"
+                            )
+                            {
+
+                                input.type =
+                                    "text";
+
+
+                                icon.className =
+                                    "bi bi-eye-slash";
+
+                            }
+                            else
+                            {
+
+                                input.type =
+                                    "password";
+
+
+                                icon.className =
+                                    "bi bi-eye";
+
+                            }
+
+                        }
+                    );
+
+                }
+            );
+
+    }
+);
+
+</script>
+
+{% endblock %}

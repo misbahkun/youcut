@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Edit Timeline - Youcut{% endblock %}
+{% block content %}
+<h2>Edit Potongan Timeline</h2>
+<div class="mb-3">
+    <video id="mainVideo" controls style="width:100%; max-height:400px;">
+        <source src="/api/timeline/get_video/{{ job_id }}" type="video/mp4">
+    </video>
+</div>
+<div id="cutsContainer" class="mb-4">
+    <!-- potongan akan ditambahkan dinamis oleh JS -->
+</div>
+<button id="addCutBtn" class="btn btn-secondary mb-3">+ Tambah Potongan</button>
+<button id="processCutsBtn" class="btn btn-primary mb-3">Potong Video</button>
+<div id="statusArea" style="display:none;">
+    <div class="progress"><div id="progressBar" class="progress-bar" style="width:0%">0%</div></div>
+    <div id="resultContainer" class="row mt-3"></div>
+    <button id="downloadAllBtn" class="btn btn-success mt-3" style="display:none;">Download Semua (.zip)</button>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+    window.timelineConfig = {
+        jobId: "{{ job_id }}",
+        duration: { duration },
+        quality: "{{ quality }}",
+        orientation: "{{ orientation }}"
+    };
+</script>
+<script src="{{ url_for('static', filename='js/timeline_cut.js') }}"></script>
+{% endblock %}

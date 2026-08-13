@@ -1,0 +1,249 @@
+{% extends "base.html" %}
+{% block title %}Manual Cut - Youcut{% endblock %}
+{% block content %}
+<h2>Manual Cut</h2>
+<div class="my-4">
+    <div class="mb-3">
+        <label for="youtubeUrl" class="form-label">Link YouTube</label>
+        <input type="url" class="form-control" id="youtubeUrl" placeholder="https://www.youtube.com/watch?v=..." required>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label for="quality" class="form-label">Kualitas</label>
+            <select id="quality" class="form-select">
+                <option value="720p" selected>720p</option>
+                <option value="1080p">1080p</option>
+            </select>
+        </div>
+        <div class="col-md-6">
+            <label for="orientation" class="form-label">Orientasi</label>
+            <select id="orientation" class="form-select">
+                <option value="landscape" selected>16:9 Landscape</option>
+                <option value="portrait">9:16 Portrait</option>
+            </select>
+        </div>
+    </div>
+    <h5>Daftar Potongan</h5>
+    <div id="cutsContainer">
+        <!-- baris potongan akan dibuat oleh JS -->
+    </div>
+    <div class="mt-2 d-flex gap-2">
+        <button type="button" class="btn btn-secondary btn-sm" id="addCut">+ Tambah Potongan</button>
+        <button type="button" class="btn btn-outline-danger btn-sm" id="resetBtn">Reset</button>
+    </div>
+    <div class="mt-3">
+        <button type="button" class="btn btn-primary" id="submitBtn">Buat Klip</button>
+    </div>
+</div>
+
+<!-- Area status dan hasil -->
+<div id="statusArea" class="mt-4" style="display:none;">
+    <h4>Status</h4>
+    <div class="progress">
+        <div id="progressBar" class="progress-bar" role="progressbar" style="width: 0%">0%</div>
+    </div>
+    <div id="statusMessage" class="mt-2"></div>
+    <div id="resultContainer" class="row mt-3"></div>
+    <button id="downloadAllBtn" class="btn btn-success mt-3" style="display:none;">Download Semua (.zip)</button>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const cutsContainer = document.getElementById('cutsContainer');
+    const addCutBtn = document.getElementById('addCut');
+    const resetBtn = document.getElementById('resetBtn');
+    const submitBtn = document.getElementById('submitBtn');
+    const statusArea = document.getElementById('statusArea');
+    const progressBar = document.getElementById('progressBar');
+    const statusMessage = document.getElementById('statusMessage');
+    const resultContainer = document.getElementById('resultContainer');
+    const downloadAllBtn = document.getElementById('downloadAllBtn');
+    let jobId = null;
+
+    // Fungsi membuat baris potongan dengan input HH:MM:SS
+    function createCutRow() {
+        const row = document.createElement('div');
+        row.className = 'cut-row row g-2 mb-2 align-items-end';
+        row.innerHTML = `
+            <div class="col-md-5">
+                <label class="form-label">Mulai (HH:MM:SS)</label>
+                <input type="text" class="form-control start-time" placeholder="00:01:30" pattern="[0-9]{2}:[0-9]{2}:[0-9]{2}" required>
+            </div>
+            <div class="col-md-5">
+                <label class="form-label">Selesai (HH:MM:SS)</label>
+                <input type="text" class="form-control end-time" placeholder="00:02:45" pattern="[0-9]{2}:[0-9]{2}:[0-9]{2}" required>
+            </div>
+            <div class="col-md-2">
+                <button type="button" class="btn btn-danger btn-sm remove-cut">Hapus</button>
+            </div>
+        `;
+        // Event hapus
+        row.querySelector('.remove-cut').addEventListener('click', function() {
+            if (cutsContainer.children.length > 1) {
+                row.remove();
+            } else {
+                alert('Minimal satu potongan diperlukan.');
+            }
+        });
+        return row;
+    }
+
+    // Reset form ke kondisi awal
+    function resetForm() {
+        document.getElementById('youtubeUrl').value = '';
+        document.getElementById('quality').value = '720p';
+        document.getElementById('orientation').value = 'landscape';
+        // Hapus semua baris potongan
+        cutsContainer.innerHTML = '';
+        // Tambah satu baris kosong
+        cutsContainer.appendChild(createCutRow());
+        // Sembunyikan hasil
+        statusArea.style.display = 'none';
+        resultContainer.innerHTML = '';
+        downloadAllBtn.style.display = 'none';
+    }
+
+    // Inisialisasi awal: satu baris
+    cutsContainer.appendChild(createCutRow());
+
+    // Tombol tambah potongan
+    addCutBtn.addEventListener('click', function() {
+        if (cutsContainer.children.length >= 15) {
+            alert('Maksimal 15 potongan.');
+            return;
+        }
+        cutsContainer.appendChild(createCutRow());
+    });
+
+    // Tombol reset
+    resetBtn.addEventListener('click', resetForm);
+
+    // Konversi HH:MM:SS ke detik
+    function hhmmssToSeconds(timeStr) {
+        const parts = timeStr.split(':');
+        if (parts.length !== 3) return NaN;
+        const h = parseInt(parts[0], 10) || 0;
+        const m = parseInt(parts[1], 10) || 0;
+        const s = parseInt(parts[2], 10) || 0;
+        return h * 3600 + m * 60 + s;
+    }
+
+    // Submit proses
+    submitBtn.addEventListener('click', async function() {
+        const youtubeUrl = document.getElementById('youtubeUrl').value.trim();
+        const quality = document.getElementById('quality').value;
+        const orientation = document.getElementById('orientation').value;
+
+        if (!youtubeUrl.includes('youtube.com/watch') && !youtubeUrl.includes('youtu.be/')) {
+            alert('Masukkan URL YouTube yang valid.');
+            return;
+        }
+
+        const cuts = [];
+        const rows = cutsContainer.querySelectorAll('.cut-row');
+        for (const row of rows) {
+            const startInput = row.querySelector('.start-time').value.trim();
+            const endInput = row.querySelector('.end-time').value.trim();
+            if (!startInput || !endInput) {
+                alert('Semua potongan harus diisi.');
+                return;
+            }
+            const start = hhmmssToSeconds(startInput);
+            const end = hhmmssToSeconds(endInput);
+            if (isNaN(start) || isNaN(end)) {
+                alert('Format waktu salah. Gunakan HH:MM:SS.');
+                return;
+            }
+            if (end <= start) {
+                alert('Waktu selesai harus lebih besar dari waktu mulai.');
+                return;
+            }
+            cuts.push({start, end});
+        }
+
+        if (cuts.length === 0) {
+            alert('Isi minimal satu potongan.');
+            return;
+        }
+
+        // Tampilkan status
+        statusArea.style.display = 'block';
+        resultContainer.innerHTML = '';
+        downloadAllBtn.style.display = 'none';
+        progressBar.style.width = '0%';
+        progressBar.textContent = '0%';
+        statusMessage.textContent = 'Mengunduh dan memotong video...';
+
+        try {
+            const resp = await fetch('/api/manual/create_job', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({youtube_url: youtubeUrl, cuts, quality, orientation})
+            });
+            const data = await resp.json();
+            if (data.error) {
+                statusMessage.textContent = 'Error: ' + data.error;
+                return;
+            }
+            jobId = data.job_id;
+            pollStatus();
+        } catch (err) {
+            statusMessage.textContent = 'Gagal menghubungi server.';
+        }
+    });
+
+    function pollStatus() {
+        const interval = setInterval(async () => {
+            try {
+                const resp = await fetch(`/api/manual/job_status/${jobId}`);
+                const status = await resp.json();
+                progressBar.style.width = status.progress + '%';
+                progressBar.textContent = status.progress + '%';
+                statusMessage.textContent = status.status === 'downloading' ? 'Mengunduh video...' :
+                                           status.status === 'processing' ? 'Memotong video...' :
+                                           status.status === 'completed' ? 'Selesai!' :
+                                           'Memproses...';
+                if (status.status === 'completed') {
+                    clearInterval(interval);
+                    displayResults(status.outputs, status.zip_path);
+                } else if (status.status === 'error') {
+                    clearInterval(interval);
+                    statusMessage.textContent = 'Error: ' + status.error;
+                }
+            } catch (err) {
+                clearInterval(interval);
+                statusMessage.textContent = 'Gagal memeriksa status.';
+            }
+        }, 1000);
+    }
+
+    function displayResults(outputs, zipPath) {
+        resultContainer.innerHTML = '';
+        outputs.forEach((name, index) => {
+            const col = document.createElement('div');
+            col.className = 'col-md-6 mb-3';
+            col.innerHTML = `
+                <div class="card">
+                    <video class="card-img-top" controls style="max-height:250px;">
+                        <source src="/api/download_clip/${jobId}/${index}" type="video/mp4">
+                    </video>
+                    <div class="card-body text-center">
+                        <h6>${name}</h6>
+                        <a href="/api/download_clip/${jobId}/${index}" class="btn btn-sm btn-primary" download>Download</a>
+                    </div>
+                </div>
+            `;
+            resultContainer.appendChild(col);
+        });
+
+        if (zipPath) {
+            downloadAllBtn.style.display = 'block';
+            downloadAllBtn.onclick = () => {
+                window.location.href = `/api/manual/download_zip/${jobId}`;
+            };
+        }
+    }
+});
+</script>
+{% endblock %}

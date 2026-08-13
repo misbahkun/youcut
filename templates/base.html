@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="theme-color"
+        content="#f0f0ed"
+    >
+
+    <meta
+        name="mobile-web-app-capable"
+        content="yes"
+    >
+
+    <meta
+        name="apple-mobile-web-app-capable"
+        content="yes"
+    >
+
+    <meta
+        name="apple-mobile-web-app-title"
+        content="Youcut"
+    >
+
+    <meta
+        name="apple-mobile-web-app-status-bar-style"
+        content="default"
+    >
+
+
+    <title>
+        {% block title %}
+            Youcut
+        {% endblock %}
+    </title>
+
+
+    <!-- =====================================================
+         BOOTSTRAP
+    ====================================================== -->
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+
+    <!-- =====================================================
+         BOOTSTRAP ICONS
+    ====================================================== -->
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+        rel="stylesheet"
+    >
+
+
+    <!-- =====================================================
+         NO UI SLIDER
+    ====================================================== -->
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/nouislider@15.7.0/dist/nouislider.min.css"
+        rel="stylesheet"
+    >
+
+
+    <!-- =====================================================
+         YOUCUT CSS
+    ====================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}?v=8"
+    >
+
+
+    <!-- =====================================================
+         PWA MANIFEST
+    ====================================================== -->
+
+    <link
+        rel="manifest"
+        href="{{ url_for('static', filename='manifest.json') }}"
+    >
+
+
+    <!-- =====================================================
+         INITIAL THEME
+    ====================================================== -->
+
+    <script>
+
+        (function () {
+
+            const savedTheme =
+                localStorage.getItem("youcut-theme") ||
+                localStorage.getItem("theme");
+
+
+            let theme;
+
+
+            if (
+                savedTheme === "dark" ||
+                savedTheme === "light"
+            ) {
+
+                theme = savedTheme;
+
+            } else {
+
+                theme =
+                    window.matchMedia(
+                        "(prefers-color-scheme: dark)"
+                    ).matches
+                        ? "dark"
+                        : "light";
+
+            }
+
+
+            document.documentElement.setAttribute(
+                "data-theme",
+                theme
+            );
+
+
+            document.documentElement.classList.remove(
+                "light-theme",
+                "dark-theme"
+            );
+
+
+            document.documentElement.classList.add(
+                theme + "-theme"
+            );
+
+        })();
+
+    </script>
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         NAVBAR
+    ====================================================== -->
+
+    <nav class="navbar navbar-expand-lg sticky-top yc-navbar">
+
+        <div class="container">
+
+
+            <!-- =================================================
+                 BRAND
+            ================================================== -->
+
+            <a
+                class="navbar-brand"
+                href="/"
+            >
+
+                <span class="yc-brand-mark">
+
+                    <i class="bi bi-scissors"></i>
+
+                </span>
+
+
+                <span>
+                    Youcut
+                </span>
+
+            </a>
+
+
+            <!-- =================================================
+                 MOBILE NAV BUTTON
+            ================================================== -->
+
+            <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarNav"
+                aria-controls="navbarNav"
+                aria-expanded="false"
+                aria-label="Buka navigasi"
+            >
+
+                <span class="navbar-toggler-icon"></span>
+
+            </button>
+
+
+            <!-- =================================================
+                 NAVIGATION
+            ================================================== -->
+
+            <div
+                class="collapse navbar-collapse"
+                id="navbarNav"
+            >
+
+
+                <!-- =================================================
+                     LEFT MENU
+                ================================================== -->
+
+                <ul class="navbar-nav me-auto">
+
+
+                    <!-- BERANDA -->
+
+                    <li class="nav-item">
+
+                        <a
+                            class="nav-link"
+                            href="/"
+                        >
+
+                            <i
+                                class="bi bi-house-door me-1"
+                            ></i>
+
+                            Beranda
+
+                        </a>
+
+                    </li>
+
+
+                    <!-- ABOUT -->
+
+                    <li class="nav-item">
+
+                        <a
+                            class="nav-link"
+                            href="/about"
+                        >
+
+                            About
+
+                        </a>
+
+                    </li>
+
+
+                    <!-- CLIPPING
+                         Hanya terlihat oleh user login
+                    -->
+
+                    {% if current_user.is_authenticated %}
+
+                        <li class="nav-item dropdown">
+
+                            <a
+                                class="nav-link dropdown-toggle"
+                                href="#"
+                                role="button"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false"
+                            >
+
+                                <i
+                                    class="bi bi-scissors me-1"
+                                ></i>
+
+                                Clipping
+
+                            </a>
+
+
+                            <ul class="dropdown-menu">
+
+
+                                <li>
+
+                                    <a
+                                        class="dropdown-item"
+                                        href="/clipping/manual"
+                                    >
+
+                                        <i
+                                            class="bi bi-scissors me-2"
+                                        ></i>
+
+                                        Manual Cut
+
+                                    </a>
+
+                                </li>
+
+
+                                <li>
+
+                                    <a
+                                        class="dropdown-item"
+                                        href="/clipping/timeline"
+                                    >
+
+                                        <i
+                                            class="bi bi-sliders2 me-2"
+                                        ></i>
+
+                                        Timeline Cut
+
+                                    </a>
+
+                                </li>
+
+
+                            </ul>
+
+                        </li>
+
+                    {% endif %}
+
+
+                    <!-- PRICING -->
+
+                    <li class="nav-item">
+
+                        <a
+                            class="nav-link"
+                            href="/pricing"
+                        >
+
+                            <i
+                                class="bi bi-tag me-1"
+                            ></i>
+
+                            Pricing
+
+                        </a>
+
+                    </li>
+
+
+                </ul>
+
+
+                <!-- =================================================
+                     RIGHT MENU
+                ================================================== -->
+
+                <ul
+                    class="navbar-nav align-items-lg-center"
+                >
+
+
+                    {% if current_user.is_authenticated %}
+
+
+                        <!-- USER -->
+
+                        <li class="nav-item">
+
+                            <span
+                                class="nav-link yc-user"
+                            >
+
+                                <span
+                                    class="yc-user-dot"
+                                ></span>
+
+
+                                <span>
+                                    {{ current_user.username }}
+                                </span>
+
+                            </span>
+
+                        </li>
+
+
+                        <!-- LOGOUT -->
+
+                        <li class="nav-item">
+
+                            <a
+                                class="nav-link"
+                                href="/logout"
+                            >
+
+                                <i
+                                    class="bi bi-box-arrow-right me-1"
+                                ></i>
+
+                                Logout
+
+                            </a>
+
+                        </li>
+
+
+                    {% else %}
+
+
+                        <!-- LOGIN -->
+
+                        <li class="nav-item">
+
+                            <a
+                                class="nav-link"
+                                href="/login"
+                            >
+
+                                Login
+
+                            </a>
+
+                        </li>
+
+
+                        <!-- REGISTER -->
+
+                        <li class="nav-item">
+
+                            <a
+                                class="nav-link"
+                                href="/register"
+                            >
+
+                                Register
+
+                            </a>
+
+                        </li>
+
+
+                    {% endif %}
+
+
+                    <!-- =================================================
+                         INSTALL APP
+                    ================================================== -->
+
+                    <li
+                        class="nav-item ms-lg-3 mt-2 mt-lg-0"
+                    >
+
+                        <button
+                            type="button"
+                            id="installAppButton"
+                            class="yc-install-button"
+                            hidden
+                        >
+
+                            <i class="bi bi-download"></i>
+
+                            <span>
+                                Install
+                            </span>
+
+                        </button>
+
+                    </li>
+
+
+                    <!-- =================================================
+                         THEME
+                    ================================================== -->
+
+                    <li
+                        class="nav-item ms-lg-2 mt-2 mt-lg-0"
+                    >
+
+                        <button
+                            type="button"
+                            class="yc-theme-toggle"
+                            id="themeToggle"
+                            aria-label="Ganti tema"
+                            aria-pressed="false"
+                            title="Ganti tema"
+                        >
+
+                            <i
+                                class="bi bi-sun-fill"
+                                id="themeIcon"
+                            ></i>
+
+
+                            <span
+                                id="themeLabel"
+                            >
+                                Light
+                            </span>
+
+                        </button>
+
+                    </li>
+
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main class="container yc-main">
+
+        {% block content %}
+
+        {% endblock %}
+
+    </main>
+
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
+    <footer class="yc-footer">
+
+        <div
+            class="
+                container
+                d-flex
+                flex-column
+                flex-sm-row
+                justify-content-between
+                align-items-center
+                gap-2
+            "
+        >
+
+            <small>
+                © 2026 Youcut
+            </small>
+
+
+            <small>
+                Simple tools for better clips.
+            </small>
+
+        </div>
+
+    </footer>
+
+
+    <!-- =====================================================
+         BOOTSTRAP JS
+    ====================================================== -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+    ></script>
+
+
+    <!-- =====================================================
+         NO UI SLIDER JS
+    ====================================================== -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/nouislider@15.7.0/dist/nouislider.min.js"
+    ></script>
+
+
+    <!-- =====================================================
+         THEME SYSTEM
+    ====================================================== -->
+
+    <script>
+
+        (function () {
+
+            "use strict";
+
+
+            const STORAGE_KEY =
+                "youcut-theme";
+
+
+            function getSavedTheme() {
+
+                const saved =
+                    localStorage.getItem(
+                        STORAGE_KEY
+                    );
+
+
+                if (
+                    saved === "dark" ||
+                    saved === "light"
+                ) {
+
+                    return saved;
+
+                }
+
+
+                const oldSaved =
+                    localStorage.getItem(
+                        "theme"
+                    );
+
+
+                if (
+                    oldSaved === "dark" ||
+                    oldSaved === "light"
+                ) {
+
+                    return oldSaved;
+
+                }
+
+
+                return null;
+
+            }
+
+
+            function getSystemTheme() {
+
+                return window.matchMedia(
+                    "(prefers-color-scheme: dark)"
+                ).matches
+                    ? "dark"
+                    : "light";
+
+            }
+
+
+            function applyTheme(theme) {
+
+                const html =
+                    document.documentElement;
+
+
+                html.setAttribute(
+                    "data-theme",
+                    theme
+                );
+
+
+                html.classList.remove(
+                    "light-theme",
+                    "dark-theme"
+                );
+
+
+                html.classList.add(
+                    theme + "-theme"
+                );
+
+
+                const button =
+                    document.getElementById(
+                        "themeToggle"
+                    );
+
+
+                const icon =
+                    document.getElementById(
+                        "themeIcon"
+                    );
+
+
+                const label =
+                    document.getElementById(
+                        "themeLabel"
+                    );
+
+
+                if (button) {
+
+                    button.setAttribute(
+                        "aria-pressed",
+                        theme === "dark"
+                            ? "true"
+                            : "false"
+                    );
+
+
+                    button.setAttribute(
+                        "title",
+                        theme === "dark"
+                            ? "Gunakan tema terang"
+                            : "Gunakan tema gelap"
+                    );
+
+                }
+
+
+                if (icon) {
+
+                    icon.className =
+                        theme === "dark"
+                            ? "bi bi-moon-stars-fill"
+                            : "bi bi-sun-fill";
+
+                }
+
+
+                if (label) {
+
+                    label.textContent =
+                        theme === "dark"
+                            ? "Dark"
+                            : "Light";
+
+                }
+
+
+                const meta =
+                    document.querySelector(
+                        'meta[name="theme-color"]'
+                    );
+
+
+                if (meta) {
+
+                    meta.setAttribute(
+                        "content",
+                        theme === "dark"
+                            ? "#111211"
+                            : "#f0f0ed"
+                    );
+
+                }
+
+            }
+
+
+            function saveTheme(theme) {
+
+                localStorage.setItem(
+                    STORAGE_KEY,
+                    theme
+                );
+
+
+                localStorage.setItem(
+                    "theme",
+                    theme
+                );
+
+            }
+
+
+            function toggleTheme() {
+
+                const current =
+                    document.documentElement
+                        .getAttribute(
+                            "data-theme"
+                        );
+
+
+                const next =
+                    current === "dark"
+                        ? "light"
+                        : "dark";
+
+
+                saveTheme(next);
+
+                applyTheme(next);
+
+            }
+
+
+            applyTheme(
+                getSavedTheme()
+                ||
+                getSystemTheme()
+            );
+
+
+            document.addEventListener(
+                "DOMContentLoaded",
+                function () {
+
+                    applyTheme(
+                        getSavedTheme()
+                        ||
+                        getSystemTheme()
+                    );
+
+
+                    const button =
+                        document.getElementById(
+                            "themeToggle"
+                        );
+
+
+                    if (!button) {
+
+                        return;
+
+                    }
+
+
+                    button.addEventListener(
+                        "click",
+                        function (event) {
+
+                            event.preventDefault();
+
+                            event.stopPropagation();
+
+                            toggleTheme();
+
+                        }
+                    );
+
+                }
+            );
+
+
+            const media =
+                window.matchMedia(
+                    "(prefers-color-scheme: dark)"
+                );
+
+
+            function handleSystemTheme() {
+
+                if (!getSavedTheme()) {
+
+                    applyTheme(
+                        getSystemTheme()
+                    );
+
+                }
+
+            }
+
+
+            if (
+                typeof media.addEventListener ===
+                "function"
+            ) {
+
+                media.addEventListener(
+                    "change",
+                    handleSystemTheme
+                );
+
+            } else if (
+                typeof media.addListener ===
+                "function"
+            ) {
+
+                media.addListener(
+                    "change",
+                    handleSystemTheme
+                );
+
+            }
+
+        })();
+
+    </script>
+
+
+    <!-- =====================================================
+         PWA SERVICE WORKER
+    ====================================================== -->
+
+    <script>
+
+        if (
+            "serviceWorker"
+            in navigator
+        ) {
+
+            window.addEventListener(
+                "load",
+                function () {
+
+                    navigator.serviceWorker
+                        .register(
+                            "/sw.js"
+                        )
+                        .then(
+                            function (registration) {
+
+                                console.log(
+                                    "Youcut PWA aktif:",
+                                    registration.scope
+                                );
+
+                            }
+                        )
+                        .catch(
+                            function (error) {
+
+                                console.error(
+                                    "Youcut PWA gagal:",
+                                    error
+                                );
+
+                            }
+                        );
+
+                }
+            );
+
+        }
+
+    </script>
+
+
+    <!-- =====================================================
+         PWA INSTALL PROMPT
+    ====================================================== -->
+
+    <script>
+
+        let deferredInstallPrompt =
+            null;
+
+
+        window.addEventListener(
+            "beforeinstallprompt",
+            function (event) {
+
+                event.preventDefault();
+
+                deferredInstallPrompt =
+                    event;
+
+
+                const button =
+                    document.getElementById(
+                        "installAppButton"
+                    );
+
+
+                if (button) {
+
+                    button.hidden =
+                        false;
+
+                }
+
+            }
+        );
+
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function () {
+
+                const button =
+                    document.getElementById(
+                        "installAppButton"
+                    );
+
+
+                if (!button) {
+
+                    return;
+
+                }
+
+
+                button.addEventListener(
+                    "click",
+                    async function () {
+
+                        if (
+                            !deferredInstallPrompt
+                        ) {
+
+                            return;
+
+                        }
+
+
+                        deferredInstallPrompt.prompt();
+
+
+                        const result =
+                            await deferredInstallPrompt
+                                .userChoice;
+
+
+                        console.log(
+                            "Install Youcut:",
+                            result.outcome
+                        );
+
+
+                        deferredInstallPrompt =
+                            null;
+
+
+                        button.hidden =
+                            true;
+
+                    }
+                );
+
+            }
+        );
+
+
+        window.addEventListener(
+            "appinstalled",
+            function () {
+
+                const button =
+                    document.getElementById(
+                        "installAppButton"
+                    );
+
+
+                if (button) {
+
+                    button.hidden =
+                        true;
+
+                }
+
+
+                console.log(
+                    "Youcut berhasil diinstall."
+                );
+
+            }
+        );
+
+    </script>
+
+
+    <!-- =====================================================
+         ACTIVE NAVIGATION
+    ====================================================== -->
+
+    <script>
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function () {
+
+                const currentPath =
+                    window.location.pathname;
+
+
+                document
+                    .querySelectorAll(
+                        ".navbar .nav-link"
+                    )
+                    .forEach(
+                        function (link) {
+
+                            const href =
+                                link.getAttribute(
+                                    "href"
+                                );
+
+
+                            if (!href) {
+
+                                return;
+
+                            }
+
+
+                            if (
+                                href === "/" &&
+                                currentPath === "/"
+                            ) {
+
+                                link.classList.add(
+                                    "active"
+                                );
+
+                            }
+
+                            else if (
+                                href !== "/" &&
+                                href === currentPath
+                            ) {
+
+                                link.classList.add(
+                                    "active"
+                                );
+
+                            }
+
+
+                            if (
+                                currentPath.startsWith(
+                                    "/clipping"
+                                )
+                                &&
+                                link.classList.contains(
+                                    "dropdown-toggle"
+                                )
+                            ) {
+
+                                link.classList.add(
+                                    "active"
+                                );
+
+                            }
+
+                        }
+                    );
+
+            }
+        );
+
+    </script>
+
+
+    <!-- =====================================================
+         PAGE SPECIFIC SCRIPTS
+    ====================================================== -->
+
+    {% block scripts %}
+
+    {% endblock %}
+
+
+</body>
+
+</html>

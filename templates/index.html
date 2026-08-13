@@ -1,0 +1,2877 @@
+{% extends "base.html" %}
+
+{% block title %}
+Youcut — Potong Video Tanpa Ribet
+{% endblock %}
+
+
+{% block content %}
+
+<div class="yc-home">
+
+
+    <!-- =====================================================
+         HERO
+    ====================================================== -->
+
+    <section class="yc-home-hero">
+
+        <div class="yc-home-hero-copy">
+
+            <div class="yc-home-eyebrow">
+
+                <span class="yc-home-eyebrow-dot"></span>
+
+                YOUTUBE CLIPPING WORKSPACE
+
+            </div>
+
+
+            <h1>
+
+                Dari video panjang
+                <br>
+
+                jadi
+                <span>clip siap pakai.</span>
+
+            </h1>
+
+
+            <p>
+
+                Tempel link YouTube, pilih bagian yang kamu mau,
+                lalu biarkan Youcut mengurus potongannya.
+                Nggak perlu ribet buka editor cuma untuk satu clip.
+
+            </p>
+
+
+            <div class="yc-home-actions">
+
+                <a
+                    href="/clipping/manual"
+                    class="yc-home-primary-btn"
+                >
+
+                    <i class="bi bi-scissors"></i>
+
+                    Manual Cut
+
+                    <i class="bi bi-arrow-right"></i>
+
+                </a>
+
+
+                <a
+                    href="/clipping/timeline"
+                    class="yc-home-secondary-btn"
+                >
+
+                    <i class="bi bi-sliders2"></i>
+
+                    Timeline Cut
+
+                </a>
+
+            </div>
+
+
+            <div class="yc-home-note">
+
+                <span>
+
+                    <i class="bi bi-check-circle-fill"></i>
+                    720p / 1080p
+
+                </span>
+
+
+                <span>
+
+                    <i class="bi bi-check-circle-fill"></i>
+                    Landscape / Portrait
+
+                </span>
+
+
+                <span>
+
+                    <i class="bi bi-check-circle-fill"></i>
+                    Sampai 15 clip
+
+                </span>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             HERO VISUAL
+        ================================================== -->
+
+        <div class="yc-home-hero-visual">
+
+            <div class="yc-home-glow"></div>
+
+
+            <div class="yc-editor-window">
+
+                <div class="yc-editor-topbar">
+
+                    <div class="yc-editor-dots">
+
+                        <span></span>
+                        <span></span>
+                        <span></span>
+
+                    </div>
+
+
+                    <span>
+                        YOUCUT / TIMELINE
+                    </span>
+
+
+                    <i class="bi bi-three-dots"></i>
+
+                </div>
+
+
+                <div class="yc-editor-body">
+
+                    <div class="yc-editor-sidebar">
+
+                        <div class="active">
+
+                            <i class="bi bi-scissors"></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <i class="bi bi-sliders2"></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <i class="bi bi-download"></i>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="yc-editor-main">
+
+                        <div class="yc-editor-video">
+
+                            <div class="yc-video-center-icon">
+
+                                <i class="bi bi-play-fill"></i>
+
+                            </div>
+
+
+                            <span class="yc-video-time">
+                                08:32
+                            </span>
+
+                        </div>
+
+
+                        <div class="yc-timeline-label">
+
+                            SELECT CLIP
+
+                            <span>
+                                00:34 — 01:12
+                            </span>
+
+                        </div>
+
+
+                        <div class="yc-timeline">
+
+                            <div class="yc-timeline-track">
+
+                                <div
+                                    class="yc-timeline-selection"
+                                ></div>
+
+                            </div>
+
+
+                            <div class="yc-timeline-markers">
+
+                                <span>00:00</span>
+                                <span>01:00</span>
+                                <span>02:00</span>
+                                <span>03:00</span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="yc-editor-footer">
+
+                            <div>
+
+                                <span>
+                                    QUALITY
+                                </span>
+
+                                <strong>
+                                    1080p
+                                </strong>
+
+                            </div>
+
+
+                            <div>
+
+                                <span>
+                                    FORMAT
+                                </span>
+
+                                <strong>
+                                    16:9
+                                </strong>
+
+                            </div>
+
+
+                            <div class="yc-editor-ready">
+
+                                <i class="bi bi-check-circle-fill"></i>
+
+                                Ready
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="yc-floating-card yc-floating-card-top">
+
+                <i class="bi bi-lightning-charge-fill"></i>
+
+                <div>
+
+                    <strong>
+                        Simple workflow
+                    </strong>
+
+                    <span>
+                        Tanpa editor rumit.
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="yc-floating-card yc-floating-card-bottom">
+
+                <div class="yc-floating-icon">
+
+                    <i class="bi bi-check2"></i>
+
+                </div>
+
+                <div>
+
+                    <strong>
+                        Clip siap
+                    </strong>
+
+                    <span>
+                        Tinggal download.
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         QUICK INTRO
+    ====================================================== -->
+
+    <section class="yc-home-intro">
+
+        <div>
+
+            <span class="yc-home-section-label">
+                BIKIN LEBIH PRAKTIS
+            </span>
+
+
+            <h2>
+                Yang kamu butuhkan bukan editor yang rumit.
+            </h2>
+
+        </div>
+
+
+        <p>
+
+            Kadang kamu cuma butuh mengambil beberapa bagian
+            dari video panjang. Youcut dibuat untuk kasus seperti itu:
+            pilih bagian yang dibutuhkan, proses, selesai.
+
+        </p>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         FEATURES
+    ====================================================== -->
+
+    <section class="yc-home-tools">
+
+        <div class="yc-home-section-head">
+
+            <div>
+
+                <span class="yc-home-section-label">
+                    TWO WAYS TO CLIP
+                </span>
+
+
+                <h2>
+                    Pilih cara kerja yang paling cocok.
+                </h2>
+
+            </div>
+
+
+            <p>
+
+                Mau serba langsung atau lebih visual,
+                keduanya tetap menuju hasil yang sama:
+                clip siap dipakai.
+
+            </p>
+
+        </div>
+
+
+        <div class="yc-home-tool-grid">
+
+
+            <!-- MANUAL -->
+
+            <article class="yc-home-tool-card">
+
+                <div class="yc-home-tool-top">
+
+                    <div class="yc-home-tool-icon">
+
+                        <i class="bi bi-scissors"></i>
+
+                    </div>
+
+
+                    <span>
+                        01
+                    </span>
+
+                </div>
+
+
+                <h3>
+                    Manual Cut
+                </h3>
+
+
+                <p>
+
+                    Cocok kalau kamu sudah tahu
+                    persis menit berapa yang mau diambil.
+                    Masukkan start dan end time, lalu
+                    buat beberapa clip sekaligus.
+
+                </p>
+
+
+                <div class="yc-home-tool-footer">
+
+                    <span>
+                        Cepat & langsung
+                    </span>
+
+
+                    <a href="/clipping/manual">
+
+                        Buka
+
+                        <i class="bi bi-arrow-up-right"></i>
+
+                    </a>
+
+                </div>
+
+            </article>
+
+
+
+            <!-- TIMELINE -->
+
+            <article class="yc-home-tool-card yc-home-tool-card-featured">
+
+                <div class="yc-home-tool-line"></div>
+
+
+                <div class="yc-home-tool-top">
+
+                    <div class="yc-home-tool-icon">
+
+                        <i class="bi bi-sliders2"></i>
+
+                    </div>
+
+
+                    <span>
+                        02
+                    </span>
+
+                </div>
+
+
+                <h3>
+                    Timeline Cut
+                </h3>
+
+
+                <p>
+
+                    Kalau lebih nyaman melihat videonya langsung,
+                    pakai timeline. Geser slider, preview bagian yang
+                    kamu mau, lalu tentukan clip dengan lebih presisi.
+
+                </p>
+
+
+                <div class="yc-home-tool-footer">
+
+                    <span>
+                        Visual & presisi
+                    </span>
+
+
+                    <a href="/clipping/timeline">
+
+                        Buka
+
+                        <i class="bi bi-arrow-up-right"></i>
+
+                    </a>
+
+                </div>
+
+            </article>
+
+
+
+            <!-- DOWNLOAD -->
+
+            <article class="yc-home-tool-card">
+
+                <div class="yc-home-tool-top">
+
+                    <div class="yc-home-tool-icon">
+
+                        <i class="bi bi-download"></i>
+
+                    </div>
+
+
+                    <span>
+                        03
+                    </span>
+
+                </div>
+
+
+                <h3>
+                    Tinggal Pakai
+                </h3>
+
+
+                <p>
+
+                    Setelah proses selesai, clip langsung siap
+                    diunduh. Pilih kualitas dan orientasi sesuai
+                    kebutuhan kontenmu.
+
+                </p>
+
+
+                <div class="yc-home-tool-footer">
+
+                    <span>
+                        Ready to use
+                    </span>
+
+
+                    <a href="/pricing">
+
+                        Lihat paket
+
+                        <i class="bi bi-arrow-up-right"></i>
+
+                    </a>
+
+                </div>
+
+            </article>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         WORKFLOW
+    ====================================================== -->
+
+    <section class="yc-home-workflow">
+
+        <div class="yc-home-workflow-copy">
+
+            <span class="yc-home-section-label">
+                CARA KERJA
+            </span>
+
+
+            <h2>
+                Nggak perlu banyak langkah.
+            </h2>
+
+
+            <p>
+
+                Dari link sampai clip jadi,
+                alurnya memang sengaja dibuat pendek.
+
+            </p>
+
+        </div>
+
+
+        <div class="yc-home-steps">
+
+
+            <div class="yc-home-step">
+
+                <div class="yc-step-number">
+                    01
+                </div>
+
+
+                <div>
+
+                    <strong>
+                        Tempel link
+                    </strong>
+
+                    <span>
+                        Masukkan URL video YouTube.
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="yc-home-step">
+
+                <div class="yc-step-number">
+                    02
+                </div>
+
+
+                <div>
+
+                    <strong>
+                        Tentukan bagian
+                    </strong>
+
+                    <span>
+                        Gunakan Manual atau Timeline Cut.
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="yc-home-step">
+
+                <div class="yc-step-number">
+                    03
+                </div>
+
+
+                <div>
+
+                    <strong>
+                        Pilih kualitas
+                    </strong>
+
+                    <span>
+                        Sesuaikan dengan kebutuhan konten.
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="yc-home-step">
+
+                <div class="yc-step-number">
+                    04
+                </div>
+
+
+                <div>
+
+                    <strong>
+                        Download
+                    </strong>
+
+                    <span>
+                        Clip selesai dan siap digunakan.
+                    </span>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         STATS
+    ====================================================== -->
+
+    <section class="yc-home-stats">
+
+        <div>
+
+            <strong>
+                15
+            </strong>
+
+            <span>
+                Maks. potongan per link
+            </span>
+
+        </div>
+
+
+        <div>
+
+            <strong>
+                1080p
+            </strong>
+
+            <span>
+                Kualitas maksimal
+            </span>
+
+        </div>
+
+
+        <div>
+
+            <strong>
+                2
+            </strong>
+
+            <span>
+                Mode clipping
+            </span>
+
+        </div>
+
+
+        <div>
+
+            <strong>
+                9:16
+            </strong>
+
+            <span>
+                Support portrait
+            </span>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         CTA
+    ====================================================== -->
+
+    <section class="yc-home-cta">
+
+        <div class="yc-home-cta-glow"></div>
+
+
+        <div class="yc-home-cta-content">
+
+            <span class="yc-home-section-label">
+                READY WHEN YOU ARE
+            </span>
+
+
+            <h2>
+                Punya video panjang?
+                <br>
+                Ambil bagian terbaiknya.
+            </h2>
+
+
+            <p>
+
+                Nggak harus jadi editor dulu.
+                Mulai dari satu video dan lihat
+                sendiri seberapa simpel workflow-nya.
+
+            </p>
+
+
+            <div class="yc-home-cta-actions">
+
+                <a
+                    href="/register"
+                    class="yc-home-primary-btn"
+                >
+
+                    Daftar Gratis
+
+                    <i class="bi bi-arrow-right"></i>
+
+                </a>
+
+
+                <a
+                    href="/pricing"
+                    class="yc-home-secondary-btn"
+                >
+
+                    Lihat Pricing
+
+                </a>
+
+            </div>
+
+
+            <div class="yc-home-cta-login">
+
+                Sudah punya akun?
+
+                <a href="/login">
+                    Login di sini
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+</div>
+
+
+
+<style>
+
+/* =========================================================
+   HOME BASE
+========================================================= */
+
+.yc-home {
+
+    max-width:
+        1180px;
+
+    margin:
+        0 auto;
+
+    padding:
+        25px 20px 75px;
+
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.yc-home-hero {
+
+    position:
+        relative;
+
+    display:
+        grid;
+
+    grid-template-columns:
+        1fr
+        1fr;
+
+    gap:
+        58px;
+
+    align-items:
+        center;
+
+    padding:
+        55px 0 70px;
+
+}
+
+
+.yc-home-eyebrow {
+
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    gap:
+        8px;
+
+    padding:
+        8px 11px;
+
+    background:
+        var(--yc-surface);
+
+    border:
+        1px solid
+        var(--yc-border);
+
+    border-radius:
+        7px;
+
+    color:
+        var(--yc-primary);
+
+    font-size:
+        .61rem;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        .13em;
+
+}
+
+
+.yc-home-eyebrow-dot {
+
+    width:
+        7px;
+
+    height:
+        7px;
+
+    border-radius:
+        50%;
+
+    background:
+        var(--yc-primary);
+
+    box-shadow:
+        0 0 0 4px
+        var(--yc-primary-soft);
+
+}
+
+
+.yc-home-hero h1 {
+
+    margin:
+        22px 0 18px;
+
+    color:
+        var(--yc-text);
+
+    font-size:
+        clamp(
+            2.9rem,
+            5.6vw,
+            5.2rem
+        );
+
+    line-height:
+        .98;
+
+    letter-spacing:
+        -.065em;
+
+}
+
+
+.yc-home-hero h1 span {
+
+    color:
+        var(--yc-primary);
+
+}
+
+
+.yc-home-hero-copy {
+
+    max-width:
+        590px;
+
+    margin:
+        0;
+
+    color:
+        var(--yc-text-2);
+
+    font-size:
+        .96rem;
+
+    line-height:
+        1.78;
+
+}
+
+
+.yc-home-actions {
+
+    display:
+        flex;
+
+    flex-wrap:
+        wrap;
+
+    gap:
+        9px;
+
+    margin-top:
+        25px;
+
+}
+
+
+.yc-home-primary-btn,
+.yc-home-secondary-btn {
+
+    min-height:
+        45px;
+
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    gap:
+        8px;
+
+    padding:
+        11px 16px;
+
+    border-radius:
+        9px;
+
+    text-decoration:
+        none;
+
+    font-size:
+        .75rem;
+
+    font-weight:
+        750;
+
+    transition:
+        transform .18s ease,
+        background .18s ease,
+        border-color .18s ease;
+
+}
+
+
+.yc-home-primary-btn {
+
+    background:
+        var(--yc-primary);
+
+    color:
+        #fff;
+
+}
+
+
+.yc-home-primary-btn:hover {
+
+    color:
+        #fff;
+
+    transform:
+        translateY(-2px);
+
+}
+
+
+.yc-home-secondary-btn {
+
+    background:
+        transparent;
+
+    border:
+        1px solid
+        var(--yc-border-strong);
+
+    color:
+        var(--yc-text);
+
+}
+
+
+.yc-home-secondary-btn:hover {
+
+    background:
+        var(--yc-surface);
+
+    color:
+        var(--yc-text);
+
+    transform:
+        translateY(-2px);
+
+}
+
+
+.yc-home-note {
+
+    display:
+        flex;
+
+    flex-wrap:
+        wrap;
+
+    gap:
+        7px 15px;
+
+    margin-top:
+        17px;
+
+}
+
+
+.yc-home-note span {
+
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    gap:
+        5px;
+
+    color:
+        var(--yc-text-3);
+
+    font-size:
+        .64rem;
+
+}
+
+
+.yc-home-note i {
+
+    color:
+        var(--yc-success);
+
+}
+
+
+/* =========================================================
+   HERO VISUAL
+========================================================= */
+
+.yc-home-hero-visual {
+
+    position:
+        relative;
+
+    min-height:
+        450px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+}
+
+
+.yc-home-glow {
+
+    position:
+        absolute;
+
+    width:
+        350px;
+
+    height:
+        350px;
+
+    border-radius:
+        50%;
+
+    background:
+        var(--yc-primary-soft);
+
+    filter:
+        blur(30px);
+
+}
+
+
+.yc-editor-window {
+
+    position:
+        relative;
+
+    z-index:
+        2;
+
+    width:
+        min(
+            100%,
+            485px
+        );
+
+    overflow:
+        hidden;
+
+    background:
+        var(--yc-surface-raised);
+
+    border:
+        1px solid
+        var(--yc-border);
+
+    border-radius:
+        16px;
+
+    box-shadow:
+        0 30px 70px
+        rgba(
+            20,
+            20,
+            40,
+            .12
+        );
+
+    transform:
+        rotate(
+            2deg
+        );
+
+}
+
+
+.yc-editor-topbar {
+
+    height:
+        42px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        space-between;
+
+    padding:
+        0 13px;
+
+    background:
+        var(--yc-surface);
+
+    border-bottom:
+        1px solid
+        var(--yc-border);
+
+    color:
+        var(--yc-text-3);
+
+    font-size:
+        .55rem;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        .08em;
+
+}
+
+
+.yc-editor-dots {
+
+    display:
+        flex;
+
+    gap:
+        5px;
+
+}
+
+
+.yc-editor-dots span {
+
+    width:
+        6px;
+
+    height:
+        6px;
+
+    border-radius:
+        50%;
+
+    background:
+        var(--yc-border-strong);
+
+}
+
+
+.yc-editor-body {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        48px
+        1fr;
+
+    min-height:
+        360px;
+
+}
+
+
+.yc-editor-sidebar {
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    align-items:
+        center;
+
+    gap:
+        12px;
+
+    padding:
+        17px 0;
+
+    background:
+        var(--yc-surface);
+
+    border-right:
+        1px solid
+        var(--yc-border);
+
+}
+
+
+.yc-editor-sidebar div {
+
+    width:
+        28px;
+
+    height:
+        28px;
+
+    display:
+        grid;
+
+    place-items:
+        center;
+
+    border-radius:
+        7px;
+
+    color:
+        var(--yc-text-3);
+
+}
+
+
+.yc-editor-sidebar div.active {
+
+    background:
+        var(--yc-primary-soft);
+
+    color:
+        var(--yc-primary);
+
+}
+
+
+.yc-editor-main {
+
+    padding:
+        25px 22px;
+
+}
+
+
+.yc-editor-video {
+
+    position:
+        relative;
+
+    height:
+        190px;
+
+    display:
+        grid;
+
+    place-items:
+        center;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--yc-surface-muted),
+            var(--yc-surface)
+        );
+
+    border:
+        1px solid
+        var(--yc-border);
+
+    border-radius:
+        9px;
+
+}
+
+
+.yc-video-center-icon {
+
+    width:
+        48px;
+
+    height:
+        48px;
+
+    display:
+        grid;
+
+    place-items:
+        center;
+
+    border:
+        1px solid
+        var(--yc-border);
+
+    border-radius:
+        50%;
+
+    background:
+        var(--yc-surface-raised);
+
+    color:
+        var(--yc-primary);
+
+    font-size:
+        1.3rem;
+
+    box-shadow:
+        var(--yc-shadow-sm);
+
+}
+
+
+.yc-video-time {
+
+    position:
+        absolute;
+
+    right:
+        10px;
+
+    bottom:
+        8px;
+
+    padding:
+        4px 6px;
+
+    border-radius:
+        5px;
+
+    background:
+        rgba(
+            0,
+            0,
+            0,
+            .65
+        );
+
+    color:
+        #fff;
+
+    font-size:
+        .55rem;
+
+}
+
+
+.yc-timeline-label {
+
+    display:
+        flex;
+
+    justify-content:
+        space-between;
+
+    margin-top:
+        20px;
+
+    color:
+        var(--yc-text-3);
+
+    font-size:
+        .57rem;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        .08em;
+
+}
+
+
+.yc-timeline-label span {
+
+    color:
+        var(--yc-primary);
+
+}
+
+
+.yc-timeline {
+
+    margin-top:
+        10px;
+
+}
+
+
+.yc-timeline-track {
+
+    position:
+        relative;
+
+    height:
+        16px;
+
+    background:
+        var(--yc-surface-muted);
+
+    border-radius:
+        999px;
+
+}
+
+
+.yc-timeline-selection {
+
+    position:
+        absolute;
+
+    left:
+        18%;
+
+    right:
+        25%;
+
+    top:
+        0;
+
+    height:
+        100%;
+
+    background:
+        var(--yc-primary);
+
+    border-radius:
+        inherit;
+
+}
+
+
+.yc-timeline-markers {
+
+    display:
+        flex;
+
+    justify-content:
+        space-between;
+
+    margin-top:
+        5px;
+
+    color:
+        var(--yc-text-3);
+
+    font-size:
+        .52rem;
+
+}
+
+
+.yc-editor-footer {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        1fr
+        1fr
+        auto;
+
+    gap:
+        8px;
+
+    margin-top:
+        22px;
+
+}
+
+
+.yc-editor-footer > div {
+
+    padding:
+        9px;
+
+    border:
+        1px solid
+        var(--yc-border);
+
+    border-radius:
+        7px;
+
+    background:
+        var(--yc-surface);
+
+}
+
+
+.yc-editor-footer span {
+
+    display:
+        block;
+
+    color:
+        var(--yc-text-3);
+
+    font-size:
+        .5rem;
+
+    font-weight:
+        800;
+
+}
+
+
+.yc-editor-footer strong {
+
+    display:
+        block;
+
+    margin-top:
+        3px;
+
+    color:
+        var(--yc-text);
+
+    font-size:
+        .7rem;
+
+}
+
+
+.yc-editor-footer .yc-editor-ready {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        5px;
+
+    color:
+        var(--yc-success);
+
+    font-size:
+        .58rem;
+
+    font-weight:
+        700;
+
+}
+
+
+.yc-floating-card {
+
+    position:
+        absolute;
+
+    z-index:
+        4;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        9px;
+
+    padding:
+        10px 12px;
+
+    background:
+        var(--yc-surface-raised);
+
+    border:
+        1px solid
+        var(--yc-border);
+
+    border-radius:
+        9px;
+
+    box-shadow:
+        var(--yc-shadow-md);
+
+}
+
+
+.yc-floating-card-top {
+
+    top:
+        20px;
+
+    right:
+        0;
+
+}
+
+
+.yc-floating-card-bottom {
+
+    left:
+        0;
+
+    bottom:
+        20px;
+
+}
+
+
+.yc-floating-card > i,
+.yc-floating-icon {
+
+    width:
+        28px;
+
+    height:
+        28px;
+
+    display:
+        grid;
+
+    place-items:
+        center;
+
+    border-radius:
+        7px;
+
+    background:
+        var(--yc-primary-soft);
+
+    color:
+        var(--yc-primary);
+
+}
+
+
+.yc-floating-card strong {
+
+    display:
+        block;
+
+    color:
+        var(--yc-text);
+
+    font-size:
+        .62rem;
+
+}
+
+
+.yc-floating-card span {
+
+    display:
+        block;
+
+    margin-top:
+        2px;
+
+    color:
+        var(--yc-text-3);
+
+    font-size:
+        .55rem;
+
+}
+
+
+/* =========================================================
+   INTRO
+========================================================= */
+
+.yc-home-intro {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        1fr
+        .8fr;
+
+    gap:
+        65px;
+
+    padding:
+        46px 0;
+
+    border-top:
+        1px solid
+        var(--yc-border);
+
+    border-bottom:
+        1px solid
+        var(--yc-border);
+
+}
+
+
+.yc-home-section-label {
+
+    display:
+        block;
+
+    color:
+        var(--yc-primary);
+
+    font-size:
+        .59rem;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        .13em;
+
+}
+
+
+.yc-home-intro h2 {
+
+    max-width:
+        620px;
+
+    margin:
+        7px 0 0;
+
+    font-size:
+        2rem;
+
+    line-height:
+        1.12;
+
+    letter-spacing:
+        -.045em;
+
+}
+
+
+.yc-home-intro p {
+
+    margin:
+        0;
+
+    color:
+        var(--yc-text-2);
+
+    font-size:
+        .82rem;
+
+    line-height:
+        1.8;
+
+}
+
+
+/* =========================================================
+   TOOLS
+========================================================= */
+
+.yc-home-tools {
+
+    padding:
+        65px 0 0;
+
+}
+
+
+.yc-home-section-head {
+
+    display:
+        flex;
+
+    align-items:
+        flex-end;
+
+    justify-content:
+        space-between;
+
+    gap:
+        25px;
+
+    margin-bottom:
+        20px;
+
+}
+
+
+.yc-home-section-head h2 {
+
+    margin:
+        6px 0 0;
+
+    font-size:
+        1.75rem;
+
+    letter-spacing:
+        -.04em;
+
+}
+
+
+.yc-home-section-head p {
+
+    max-width:
+        350px;
+
+    margin:
+        0;
+
+    color:
+        var(--yc-text-3);
+
+    font-size:
+        .72rem;
+
+    line-height:
+        1.7;
+
+}
+
+
+.yc-home-tool-grid {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        repeat(
+            3,
+            1fr
+        );
+
+    gap:
+        13px;
+
+}
+
+
+.yc-home-tool-card {
+
+    position:
+        relative;
+
+    overflow:
+        hidden;
+
+    padding:
+        23px;
+
+    background:
+        var(--yc-surface-raised);
+
+    border:
+        1px solid
+        var(--yc-border);
+
+    border-radius:
+        14px;
+
+    box-shadow:
+        var(--yc-shadow-sm);
+
+    transition:
+        transform .18s ease,
+        box-shadow .18s ease;
+
+}
+
+
+.yc-home-tool-card:hover {
+
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        var(--yc-shadow-md);
+
+}
+
+
+.yc-home-tool-card-featured {
+
+    border-color:
+        var(--yc-primary);
+
+}
+
+
+.yc-home-tool-line {
+
+    position:
+        absolute;
+
+    top:
+        0;
+
+    left:
+        0;
+
+    right:
+        0;
+
+    height:
+        3px;
+
+    background:
+        var(--yc-primary);
+
+}
+
+
+.yc-home-tool-top {
+
+    display:
+        flex;
+
+    justify-content:
+        space-between;
+
+    align-items:
+        center;
+
+}
+
+
+.yc-home-tool-top > span {
+
+    color:
+        var(--yc-text-3);
+
+    font-size:
+        .58rem;
+
+    font-weight:
+        800;
+
+}
+
+
+.yc-home-tool-icon {
+
+    width:
+        39px;
+
+    height:
+        39px;
+
+    display:
+        grid;
+
+    place-items:
+        center;
+
+    border:
+        1px solid
+        var(--yc-border);
+
+    border-radius:
+        9px;
+
+    background:
+        var(--yc-primary-soft);
+
+    color:
+        var(--yc-primary);
+
+}
+
+
+.yc-home-tool-card h3 {
+
+    margin:
+        20px 0 7px;
+
+    font-size:
+        1.2rem;
+
+    letter-spacing:
+        -.035em;
+
+}
+
+
+.yc-home-tool-card p {
+
+    min-height:
+        85px;
+
+    margin:
+        0;
+
+    color:
+        var(--yc-text-2);
+
+    font-size:
+        .75rem;
+
+    line-height:
+        1.75;
+
+}
+
+
+.yc-home-tool-footer {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        space-between;
+
+    gap:
+        10px;
+
+    margin-top:
+        22px;
+
+    padding-top:
+        14px;
+
+    border-top:
+        1px solid
+        var(--yc-border);
+
+}
+
+
+.yc-home-tool-footer span {
+
+    color:
+        var(--yc-text-3);
+
+    font-size:
+        .62rem;
+
+}
+
+
+.yc-home-tool-footer a {
+
+    color:
+        var(--yc-primary);
+
+    font-size:
+        .67rem;
+
+    font-weight:
+        750;
+
+    text-decoration:
+        none;
+
+}
+
+
+.yc-home-tool-footer a i {
+
+    margin-left:
+        3px;
+
+}
+
+
+/* =========================================================
+   WORKFLOW
+========================================================= */
+
+.yc-home-workflow {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        .8fr
+        1.2fr;
+
+    gap:
+        70px;
+
+    margin-top:
+        72px;
+
+    padding:
+        35px 0;
+
+}
+
+
+.yc-home-workflow-copy h2 {
+
+    margin:
+        7px 0 9px;
+
+    font-size:
+        2rem;
+
+    letter-spacing:
+        -.045em;
+
+}
+
+
+.yc-home-workflow-copy p {
+
+    max-width:
+        350px;
+
+    margin:
+        0;
+
+    color:
+        var(--yc-text-2);
+
+    font-size:
+        .78rem;
+
+    line-height:
+        1.75;
+
+}
+
+
+.yc-home-steps {
+
+    display:
+        grid;
+
+    gap:
+        0;
+
+}
+
+
+.yc-home-step {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        48px
+        1fr;
+
+    gap:
+        14px;
+
+    padding:
+        15px 0;
+
+    border-bottom:
+        1px solid
+        var(--yc-border);
+
+}
+
+
+.yc-home-step:first-child {
+
+    padding-top:
+        0;
+
+}
+
+
+.yc-home-step:last-child {
+
+    border-bottom:
+        0;
+
+}
+
+
+.yc-step-number {
+
+    width:
+        36px;
+
+    height:
+        36px;
+
+    display:
+        grid;
+
+    place-items:
+        center;
+
+    border:
+        1px solid
+        var(--yc-border);
+
+    border-radius:
+        9px;
+
+    color:
+        var(--yc-primary);
+
+    background:
+        var(--yc-primary-soft);
+
+    font-size:
+        .63rem;
+
+    font-weight:
+        800;
+
+}
+
+
+.yc-home-step strong {
+
+    display:
+        block;
+
+    margin-bottom:
+        4px;
+
+    color:
+        var(--yc-text);
+
+    font-size:
+        .78rem;
+
+}
+
+
+.yc-home-step span {
+
+    color:
+        var(--yc-text-3);
+
+    font-size:
+        .68rem;
+
+}
+
+
+/* =========================================================
+   STATS
+========================================================= */
+
+.yc-home-stats {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        repeat(
+            4,
+            1fr
+        );
+
+    margin-top:
+        35px;
+
+    border-top:
+        1px solid
+        var(--yc-border);
+
+    border-bottom:
+        1px solid
+        var(--yc-border);
+
+}
+
+
+.yc-home-stats > div {
+
+    padding:
+        25px 15px;
+
+    text-align:
+        center;
+
+    border-right:
+        1px solid
+        var(--yc-border);
+
+}
+
+
+.yc-home-stats > div:last-child {
+
+    border-right:
+        0;
+
+}
+
+
+.yc-home-stats strong {
+
+    display:
+        block;
+
+    color:
+        var(--yc-text);
+
+    font-size:
+        1.7rem;
+
+    letter-spacing:
+        -.05em;
+
+}
+
+
+.yc-home-stats span {
+
+    display:
+        block;
+
+    margin-top:
+        5px;
+
+    color:
+        var(--yc-text-3);
+
+    font-size:
+        .62rem;
+
+}
+
+
+/* =========================================================
+   CTA
+========================================================= */
+
+.yc-home-cta {
+
+    position:
+        relative;
+
+    overflow:
+        hidden;
+
+    margin-top:
+        70px;
+
+    padding:
+        55px 25px;
+
+    background:
+        var(--yc-surface-raised);
+
+    border:
+        1px solid
+        var(--yc-border);
+
+    border-radius:
+        17px;
+
+    text-align:
+        center;
+
+    box-shadow:
+        var(--yc-shadow-sm);
+
+}
+
+
+.yc-home-cta-glow {
+
+    position:
+        absolute;
+
+    width:
+        300px;
+
+    height:
+        300px;
+
+    top:
+        -180px;
+
+    left:
+        50%;
+
+    transform:
+        translateX(-50%);
+
+    border-radius:
+        50%;
+
+    background:
+        var(--yc-primary-soft);
+
+    filter:
+        blur(25px);
+
+}
+
+
+.yc-home-cta-content {
+
+    position:
+        relative;
+
+    z-index:
+        2;
+
+}
+
+
+.yc-home-cta h2 {
+
+    margin:
+        8px 0 10px;
+
+    font-size:
+        2.35rem;
+
+    line-height:
+        1.08;
+
+    letter-spacing:
+        -.05em;
+
+}
+
+
+.yc-home-cta p {
+
+    max-width:
+        570px;
+
+    margin:
+        0 auto;
+
+    color:
+        var(--yc-text-2);
+
+    font-size:
+        .8rem;
+
+    line-height:
+        1.7;
+
+}
+
+
+.yc-home-cta-actions {
+
+    display:
+        flex;
+
+    justify-content:
+        center;
+
+    flex-wrap:
+        wrap;
+
+    gap:
+        8px;
+
+    margin-top:
+        23px;
+
+}
+
+
+.yc-home-cta-login {
+
+    margin-top:
+        13px;
+
+    color:
+        var(--yc-text-3);
+
+    font-size:
+        .65rem;
+
+}
+
+
+.yc-home-cta-login a {
+
+    color:
+        var(--yc-primary);
+
+    font-weight:
+        750;
+
+    text-decoration:
+        none;
+
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (
+    max-width: 1000px
+) {
+
+    .yc-home-hero {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+
+    .yc-home-hero-copy {
+
+        max-width:
+            720px;
+
+    }
+
+
+    .yc-home-hero-visual {
+
+        min-height:
+            390px;
+
+    }
+
+
+    .yc-home-intro,
+    .yc-home-workflow {
+
+        grid-template-columns:
+            1fr;
+
+        gap:
+            28px;
+
+    }
+
+
+    .yc-home-tool-grid {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+}
+
+
+@media (
+    max-width: 760px
+) {
+
+    .yc-home {
+
+        padding:
+            17px 14px 55px;
+
+    }
+
+
+    .yc-home-hero {
+
+        padding:
+            30px 0 45px;
+
+    }
+
+
+    .yc-home-hero h1 {
+
+        font-size:
+            2.9rem;
+
+    }
+
+
+    .yc-home-hero-visual {
+
+        min-height:
+            320px;
+
+    }
+
+
+    .yc-editor-window {
+
+        transform:
+            none;
+
+    }
+
+
+    .yc-floating-card-top {
+
+        right:
+            -4px;
+
+    }
+
+
+    .yc-floating-card-bottom {
+
+        left:
+            -4px;
+
+    }
+
+
+    .yc-home-section-head {
+
+        align-items:
+            flex-start;
+
+        flex-direction:
+            column;
+
+    }
+
+
+    .yc-home-stats {
+
+        grid-template-columns:
+            repeat(
+                2,
+                1fr
+            );
+
+    }
+
+
+    .yc-home-stats > div:nth-child(2) {
+
+        border-right:
+            0;
+
+    }
+
+
+    .yc-home-stats > div:nth-child(-n+2) {
+
+        border-bottom:
+            1px solid
+            var(--yc-border);
+
+    }
+
+}
+
+
+@media (
+    max-width: 480px
+) {
+
+    .yc-home-hero h1 {
+
+        font-size:
+            2.55rem;
+
+    }
+
+
+    .yc-home-actions {
+
+        flex-direction:
+            column;
+
+    }
+
+
+    .yc-home-primary-btn,
+    .yc-home-secondary-btn {
+
+        width:
+            100%;
+
+    }
+
+
+    .yc-home-note {
+
+        flex-direction:
+            column;
+
+    }
+
+
+    .yc-editor-body {
+
+        grid-template-columns:
+            40px
+            1fr;
+
+    }
+
+
+    .yc-editor-main {
+
+        padding:
+            17px 13px;
+
+    }
+
+
+    .yc-editor-video {
+
+        height:
+            145px;
+
+    }
+
+
+    .yc-editor-footer {
+
+        grid-template-columns:
+            1fr 1fr;
+
+    }
+
+
+    .yc-editor-footer .yc-editor-ready {
+
+        grid-column:
+            1 / -1;
+
+    }
+
+
+    .yc-floating-card {
+
+        transform:
+            scale(
+                .9
+            );
+
+    }
+
+
+    .yc-home-cta {
+
+        padding:
+            42px 18px;
+
+    }
+
+
+    .yc-home-cta h2 {
+
+        font-size:
+            1.9rem;
+
+    }
+
+}
+
+</style>
+
+{% endblock %}

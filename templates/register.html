@@ -1,0 +1,1692 @@
+{% extends "base.html" %}
+
+{% block title %}
+Daftar — Youcut
+{% endblock %}
+
+
+{% block content %}
+
+<div class="yc-register-page">
+
+    <div class="yc-register-card">
+
+        <!-- =================================================
+             LEFT / INTRO
+        ================================================== -->
+
+        <section class="yc-register-intro">
+
+            <div class="yc-register-brand">
+
+                <span class="yc-register-brand-icon">
+                    <i class="bi bi-scissors"></i>
+                </span>
+
+                <span>
+                    YOUCUT
+                </span>
+
+            </div>
+
+
+            <div class="yc-register-intro-main">
+
+                <span class="yc-register-kicker">
+                    MULAI DARI SINI
+                </span>
+
+
+                <h1>
+
+                    Bikin clip
+                    <br>
+                    tanpa
+                    <span>drama.</span>
+
+                </h1>
+
+
+                <p>
+
+                    Buat akun gratis untuk mulai menggunakan
+                    Youcut dan simpan workflow clipping kamu
+                    dalam satu tempat.
+
+                </p>
+
+            </div>
+
+
+            <div class="yc-register-note">
+
+                <div class="yc-register-note-icon">
+
+                    <i class="bi bi-play-fill"></i>
+
+                </div>
+
+
+                <div>
+
+                    <strong>
+                        Satu akun, satu workspace.
+                    </strong>
+
+                    <span>
+                        Mulai dari paket Free dan upgrade
+                        ketika kebutuhanmu bertambah.
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="yc-register-mini-stats">
+
+                <div>
+
+                    <strong>
+                        5
+                    </strong>
+
+                    <span>
+                        clips / bulan
+                    </span>
+
+                </div>
+
+
+                <div>
+
+                    <strong>
+                        720p
+                    </strong>
+
+                    <span>
+                        kualitas Free
+                    </span>
+
+                </div>
+
+
+                <div>
+
+                    <strong>
+                        2
+                    </strong>
+
+                    <span>
+                        mode clipping
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             RIGHT / FORM
+        ================================================== -->
+
+        <section class="yc-register-form-side">
+
+            <div class="yc-register-form-wrap">
+
+
+                <!-- MOBILE BRAND -->
+
+                <div class="yc-register-mobile-brand">
+
+                    <span>
+                        <i class="bi bi-scissors"></i>
+                    </span>
+
+                    YOUCUT
+
+                </div>
+
+
+
+                <!-- HEADING -->
+
+                <div class="yc-register-heading">
+
+                    <span class="yc-register-form-kicker">
+                        CREATE ACCOUNT
+                    </span>
+
+
+                    <h2>
+                        Buat akun baru.
+                    </h2>
+
+
+                    <p>
+                        Gratis untuk mulai. Tidak perlu
+                        banyak langkah.
+                    </p>
+
+                </div>
+
+
+
+                <!-- ERROR -->
+
+                {% if error %}
+
+                <div class="yc-register-error">
+
+                    <i class="bi bi-exclamation-circle"></i>
+
+                    <span>
+                        {{ error }}
+                    </span>
+
+                </div>
+
+                {% endif %}
+
+
+
+                <!-- FORM -->
+
+                <form
+                    method="POST"
+                    class="yc-register-form"
+                >
+
+
+                    <!-- USERNAME -->
+
+                    <div class="yc-register-field">
+
+                        <label
+                            for="username"
+                        >
+                            Username
+                        </label>
+
+
+                        <div class="yc-register-input">
+
+                            <i class="bi bi-person"></i>
+
+
+                            <input
+                                type="text"
+                                id="username"
+                                name="username"
+                                placeholder="username kamu"
+                                autocomplete="username"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- EMAIL -->
+
+                    <div class="yc-register-field">
+
+                        <label
+                            for="email"
+                        >
+                            Email
+                        </label>
+
+
+                        <div class="yc-register-input">
+
+                            <i class="bi bi-envelope"></i>
+
+
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                placeholder="nama@email.com"
+                                autocomplete="email"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- PASSWORD -->
+
+                    <div class="yc-register-field">
+
+                        <div class="yc-register-label-row">
+
+                            <label
+                                for="password"
+                            >
+                                Password
+                            </label>
+
+                            <span>
+                                Minimal 6 karakter
+                            </span>
+
+                        </div>
+
+
+                        <div class="yc-register-input">
+
+                            <i class="bi bi-lock"></i>
+
+
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                placeholder="Buat password"
+                                autocomplete="new-password"
+                                minlength="6"
+                                required
+                            >
+
+
+                            <button
+                                type="button"
+                                class="yc-register-password-toggle"
+                                id="passwordToggle"
+                                aria-label="Tampilkan password"
+                            >
+                                <i class="bi bi-eye"></i>
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- FREE PLAN INFO -->
+
+                    <div class="yc-register-plan">
+
+                        <div class="yc-register-plan-icon">
+
+                            <i class="bi bi-stars"></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <strong>
+                                Paket Free otomatis aktif
+                            </strong>
+
+
+                            <span>
+                                5 processing / bulan · hingga 720p
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- SUBMIT -->
+
+                    <button
+                        type="submit"
+                        class="yc-register-submit"
+                    >
+
+                        Buat Akun Gratis
+
+                        <i class="bi bi-arrow-right"></i>
+
+                    </button>
+
+                </form>
+
+
+
+                <!-- LOGIN -->
+
+                <div class="yc-register-login">
+
+                    <span>
+                        Sudah punya akun?
+                    </span>
+
+
+                    <a href="/login">
+                        Login
+                    </a>
+
+                </div>
+
+
+
+                <!-- FOOTER NOTE -->
+
+                <div class="yc-register-footer">
+
+                    <i class="bi bi-shield-check"></i>
+
+
+                    <span>
+                        Akun digunakan untuk mengatur akses
+                        dan penggunaan fitur Youcut.
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </div>
+
+</div>
+
+
+
+<style>
+
+/* =========================================================
+   PAGE
+========================================================= */
+
+.yc-register-page {
+
+    min-height:
+        calc(
+            100vh - 150px
+        );
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    padding:
+        34px 16px 55px;
+
+}
+
+
+/* =========================================================
+   MAIN CARD
+========================================================= */
+
+.yc-register-card {
+
+    width:
+        min(
+            1040px,
+            100%
+        );
+
+    display:
+        grid;
+
+    grid-template-columns:
+        .88fr
+        1.12fr;
+
+    overflow:
+        hidden;
+
+    background:
+        var(--yc-surface-raised);
+
+    border:
+        1px solid
+        var(--yc-border);
+
+    border-radius:
+        18px;
+
+    box-shadow:
+        0 22px 65px
+        rgba(
+            20,
+            20,
+            40,
+            .10
+        );
+
+}
+
+
+/* =========================================================
+   INTRO
+========================================================= */
+
+.yc-register-intro {
+
+    position:
+        relative;
+
+    overflow:
+        hidden;
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    min-height:
+        640px;
+
+    padding:
+        42px;
+
+    background:
+        var(--yc-surface);
+
+    border-right:
+        1px solid
+        var(--yc-border);
+
+}
+
+
+.yc-register-intro::after {
+
+    content:
+        "";
+
+    position:
+        absolute;
+
+    width:
+        250px;
+
+    height:
+        250px;
+
+    right:
+        -135px;
+
+    bottom:
+        -115px;
+
+    border:
+        1px solid
+        var(--yc-border);
+
+    border-radius:
+        50%;
+
+    opacity:
+        .8;
+
+}
+
+
+.yc-register-brand {
+
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    gap:
+        9px;
+
+    color:
+        var(--yc-text);
+
+    font-size:
+        .68rem;
+
+    font-weight:
+        850;
+
+    letter-spacing:
+        .13em;
+
+}
+
+
+.yc-register-brand-icon {
+
+    width:
+        31px;
+
+    height:
+        31px;
+
+    display:
+        grid;
+
+    place-items:
+        center;
+
+    background:
+        var(--yc-primary);
+
+    color:
+        #fff;
+
+    border-radius:
+        8px;
+
+}
+
+
+.yc-register-intro-main {
+
+    position:
+        relative;
+
+    z-index:
+        2;
+
+    margin-top:
+        115px;
+
+}
+
+
+.yc-register-kicker {
+
+    color:
+        var(--yc-primary);
+
+    font-size:
+        .59rem;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        .14em;
+
+}
+
+
+.yc-register-intro h1 {
+
+    margin:
+        10px 0 16px;
+
+    color:
+        var(--yc-text);
+
+    font-size:
+        3.35rem;
+
+    line-height:
+        .99;
+
+    letter-spacing:
+        -.065em;
+
+}
+
+
+.yc-register-intro h1 span {
+
+    color:
+        var(--yc-primary);
+
+}
+
+
+.yc-register-intro-main p {
+
+    max-width:
+        390px;
+
+    margin:
+        0;
+
+    color:
+        var(--yc-text-2);
+
+    font-size:
+        .78rem;
+
+    line-height:
+        1.8;
+
+}
+
+
+/* =========================================================
+   NOTE
+========================================================= */
+
+.yc-register-note {
+
+    position:
+        relative;
+
+    z-index:
+        2;
+
+    display:
+        flex;
+
+    align-items:
+        flex-start;
+
+    gap:
+        10px;
+
+    margin-top:
+        40px;
+
+    padding:
+        13px;
+
+    background:
+        var(--yc-surface-raised);
+
+    border:
+        1px solid
+        var(--yc-border);
+
+    border-radius:
+        10px;
+
+}
+
+
+.yc-register-note-icon {
+
+    width:
+        31px;
+
+    height:
+        31px;
+
+    display:
+        grid;
+
+    place-items:
+        center;
+
+    flex:
+        0 0 auto;
+
+    border-radius:
+        8px;
+
+    background:
+        var(--yc-primary-soft);
+
+    color:
+        var(--yc-primary);
+
+}
+
+
+.yc-register-note strong {
+
+    display:
+        block;
+
+    color:
+        var(--yc-text);
+
+    font-size:
+        .69rem;
+
+}
+
+
+.yc-register-note span {
+
+    display:
+        block;
+
+    margin-top:
+        3px;
+
+    color:
+        var(--yc-text-3);
+
+    font-size:
+        .61rem;
+
+    line-height:
+        1.5;
+
+}
+
+
+/* =========================================================
+   MINI STATS
+========================================================= */
+
+.yc-register-mini-stats {
+
+    position:
+        relative;
+
+    z-index:
+        2;
+
+    display:
+        grid;
+
+    grid-template-columns:
+        repeat(
+            3,
+            1fr
+        );
+
+    gap:
+        7px;
+
+    margin-top:
+        auto;
+
+    padding-top:
+        26px;
+
+}
+
+
+.yc-register-mini-stats > div {
+
+    padding:
+        10px 0;
+
+    border-top:
+        1px solid
+        var(--yc-border);
+
+}
+
+
+.yc-register-mini-stats strong {
+
+    display:
+        block;
+
+    color:
+        var(--yc-text);
+
+    font-size:
+        .95rem;
+
+    letter-spacing:
+        -.02em;
+
+}
+
+
+.yc-register-mini-stats span {
+
+    display:
+        block;
+
+    margin-top:
+        3px;
+
+    color:
+        var(--yc-text-3);
+
+    font-size:
+        .56rem;
+
+}
+
+
+/* =========================================================
+   FORM SIDE
+========================================================= */
+
+.yc-register-form-side {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    padding:
+        48px;
+
+}
+
+
+.yc-register-form-wrap {
+
+    width:
+        min(
+            410px,
+            100%
+        );
+
+    margin:
+        0 auto;
+
+}
+
+
+.yc-register-mobile-brand {
+
+    display:
+        none;
+
+}
+
+
+/* =========================================================
+   HEADING
+========================================================= */
+
+.yc-register-form-kicker {
+
+    color:
+        var(--yc-primary);
+
+    font-size:
+        .59rem;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        .13em;
+
+}
+
+
+.yc-register-heading h2 {
+
+    margin:
+        8px 0 7px;
+
+    color:
+        var(--yc-text);
+
+    font-size:
+        2rem;
+
+    line-height:
+        1.05;
+
+    letter-spacing:
+        -.045em;
+
+}
+
+
+.yc-register-heading p {
+
+    margin:
+        0;
+
+    color:
+        var(--yc-text-3);
+
+    font-size:
+        .73rem;
+
+    line-height:
+        1.6;
+
+}
+
+
+/* =========================================================
+   ERROR
+========================================================= */
+
+.yc-register-error {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        8px;
+
+    margin-top:
+        20px;
+
+    padding:
+        10px 11px;
+
+    background:
+        color-mix(
+            in srgb,
+            #dc3545 7%,
+            var(--yc-surface)
+        );
+
+    border:
+        1px solid
+        color-mix(
+            in srgb,
+            #dc3545 25%,
+            var(--yc-border)
+        );
+
+    border-radius:
+        8px;
+
+    color:
+        #dc3545;
+
+    font-size:
+        .68rem;
+
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.yc-register-form {
+
+    margin-top:
+        26px;
+
+}
+
+
+.yc-register-field {
+
+    margin-bottom:
+        16px;
+
+}
+
+
+.yc-register-field label {
+
+    display:
+        block;
+
+    margin-bottom:
+        7px;
+
+    color:
+        var(--yc-text);
+
+    font-size:
+        .68rem;
+
+    font-weight:
+        700;
+
+}
+
+
+.yc-register-label-row {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        space-between;
+
+    gap:
+        10px;
+
+}
+
+
+.yc-register-label-row span {
+
+    color:
+        var(--yc-text-3);
+
+    font-size:
+        .58rem;
+
+}
+
+
+/* =========================================================
+   INPUT
+========================================================= */
+
+.yc-register-input {
+
+    position:
+        relative;
+
+}
+
+
+.yc-register-input > i {
+
+    position:
+        absolute;
+
+    left:
+        13px;
+
+    top:
+        50%;
+
+    transform:
+        translateY(
+            -50%
+        );
+
+    z-index:
+        2;
+
+    color:
+        var(--yc-text-3);
+
+    font-size:
+        .86rem;
+
+}
+
+
+.yc-register-input input {
+
+    width:
+        100%;
+
+    min-height:
+        45px;
+
+    padding:
+        11px 42px;
+
+    background:
+        var(--yc-surface);
+
+    border:
+        1px solid
+        var(--yc-border-strong);
+
+    border-radius:
+        9px;
+
+    color:
+        var(--yc-text);
+
+    font-size:
+        .74rem;
+
+    outline:
+        none;
+
+    transition:
+        border-color .16s ease,
+        box-shadow .16s ease,
+        background .16s ease;
+
+}
+
+
+.yc-register-input input::placeholder {
+
+    color:
+        var(--yc-text-3);
+
+}
+
+
+.yc-register-input input:focus {
+
+    background:
+        var(--yc-surface-raised);
+
+    border-color:
+        var(--yc-primary);
+
+    box-shadow:
+        0 0 0 3px
+        var(--yc-primary-soft);
+
+}
+
+
+/* =========================================================
+   PASSWORD TOGGLE
+========================================================= */
+
+.yc-register-password-toggle {
+
+    position:
+        absolute;
+
+    top:
+        50%;
+
+    right:
+        8px;
+
+    transform:
+        translateY(
+            -50%
+        );
+
+    width:
+        29px;
+
+    height:
+        29px;
+
+    display:
+        grid;
+
+    place-items:
+        center;
+
+    border:
+        0;
+
+    border-radius:
+        7px;
+
+    background:
+        transparent;
+
+    color:
+        var(--yc-text-3);
+
+}
+
+
+.yc-register-password-toggle:hover {
+
+    background:
+        var(--yc-surface-muted);
+
+    color:
+        var(--yc-text);
+
+}
+
+
+/* =========================================================
+   PLAN INFO
+========================================================= */
+
+.yc-register-plan {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        10px;
+
+    margin-top:
+        5px;
+
+    margin-bottom:
+        16px;
+
+    padding:
+        11px 12px;
+
+    background:
+        var(--yc-primary-soft);
+
+    border:
+        1px solid
+        var(--yc-border);
+
+    border-radius:
+        9px;
+
+}
+
+
+.yc-register-plan-icon {
+
+    width:
+        31px;
+
+    height:
+        31px;
+
+    display:
+        grid;
+
+    place-items:
+        center;
+
+    flex:
+        0 0 auto;
+
+    border-radius:
+        8px;
+
+    background:
+        var(--yc-surface-raised);
+
+    color:
+        var(--yc-primary);
+
+}
+
+
+.yc-register-plan strong {
+
+    display:
+        block;
+
+    color:
+        var(--yc-text);
+
+    font-size:
+        .66rem;
+
+}
+
+
+.yc-register-plan span {
+
+    display:
+        block;
+
+    margin-top:
+        3px;
+
+    color:
+        var(--yc-text-3);
+
+    font-size:
+        .59rem;
+
+}
+
+
+/* =========================================================
+   SUBMIT
+========================================================= */
+
+.yc-register-submit {
+
+    width:
+        100%;
+
+    min-height:
+        46px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    gap:
+        8px;
+
+    margin-top:
+        4px;
+
+    border:
+        0;
+
+    border-radius:
+        9px;
+
+    background:
+        var(--yc-primary);
+
+    color:
+        #fff;
+
+    font-size:
+        .74rem;
+
+    font-weight:
+        750;
+
+    transition:
+        transform .16s ease,
+        filter .16s ease;
+
+}
+
+
+.yc-register-submit:hover {
+
+    transform:
+        translateY(
+            -1px
+        );
+
+    filter:
+        brightness(
+            .97
+        );
+
+}
+
+
+/* =========================================================
+   LOGIN
+========================================================= */
+
+.yc-register-login {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    gap:
+        4px;
+
+    margin-top:
+        20px;
+
+    color:
+        var(--yc-text-3);
+
+    font-size:
+        .66rem;
+
+}
+
+
+.yc-register-login a {
+
+    color:
+        var(--yc-primary);
+
+    font-weight:
+        750;
+
+    text-decoration:
+        none;
+
+}
+
+
+.yc-register-login a:hover {
+
+    text-decoration:
+        underline;
+
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.yc-register-footer {
+
+    display:
+        flex;
+
+    gap:
+        7px;
+
+    margin-top:
+        23px;
+
+    padding-top:
+        15px;
+
+    border-top:
+        1px solid
+        var(--yc-border);
+
+    color:
+        var(--yc-text-3);
+
+    font-size:
+        .59rem;
+
+    line-height:
+        1.55;
+
+}
+
+
+.yc-register-footer i {
+
+    flex:
+        0 0 auto;
+
+    margin-top:
+        1px;
+
+    color:
+        var(--yc-success);
+
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (
+    max-width: 850px
+) {
+
+    .yc-register-card {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+
+    .yc-register-intro {
+
+        display:
+            none;
+
+    }
+
+
+    .yc-register-form-side {
+
+        padding:
+            38px 25px;
+
+    }
+
+
+    .yc-register-mobile-brand {
+
+        display:
+            inline-flex;
+
+        align-items:
+            center;
+
+        gap:
+            7px;
+
+        margin-bottom:
+            35px;
+
+        color:
+            var(--yc-text);
+
+        font-size:
+            .69rem;
+
+        font-weight:
+            850;
+
+        letter-spacing:
+            .1em;
+
+    }
+
+
+    .yc-register-mobile-brand span {
+
+        width:
+            28px;
+
+        height:
+            28px;
+
+        display:
+            grid;
+
+        place-items:
+            center;
+
+        border-radius:
+            7px;
+
+        background:
+            var(--yc-primary);
+
+        color:
+            #fff;
+
+    }
+
+}
+
+
+@media (
+    max-width: 480px
+) {
+
+    .yc-register-page {
+
+        padding:
+            15px 10px 40px;
+
+    }
+
+
+    .yc-register-card {
+
+        border-radius:
+            14px;
+
+    }
+
+
+    .yc-register-form-side {
+
+        padding:
+            30px 18px;
+
+    }
+
+
+    .yc-register-heading h2 {
+
+        font-size:
+            1.75rem;
+
+    }
+
+}
+
+</style>
+
+
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function ()
+    {
+
+        const toggle =
+            document.getElementById(
+                "passwordToggle"
+            );
+
+
+        const password =
+            document.getElementById(
+                "password"
+            );
+
+
+        if (
+            toggle
+            &&
+            password
+        ) {
+
+            toggle.addEventListener(
+                "click",
+                function ()
+                {
+
+                    const icon =
+                        toggle.querySelector(
+                            "i"
+                        );
+
+
+                    if (
+                        password.type
+                        ===
+                        "password"
+                    ) {
+
+                        password.type =
+                            "text";
+
+
+                        icon.className =
+                            "bi bi-eye-slash";
+
+                    }
+                    else {
+
+                        password.type =
+                            "password";
+
+
+                        icon.className =
+                            "bi bi-eye";
+
+                    }
+
+                }
+            );
+
+        }
+
+    }
+);
+
+</script>
+
+{% endblock %}

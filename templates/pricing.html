@@ -1,0 +1,4680 @@
+{% extends "base.html" %}
+
+{% block title %}
+Pricing — Youcut
+{% endblock %}
+
+
+{% block content %}
+
+<div class="yc-pricing-shell">
+
+
+    <!-- =====================================================
+         HERO
+    ====================================================== -->
+
+    <section class="yc-pricing-hero">
+
+        <div class="yc-pricing-hero-copy">
+
+            <div class="yc-pricing-eyebrow">
+
+                <span class="yc-eyebrow-dot"></span>
+
+                YOUTUBE CLIPPING WORKSPACE
+
+            </div>
+
+
+            <h1>
+
+                Pilih ruang kerja
+                <br>
+
+                yang
+                <span>sesuai ritmemu.</span>
+
+            </h1>
+
+
+            <p>
+
+                Mulai dari workflow sederhana,
+                lalu naikkan kapasitas ketika
+                kebutuhan clipping kamu bertambah.
+
+            </p>
+
+
+            <div class="yc-pricing-trust">
+
+                <div>
+
+                    <i class="bi bi-check-circle-fill"></i>
+
+                    Tidak ada biaya tersembunyi
+
+                </div>
+
+
+                <div>
+
+                    <i class="bi bi-check-circle-fill"></i>
+
+                    Quota bulanan
+
+                </div>
+
+
+                <div>
+
+                    <i class="bi bi-check-circle-fill"></i>
+
+                    Manual + Timeline Cut
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="yc-pricing-hero-visual">
+
+            <div class="yc-hero-glow"></div>
+
+
+            <div class="yc-hero-window">
+
+                <div class="yc-window-bar">
+
+                    <div class="yc-window-dots">
+
+                        <span></span>
+                        <span></span>
+                        <span></span>
+
+                    </div>
+
+
+                    <span class="yc-window-label">
+                        YOUCUT / WORKSPACE
+                    </span>
+
+                </div>
+
+
+                <div class="yc-window-content">
+
+                    <div class="yc-window-sidebar">
+
+                        <span class="active">
+                            <i class="bi bi-scissors"></i>
+                        </span>
+
+                        <span>
+                            <i class="bi bi-clock-history"></i>
+                        </span>
+
+                        <span>
+                            <i class="bi bi-grid"></i>
+                        </span>
+
+                    </div>
+
+
+                    <div class="yc-window-main">
+
+                        <div
+                            class="yc-demo-label"
+                        >
+                            MONTHLY PROCESSING
+                        </div>
+
+
+                        <div
+                            class="yc-demo-number"
+                        >
+                            50
+                        </div>
+
+
+                        <div
+                            class="yc-demo-subtitle"
+                        >
+                            clips / month
+                        </div>
+
+
+                        <div
+                            class="yc-demo-progress"
+                        >
+
+                            <span></span>
+
+                        </div>
+
+
+                        <div
+                            class="yc-demo-footer"
+                        >
+
+                            <span>
+                                BASIC
+                            </span>
+
+                            <strong>
+                                1080p
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         CURRENT PLAN
+    ====================================================== -->
+
+    {% if current_user.is_authenticated %}
+
+    <section
+        class="yc-account-plan"
+        id="currentPlanCard"
+    >
+
+        <div class="yc-account-plan-main">
+
+            <div class="yc-account-plan-heading">
+
+                <span class="yc-section-label">
+                    CURRENT WORKSPACE
+                </span>
+
+
+                <h2 id="currentPlanName">
+                    Loading...
+                </h2>
+
+
+                <p>
+                    Status paket dan penggunaan akun kamu.
+                </p>
+
+            </div>
+
+
+            <div class="yc-current-pill">
+
+                <span class="yc-current-pill-dot"></span>
+
+                Active
+
+            </div>
+
+        </div>
+
+
+        <div class="yc-account-stats">
+
+
+            <!-- USAGE -->
+
+            <div class="yc-account-stat usage-stat">
+
+                <div class="yc-stat-top">
+
+                    <span>
+                        Monthly processing
+                    </span>
+
+                    <strong id="usageText">
+                        -
+                    </strong>
+
+                </div>
+
+
+                <div class="yc-stat-progress">
+
+                    <span id="usageBar"></span>
+
+                </div>
+
+
+                <div class="yc-stat-bottom">
+
+                    <span id="usageRemaining">
+                        -
+                    </span>
+
+                    <span id="usagePeriod">
+                        -
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- DURATION -->
+
+            <div class="yc-account-stat">
+
+                <span class="yc-stat-label">
+                    MAX SOURCE
+                </span>
+
+                <strong id="maxDuration">
+                    -
+                </strong>
+
+                <small>
+                    per video
+                </small>
+
+            </div>
+
+
+            <!-- QUALITY -->
+
+            <div class="yc-account-stat">
+
+                <span class="yc-stat-label">
+                    MAX QUALITY
+                </span>
+
+                <strong id="maxQuality">
+                    -
+                </strong>
+
+                <small>
+                    output
+                </small>
+
+            </div>
+
+
+            <!-- REMAINING -->
+
+            <div class="yc-account-stat">
+
+                <span class="yc-stat-label">
+                    REMAINING
+                </span>
+
+                <strong id="remainingCount">
+                    -
+                </strong>
+
+                <small>
+                    processing
+                </small>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    {% endif %}
+
+
+
+    <!-- =====================================================
+         PLAN SECTION
+    ====================================================== -->
+
+    <section class="yc-plans-section">
+
+
+        <div class="yc-section-heading">
+
+            <div>
+
+                <span class="yc-section-label">
+                    PLANS
+                </span>
+
+
+                <h2>
+                    Pilih kapasitas yang kamu butuhkan.
+                </h2>
+
+            </div>
+
+
+            <p>
+                Semua paket menggunakan workflow
+                Manual Cut dan Timeline Cut.
+            </p>
+
+        </div>
+
+
+
+        <!-- =================================================
+             PLAN GRID
+        ================================================== -->
+
+        <div class="yc-plan-grid">
+
+
+            <!-- =================================================
+                 FREE
+            ================================================== -->
+
+            <article
+                class="yc-plan-card"
+                data-plan-card="free"
+            >
+
+                <div class="yc-plan-card-head">
+
+                    <div>
+
+                        <span class="yc-plan-code">
+                            01
+                        </span>
+
+
+                        <span class="yc-plan-name">
+                            FREE
+                        </span>
+
+                    </div>
+
+
+                    <div class="yc-plan-symbol">
+
+                        <i class="bi bi-play-circle"></i>
+
+                    </div>
+
+                </div>
+
+
+                <div class="yc-plan-copy">
+
+                    <h3>
+                        Mulai dari yang simpel.
+                    </h3>
+
+
+                    <p>
+                        Cocok untuk mencoba workflow
+                        Youcut sebelum kamu membutuhkan
+                        kapasitas lebih besar.
+                    </p>
+
+                </div>
+
+
+                <div class="yc-price">
+
+                    <strong>
+                        Rp0
+                    </strong>
+
+                    <span>
+                        / bulan
+                    </span>
+
+                </div>
+
+
+                <div class="yc-plan-divider"></div>
+
+
+                <div class="yc-plan-capacity">
+
+                    <span>
+                        PROCESSING
+                    </span>
+
+                    <strong>
+                        5
+                    </strong>
+
+                    <small>
+                        clips / month
+                    </small>
+
+                </div>
+
+
+                <ul class="yc-feature-list">
+
+                    <li>
+                        <i class="bi bi-check2"></i>
+                        Maksimal source 30 menit
+                    </li>
+
+                    <li>
+                        <i class="bi bi-check2"></i>
+                        Output hingga 720p
+                    </li>
+
+                    <li>
+                        <i class="bi bi-check2"></i>
+                        Manual Cut
+                    </li>
+
+                    <li>
+                        <i class="bi bi-check2"></i>
+                        Timeline Cut
+                    </li>
+
+                </ul>
+
+
+                {% if current_user.is_authenticated %}
+
+                <button
+                    type="button"
+                    class="
+                        yc-plan-btn
+                        yc-plan-btn-muted
+                    "
+                    id="freePlanButton"
+                    disabled
+                >
+                    Paket Saat Ini
+                </button>
+
+                {% else %}
+
+                <a
+                    href="/register?next=/pricing"
+                    class="
+                        yc-plan-btn
+                        yc-plan-btn-outline
+                    "
+                >
+                    Mulai Gratis
+
+                    <i class="bi bi-arrow-up-right"></i>
+
+                </a>
+
+                {% endif %}
+
+            </article>
+
+
+
+            <!-- =================================================
+                 BASIC
+            ================================================== -->
+
+            <article
+                class="
+                    yc-plan-card
+                    yc-plan-card-featured
+                "
+                data-plan-card="basic"
+            >
+
+                <div class="yc-featured-line"></div>
+
+
+                <div class="yc-featured-badge">
+
+                    <i class="bi bi-stars"></i>
+
+                    PALING POPULER
+
+                </div>
+
+
+                <div class="yc-plan-card-head">
+
+                    <div>
+
+                        <span class="yc-plan-code">
+                            02
+                        </span>
+
+
+                        <span class="yc-plan-name">
+                            BASIC
+                        </span>
+
+                    </div>
+
+
+                    <div class="yc-plan-symbol yc-plan-symbol-active">
+
+                        <i class="bi bi-lightning-charge"></i>
+
+                    </div>
+
+                </div>
+
+
+                <div class="yc-plan-copy">
+
+                    <h3>
+                        Untuk creator yang aktif.
+                    </h3>
+
+
+                    <p>
+                        Kapasitas lebih besar untuk
+                        workflow clipping yang mulai
+                        rutin setiap bulan.
+                    </p>
+
+                </div>
+
+
+                <div class="yc-price">
+
+                    <strong>
+                        Rp29.000
+                    </strong>
+
+                    <span>
+                        / bulan
+                    </span>
+
+                </div>
+
+
+                <div class="yc-plan-divider"></div>
+
+
+                <div class="yc-plan-capacity">
+
+                    <span>
+                        PROCESSING
+                    </span>
+
+                    <strong>
+                        50
+                    </strong>
+
+                    <small>
+                        clips / month
+                    </small>
+
+                </div>
+
+
+                <ul class="yc-feature-list">
+
+                    <li>
+                        <i class="bi bi-check2"></i>
+                        Maksimal source 120 menit
+                    </li>
+
+                    <li>
+                        <i class="bi bi-check2"></i>
+                        Output hingga 1080p
+                    </li>
+
+                    <li>
+                        <i class="bi bi-check2"></i>
+                        Manual Cut
+                    </li>
+
+                    <li>
+                        <i class="bi bi-check2"></i>
+                        Timeline Cut
+                    </li>
+
+                    <li>
+                        <i class="bi bi-check2"></i>
+                        Priority processing
+                    </li>
+
+                </ul>
+
+
+                {% if current_user.is_authenticated %}
+
+                <button
+                    type="button"
+                    class="
+                        yc-plan-btn
+                        yc-plan-btn-primary
+                    "
+                    data-plan-target="basic"
+                >
+
+                    Upgrade ke Basic
+
+                    <i class="bi bi-arrow-right"></i>
+
+                </button>
+
+                {% else %}
+
+                <a
+                    href="/login?next=/pricing"
+                    class="
+                        yc-plan-btn
+                        yc-plan-btn-primary
+                    "
+                >
+
+                    Login untuk Upgrade
+
+                    <i class="bi bi-arrow-right"></i>
+
+                </a>
+
+                {% endif %}
+
+            </article>
+
+
+
+            <!-- =================================================
+                 PRO
+            ================================================== -->
+
+            <article
+                class="yc-plan-card"
+                data-plan-card="pro"
+            >
+
+                <div class="yc-plan-card-head">
+
+                    <div>
+
+                        <span class="yc-plan-code">
+                            03
+                        </span>
+
+
+                        <span class="yc-plan-name">
+                            PRO
+                        </span>
+
+                    </div>
+
+
+                    <div class="yc-plan-symbol">
+
+                        <i class="bi bi-gem"></i>
+
+                    </div>
+
+                </div>
+
+
+                <div class="yc-plan-copy">
+
+                    <h3>
+                        Untuk workflow serius.
+                    </h3>
+
+
+                    <p>
+                        Dibuat untuk creator yang
+                        menangani banyak video dan
+                        membutuhkan kapasitas lebih lega.
+                    </p>
+
+                </div>
+
+
+                <div class="yc-price">
+
+                    <strong>
+                        Rp59.000
+                    </strong>
+
+                    <span>
+                        / bulan
+                    </span>
+
+                </div>
+
+
+                <div class="yc-plan-divider"></div>
+
+
+                <div class="yc-plan-capacity">
+
+                    <span>
+                        PROCESSING
+                    </span>
+
+                    <strong>
+                        150
+                    </strong>
+
+                    <small>
+                        clips / month
+                    </small>
+
+                </div>
+
+
+                <ul class="yc-feature-list">
+
+                    <li>
+                        <i class="bi bi-check2"></i>
+                        Maksimal source 180 menit
+                    </li>
+
+                    <li>
+                        <i class="bi bi-check2"></i>
+                        Output hingga 1080p
+                    </li>
+
+                    <li>
+                        <i class="bi bi-check2"></i>
+                        Manual Cut
+                    </li>
+
+                    <li>
+                        <i class="bi bi-check2"></i>
+                        Timeline Cut
+                    </li>
+
+                    <li>
+                        <i class="bi bi-check2"></i>
+                        Priority processing
+                    </li>
+
+                    <li>
+                        <i class="bi bi-check2"></i>
+                        Batch processing
+                    </li>
+
+                </ul>
+
+
+                {% if current_user.is_authenticated %}
+
+                <button
+                    type="button"
+                    class="
+                        yc-plan-btn
+                        yc-plan-btn-outline
+                    "
+                    data-plan-target="pro"
+                >
+
+                    Upgrade ke Pro
+
+                    <i class="bi bi-arrow-right"></i>
+
+                </button>
+
+                {% else %}
+
+                <a
+                    href="/login?next=/pricing"
+                    class="
+                        yc-plan-btn
+                        yc-plan-btn-outline
+                    "
+                >
+
+                    Login untuk Upgrade
+
+                    <i class="bi bi-arrow-right"></i>
+
+                </a>
+
+                {% endif %}
+
+            </article>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         VALUE STRIP
+    ====================================================== -->
+
+    <section class="yc-value-strip">
+
+        <div class="yc-value-item">
+
+            <div class="yc-value-icon">
+                <i class="bi bi-scissors"></i>
+            </div>
+
+            <div>
+
+                <strong>
+                    Manual + Timeline
+                </strong>
+
+                <span>
+                    Workflow utama tersedia
+                    di semua paket.
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="yc-value-item">
+
+            <div class="yc-value-icon">
+                <i class="bi bi-speedometer2"></i>
+            </div>
+
+            <div>
+
+                <strong>
+                    Quota jelas
+                </strong>
+
+                <span>
+                    Penggunaan dihitung
+                    per bulan.
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="yc-value-item">
+
+            <div class="yc-value-icon">
+                <i class="bi bi-shield-check"></i>
+            </div>
+
+            <div>
+
+                <strong>
+                    Limit di backend
+                </strong>
+
+                <span>
+                    Bukan sekadar angka
+                    di tampilan.
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="yc-value-item">
+
+            <div class="yc-value-icon">
+                <i class="bi bi-arrow-up-right"></i>
+            </div>
+
+            <div>
+
+                <strong>
+                    Upgrade fleksibel
+                </strong>
+
+                <span>
+                    Naik paket ketika
+                    kebutuhan bertambah.
+                </span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         COMPARISON
+    ====================================================== -->
+
+    <section class="yc-comparison-section">
+
+        <div class="yc-section-heading">
+
+            <div>
+
+                <span class="yc-section-label">
+                    COMPARE
+                </span>
+
+
+                <h2>
+                    Lihat bedanya dengan cepat.
+                </h2>
+
+            </div>
+
+        </div>
+
+
+        <div class="yc-comparison-card">
+
+            <div class="table-responsive">
+
+                <table class="yc-comparison-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Feature
+                            </th>
+
+                            <th>
+                                Free
+                            </th>
+
+                            <th class="is-featured">
+                                Basic
+                            </th>
+
+                            <th>
+                                Pro
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        <tr>
+
+                            <td>
+                                Processing / bulan
+                            </td>
+
+                            <td>
+                                5
+                            </td>
+
+                            <td class="is-featured">
+                                50
+                            </td>
+
+                            <td>
+                                150
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                Max source
+                            </td>
+
+                            <td>
+                                30 menit
+                            </td>
+
+                            <td class="is-featured">
+                                120 menit
+                            </td>
+
+                            <td>
+                                180 menit
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                Output quality
+                            </td>
+
+                            <td>
+                                720p
+                            </td>
+
+                            <td class="is-featured">
+                                1080p
+                            </td>
+
+                            <td>
+                                1080p
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                Manual Cut
+                            </td>
+
+                            <td>
+                                <i class="bi bi-check2"></i>
+                            </td>
+
+                            <td class="is-featured">
+                                <i class="bi bi-check2"></i>
+                            </td>
+
+                            <td>
+                                <i class="bi bi-check2"></i>
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                Timeline Cut
+                            </td>
+
+                            <td>
+                                <i class="bi bi-check2"></i>
+                            </td>
+
+                            <td class="is-featured">
+                                <i class="bi bi-check2"></i>
+                            </td>
+
+                            <td>
+                                <i class="bi bi-check2"></i>
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                Priority processing
+                            </td>
+
+                            <td>
+                                —
+                            </td>
+
+                            <td class="is-featured">
+                                <i class="bi bi-check2"></i>
+                            </td>
+
+                            <td>
+                                <i class="bi bi-check2"></i>
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                Batch processing
+                            </td>
+
+                            <td>
+                                —
+                            </td>
+
+                            <td class="is-featured">
+                                —
+                            </td>
+
+                            <td>
+                                <i class="bi bi-check2"></i>
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         FOOTNOTE
+    ====================================================== -->
+
+    <section class="yc-pricing-footnote">
+
+        <div>
+
+            <i class="bi bi-info-circle"></i>
+
+            <span>
+                Payment gateway belum diaktifkan.
+                Tombol upgrade saat ini menggunakan
+                simulasi pembelian untuk development.
+            </span>
+
+        </div>
+
+    </section>
+
+</div>
+
+
+
+<!-- =====================================================
+     MOCK PURCHASE MODAL
+====================================================== -->
+
+<div
+    class="modal fade"
+    id="purchaseModal"
+    tabindex="-1"
+    aria-hidden="true"
+>
+
+    <div
+        class="
+            modal-dialog
+            modal-dialog-centered
+        "
+    >
+
+        <div class="modal-content yc-purchase-modal">
+
+
+            <div class="modal-header">
+
+                <div>
+
+                    <span class="yc-modal-kicker">
+                        PLAN UPGRADE
+                    </span>
+
+
+                    <h5
+                        class="modal-title"
+                        id="purchaseModalTitle"
+                    >
+                        Beli Paket
+                    </h5>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                ></button>
+
+            </div>
+
+
+            <div class="modal-body">
+
+
+                <div class="yc-modal-plan">
+
+                    <div class="yc-modal-plan-icon">
+
+                        <i
+                            class="bi bi-lightning-charge"
+                            id="selectedPlanIcon"
+                        ></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            Paket yang dipilih
+                        </span>
+
+
+                        <strong
+                            id="selectedPlanName"
+                        >
+                            -
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="yc-modal-price">
+
+                    <span>
+                        Simulasi pembelian
+                    </span>
+
+
+                    <strong
+                        id="selectedPlanPrice"
+                    >
+                        -
+                    </strong>
+
+                </div>
+
+
+                <div class="yc-modal-grid">
+
+                    <div>
+
+                        <span>
+                            PROCESSING
+                        </span>
+
+
+                        <strong
+                            id="selectedPlanLimit"
+                        >
+                            -
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            MAX SOURCE
+                        </span>
+
+
+                        <strong
+                            id="selectedPlanDuration"
+                        >
+                            -
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            QUALITY
+                        </span>
+
+
+                        <strong
+                            id="selectedPlanQuality"
+                        >
+                            -
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="yc-modal-notice">
+
+                    <i class="bi bi-info-circle"></i>
+
+
+                    <p id="purchaseDescription">
+                        -
+                    </p>
+
+                </div>
+
+
+                <p class="yc-modal-footnote">
+
+                    Untuk sementara pembelian ini hanya
+                    simulasi. Tidak ada pembayaran sungguhan
+                    dan tidak ada transaksi finansial.
+
+                </p>
+
+            </div>
+
+
+            <div class="modal-footer">
+
+                <button
+                    type="button"
+                    class="
+                        yc-modal-btn
+                        yc-modal-btn-cancel
+                    "
+                    data-bs-dismiss="modal"
+                >
+                    Batal Beli
+                </button>
+
+
+                <button
+                    type="button"
+                    class="
+                        yc-modal-btn
+                        yc-modal-btn-confirm
+                    "
+                    id="confirmPurchaseButton"
+                >
+
+                    Beli Paket Ini
+
+                    <i class="bi bi-arrow-right"></i>
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<style>
+
+/* =========================================================
+   BASE
+========================================================= */
+
+.yc-pricing-shell {
+
+    max-width:
+        1180px;
+
+    margin:
+        0 auto;
+
+    padding:
+        34px 20px 80px;
+
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.yc-pricing-hero {
+
+    position:
+        relative;
+
+    display:
+        grid;
+
+    grid-template-columns:
+        1.05fr
+        .95fr;
+
+    gap:
+        70px;
+
+    align-items:
+        center;
+
+    padding:
+        36px 0 62px;
+
+}
+
+
+.yc-pricing-hero-copy {
+
+    position:
+        relative;
+
+    z-index:
+        2;
+
+}
+
+
+.yc-pricing-eyebrow {
+
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    gap:
+        8px;
+
+    padding:
+        8px 11px;
+
+    border:
+        1px solid
+        var(--yc-border);
+
+    border-radius:
+        7px;
+
+    background:
+        var(--yc-surface);
+
+    color:
+        var(--yc-primary);
+
+    font-size:
+        .62rem;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        .13em;
+
+}
+
+
+.yc-eyebrow-dot {
+
+    width:
+        7px;
+
+    height:
+        7px;
+
+    border-radius:
+        50%;
+
+    background:
+        var(--yc-primary);
+
+    box-shadow:
+        0 0 0 4px
+        var(--yc-primary-soft);
+
+}
+
+
+.yc-pricing-hero h1 {
+
+    margin:
+        21px 0 18px;
+
+    font-size:
+        clamp(
+            2.8rem,
+            5.5vw,
+            5.1rem
+        );
+
+    line-height:
+        .98;
+
+    letter-spacing:
+        -.065em;
+
+    color:
+        var(--yc-text);
+
+}
+
+
+.yc-pricing-hero h1 span {
+
+    color:
+        var(--yc-primary);
+
+}
+
+
+.yc-pricing-hero-copy p {
+
+    max-width:
+        570px;
+
+    margin:
+        0;
+
+    color:
+        var(--yc-text-2);
+
+    font-size:
+        .96rem;
+
+    line-height:
+        1.75;
+
+}
+
+
+.yc-pricing-trust {
+
+    display:
+        flex;
+
+    flex-wrap:
+        wrap;
+
+    gap:
+        9px 18px;
+
+    margin-top:
+        22px;
+
+}
+
+
+.yc-pricing-trust div {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        6px;
+
+    color:
+        var(--yc-text-3);
+
+    font-size:
+        .7rem;
+
+}
+
+
+.yc-pricing-trust i {
+
+    color:
+        var(--yc-success);
+
+}
+
+
+/* =========================================================
+   HERO VISUAL
+========================================================= */
+
+.yc-pricing-hero-visual {
+
+    position:
+        relative;
+
+    min-height:
+        390px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+}
+
+
+.yc-hero-glow {
+
+    position:
+        absolute;
+
+    width:
+        340px;
+
+    height:
+        340px;
+
+    border-radius:
+        50%;
+
+    background:
+        var(--yc-primary-soft);
+
+    filter:
+        blur(20px);
+
+    opacity:
+        .85;
+
+}
+
+
+.yc-hero-window {
+
+    position:
+        relative;
+
+    z-index:
+        2;
+
+    width:
+        min(
+            100%,
+            430px
+        );
+
+    overflow:
+        hidden;
+
+    background:
+        var(--yc-surface-raised);
+
+    border:
+        1px solid
+        var(--yc-border);
+
+    border-radius:
+        18px;
+
+    box-shadow:
+        0 30px 70px
+        rgba(
+            20,
+            20,
+            40,
+            .12
+        );
+
+    transform:
+        rotate(
+            2deg
+        );
+
+}
+
+
+.yc-window-bar {
+
+    height:
+        42px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        space-between;
+
+    padding:
+        0 13px;
+
+    background:
+        var(--yc-surface);
+
+    border-bottom:
+        1px solid
+        var(--yc-border);
+
+}
+
+
+.yc-window-dots {
+
+    display:
+        flex;
+
+    gap:
+        5px;
+
+}
+
+
+.yc-window-dots span {
+
+    width:
+        6px;
+
+    height:
+        6px;
+
+    border-radius:
+        50%;
+
+    background:
+        var(--yc-border-strong);
+
+}
+
+
+.yc-window-label {
+
+    color:
+        var(--yc-text-3);
+
+    font-size:
+        .55rem;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        .11em;
+
+}
+
+
+.yc-window-content {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        52px
+        1fr;
+
+    min-height:
+        320px;
+
+}
+
+
+.yc-window-sidebar {
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    align-items:
+        center;
+
+    gap:
+        13px;
+
+    padding:
+        18px 0;
+
+    background:
+        var(--yc-surface);
+
+    border-right:
+        1px solid
+        var(--yc-border);
+
+}
+
+
+.yc-window-sidebar span {
+
+    width:
+        28px;
+
+    height:
+        28px;
+
+    display:
+        grid;
+
+    place-items:
+        center;
+
+    border-radius:
+        7px;
+
+    color:
+        var(--yc-text-3);
+
+    font-size:
+        .8rem;
+
+}
+
+
+.yc-window-sidebar span.active {
+
+    background:
+        var(--yc-primary-soft);
+
+    color:
+        var(--yc-primary);
+
+}
+
+
+.yc-window-main {
+
+    padding:
+        43px 34px;
+
+}
+
+
+.yc-demo-label {
+
+    color:
+        var(--yc-text-3);
+
+    font-size:
+        .57rem;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        .13em;
+
+}
+
+
+.yc-demo-number {
+
+    margin-top:
+        8px;
+
+    color:
+        var(--yc-text);
+
+    font-size:
+        4.4rem;
+
+    line-height:
+        1;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        -.07em;
+
+}
+
+
+.yc-demo-subtitle {
+
+    margin-top:
+        5px;
+
+    color:
+        var(--yc-text-2);
+
+    font-size:
+        .74rem;
+
+}
+
+
+.yc-demo-progress {
+
+    height:
+        8px;
+
+    margin-top:
+        35px;
+
+    overflow:
+        hidden;
+
+    background:
+        var(--yc-surface-muted);
+
+    border-radius:
+        999px;
+
+}
+
+
+.yc-demo-progress span {
+
+    display:
+        block;
+
+    width:
+        58%;
+
+    height:
+        100%;
+
+    background:
+        var(--yc-primary);
+
+    border-radius:
+        inherit;
+
+}
+
+
+.yc-demo-footer {
+
+    display:
+        flex;
+
+    justify-content:
+        space-between;
+
+    margin-top:
+        13px;
+
+    color:
+        var(--yc-text-3);
+
+    font-size:
+        .62rem;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        .08em;
+
+}
+
+
+.yc-demo-footer strong {
+
+    color:
+        var(--yc-primary);
+
+}
+
+
+/* =========================================================
+   ACCOUNT PLAN
+========================================================= */
+
+.yc-account-plan {
+
+    padding:
+        23px;
+
+    background:
+        var(--yc-surface-raised);
+
+    border:
+        1px solid
+        var(--yc-border);
+
+    border-radius:
+        16px;
+
+    box-shadow:
+        var(--yc-shadow-sm);
+
+}
+
+
+.yc-account-plan-main {
+
+    display:
+        flex;
+
+    align-items:
+        flex-start;
+
+    justify-content:
+        space-between;
+
+    gap:
+        20px;
+
+}
+
+
+.yc-section-label {
+
+    display:
+        block;
+
+    color:
+        var(--yc-primary);
+
+    font-size:
+        .6rem;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        .13em;
+
+}
+
+
+.yc-account-plan-heading h2 {
+
+    margin:
+        4px 0 4px;
+
+    font-size:
+        1.55rem;
+
+    letter-spacing:
+        -.035em;
+
+}
+
+
+.yc-account-plan-heading p {
+
+    margin:
+        0;
+
+    color:
+        var(--yc-text-3);
+
+    font-size:
+        .76rem;
+
+}
+
+
+.yc-current-pill {
+
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    gap:
+        7px;
+
+    padding:
+        7px 10px;
+
+    border:
+        1px solid
+        var(--yc-border);
+
+    border-radius:
+        8px;
+
+    background:
+        var(--yc-surface);
+
+    color:
+        var(--yc-text-2);
+
+    font-size:
+        .68rem;
+
+    font-weight:
+        700;
+
+}
+
+
+.yc-current-pill-dot {
+
+    width:
+        7px;
+
+    height:
+        7px;
+
+    border-radius:
+        50%;
+
+    background:
+        var(--yc-success);
+
+}
+
+
+.yc-account-stats {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        1.65fr
+        repeat(
+            3,
+            1fr
+        );
+
+    gap:
+        10px;
+
+    margin-top:
+        22px;
+
+}
+
+
+.yc-account-stat {
+
+    min-width:
+        0;
+
+    padding:
+        14px;
+
+    border:
+        1px solid
+        var(--yc-border);
+
+    border-radius:
+        11px;
+
+    background:
+        var(--yc-surface);
+
+}
+
+
+.yc-account-stat > span,
+.yc-stat-label {
+
+    color:
+        var(--yc-text-3);
+
+    font-size:
+        .58rem;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        .09em;
+
+}
+
+
+.yc-account-stat > strong {
+
+    display:
+        block;
+
+    margin-top:
+        5px;
+
+    color:
+        var(--yc-text);
+
+    font-size:
+        1.16rem;
+
+}
+
+
+.yc-account-stat small {
+
+    display:
+        block;
+
+    margin-top:
+        3px;
+
+    color:
+        var(--yc-text-3);
+
+    font-size:
+        .65rem;
+
+}
+
+
+.yc-stat-top {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        space-between;
+
+    gap:
+        15px;
+
+    margin-bottom:
+        8px;
+
+}
+
+
+.yc-stat-top span {
+
+    color:
+        var(--yc-text-3);
+
+    font-size:
+        .66rem;
+
+}
+
+
+.yc-stat-top strong {
+
+    color:
+        var(--yc-text);
+
+    font-size:
+        .75rem;
+
+}
+
+
+.yc-stat-progress {
+
+    height:
+        8px;
+
+    overflow:
+        hidden;
+
+    background:
+        var(--yc-surface-muted);
+
+    border-radius:
+        999px;
+
+}
+
+
+.yc-stat-progress span {
+
+    display:
+        block;
+
+    width:
+        0%;
+
+    height:
+        100%;
+
+    background:
+        var(--yc-primary);
+
+    border-radius:
+        inherit;
+
+    transition:
+        width .35s ease;
+
+}
+
+
+.yc-stat-bottom {
+
+    display:
+        flex;
+
+    justify-content:
+        space-between;
+
+    margin-top:
+        6px;
+
+    color:
+        var(--yc-text-3);
+
+    font-size:
+        .62rem;
+
+}
+
+
+/* =========================================================
+   PLANS
+========================================================= */
+
+.yc-plans-section {
+
+    margin-top:
+        70px;
+
+}
+
+
+.yc-section-heading {
+
+    display:
+        flex;
+
+    justify-content:
+        space-between;
+
+    gap:
+        25px;
+
+    align-items:
+        flex-end;
+
+    margin-bottom:
+        20px;
+
+}
+
+
+.yc-section-heading h2 {
+
+    margin:
+        5px 0 0;
+
+    font-size:
+        1.75rem;
+
+    letter-spacing:
+        -.04em;
+
+}
+
+
+.yc-section-heading > p {
+
+    max-width:
+        360px;
+
+    margin:
+        0;
+
+    color:
+        var(--yc-text-3);
+
+    font-size:
+        .74rem;
+
+    line-height:
+        1.7;
+
+}
+
+
+.yc-plan-grid {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        repeat(
+            3,
+            1fr
+        );
+
+    gap:
+        14px;
+
+}
+
+
+.yc-plan-card {
+
+    position:
+        relative;
+
+    min-width:
+        0;
+
+    overflow:
+        hidden;
+
+    padding:
+        24px;
+
+    background:
+        var(--yc-surface-raised);
+
+    border:
+        1px solid
+        var(--yc-border);
+
+    border-radius:
+        16px;
+
+    box-shadow:
+        var(--yc-shadow-sm);
+
+    transition:
+        transform .2s ease,
+        border-color .2s ease,
+        box-shadow .2s ease;
+
+}
+
+
+.yc-plan-card:hover {
+
+    transform:
+        translateY(-4px);
+
+    border-color:
+        var(--yc-border-strong);
+
+    box-shadow:
+        var(--yc-shadow-md);
+
+}
+
+
+.yc-plan-card-featured {
+
+    border-color:
+        var(--yc-primary);
+
+    box-shadow:
+        0 20px 45px
+        color-mix(
+            in srgb,
+            var(--yc-primary) 14%,
+            transparent
+        );
+
+}
+
+
+.yc-featured-line {
+
+    position:
+        absolute;
+
+    top:
+        0;
+
+    left:
+        0;
+
+    right:
+        0;
+
+    height:
+        3px;
+
+    background:
+        var(--yc-primary);
+
+}
+
+
+.yc-featured-badge {
+
+    position:
+        absolute;
+
+    top:
+        15px;
+
+    right:
+        15px;
+
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    gap:
+        5px;
+
+    padding:
+        6px 8px;
+
+    background:
+        var(--yc-primary-soft);
+
+    color:
+        var(--yc-primary);
+
+    border-radius:
+        6px;
+
+    font-size:
+        .57rem;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        .08em;
+
+}
+
+
+.yc-plan-card-head {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        space-between;
+
+    gap:
+        10px;
+
+    margin-bottom:
+        20px;
+
+}
+
+
+.yc-plan-card-head > div:first-child {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        8px;
+
+}
+
+
+.yc-plan-code {
+
+    color:
+        var(--yc-text-3);
+
+    font-size:
+        .58rem;
+
+    font-weight:
+        800;
+
+    font-variant-numeric:
+        tabular-nums;
+
+}
+
+
+.yc-plan-name {
+
+    color:
+        var(--yc-text);
+
+    font-size:
+        .66rem;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        .12em;
+
+}
+
+
+.yc-plan-symbol {
+
+    width:
+        38px;
+
+    height:
+        38px;
+
+    display:
+        grid;
+
+    place-items:
+        center;
+
+    border:
+        1px solid
+        var(--yc-border);
+
+    border-radius:
+        9px;
+
+    background:
+        var(--yc-surface);
+
+    color:
+        var(--yc-primary);
+
+}
+
+
+.yc-plan-symbol-active {
+
+    background:
+        var(--yc-primary-soft);
+
+}
+
+
+.yc-plan-copy h3 {
+
+    margin:
+        0 0 7px;
+
+    font-size:
+        1.3rem;
+
+    letter-spacing:
+        -.04em;
+
+}
+
+
+.yc-plan-copy p {
+
+    min-height:
+        66px;
+
+    margin:
+        0;
+
+    color:
+        var(--yc-text-2);
+
+    font-size:
+        .77rem;
+
+    line-height:
+        1.7;
+
+}
+
+
+.yc-price {
+
+    display:
+        flex;
+
+    align-items:
+        baseline;
+
+    gap:
+        5px;
+
+    margin-top:
+        20px;
+
+}
+
+
+.yc-price strong {
+
+    color:
+        var(--yc-text);
+
+    font-size:
+        2.15rem;
+
+    line-height:
+        1;
+
+    letter-spacing:
+        -.055em;
+
+}
+
+
+.yc-price span {
+
+    color:
+        var(--yc-text-3);
+
+    font-size:
+        .68rem;
+
+}
+
+
+.yc-plan-divider {
+
+    height:
+        1px;
+
+    margin:
+        20px 0;
+
+    background:
+        var(--yc-border);
+
+}
+
+
+.yc-plan-capacity {
+
+    display:
+        flex;
+
+    align-items:
+        baseline;
+
+    gap:
+        7px;
+
+    margin-bottom:
+        13px;
+
+}
+
+
+.yc-plan-capacity > span {
+
+    color:
+        var(--yc-text-3);
+
+    font-size:
+        .58rem;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        .09em;
+
+}
+
+
+.yc-plan-capacity strong {
+
+    margin-left:
+        auto;
+
+    color:
+        var(--yc-text);
+
+    font-size:
+        1.42rem;
+
+}
+
+
+.yc-plan-capacity small {
+
+    color:
+        var(--yc-text-3);
+
+    font-size:
+        .62rem;
+
+}
+
+
+.yc-feature-list {
+
+    padding:
+        0;
+
+    margin:
+        0 0 21px;
+
+    list-style:
+        none;
+
+}
+
+
+.yc-feature-list li {
+
+    display:
+        flex;
+
+    align-items:
+        flex-start;
+
+    gap:
+        8px;
+
+    padding:
+        7px 0;
+
+    color:
+        var(--yc-text-2);
+
+    font-size:
+        .75rem;
+
+}
+
+
+.yc-feature-list li i {
+
+    flex:
+        0 0 auto;
+
+    margin-top:
+        2px;
+
+    color:
+        var(--yc-success);
+
+}
+
+
+.yc-plan-btn {
+
+    width:
+        100%;
+
+    min-height:
+        44px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    gap:
+        8px;
+
+    padding:
+        11px 14px;
+
+    border-radius:
+        9px;
+
+    font-size:
+        .75rem;
+
+    font-weight:
+        750;
+
+    text-decoration:
+        none;
+
+    border:
+        1px solid transparent;
+
+    transition:
+        transform .15s ease,
+        background .15s ease,
+        border-color .15s ease;
+
+}
+
+
+.yc-plan-btn:hover {
+
+    transform:
+        translateY(
+            -1px
+        );
+
+}
+
+
+.yc-plan-btn-primary {
+
+    background:
+        var(--yc-primary);
+
+    color:
+        #fff;
+
+}
+
+
+.yc-plan-btn-primary:hover {
+
+    color:
+        #fff;
+
+    filter:
+        brightness(
+            .96
+        );
+
+}
+
+
+.yc-plan-btn-outline {
+
+    background:
+        transparent;
+
+    border-color:
+        var(--yc-border-strong);
+
+    color:
+        var(--yc-text);
+
+}
+
+
+.yc-plan-btn-outline:hover {
+
+    background:
+        var(--yc-surface);
+
+    color:
+        var(--yc-text);
+
+}
+
+
+.yc-plan-btn-muted {
+
+    background:
+        var(--yc-surface-muted);
+
+    color:
+        var(--yc-text-3);
+
+    cursor:
+        default;
+
+    border-color:
+        var(--yc-border);
+
+}
+
+
+.yc-plan-card[data-current="true"] {
+
+    box-shadow:
+        0 0 0 2px
+        var(--yc-primary-soft);
+
+}
+
+
+/* =========================================================
+   VALUE STRIP
+========================================================= */
+
+.yc-value-strip {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        repeat(
+            4,
+            1fr
+        );
+
+    gap:
+        10px;
+
+    margin-top:
+        14px;
+
+}
+
+
+.yc-value-item {
+
+    display:
+        flex;
+
+    gap:
+        10px;
+
+    min-width:
+        0;
+
+    padding:
+        14px;
+
+    background:
+        var(--yc-surface);
+
+    border:
+        1px solid
+        var(--yc-border);
+
+    border-radius:
+        10px;
+
+}
+
+
+.yc-value-icon {
+
+    width:
+        31px;
+
+    height:
+        31px;
+
+    display:
+        grid;
+
+    place-items:
+        center;
+
+    flex:
+        0 0 auto;
+
+    border-radius:
+        8px;
+
+    background:
+        var(--yc-primary-soft);
+
+    color:
+        var(--yc-primary);
+
+}
+
+
+.yc-value-item strong {
+
+    display:
+        block;
+
+    color:
+        var(--yc-text);
+
+    font-size:
+        .72rem;
+
+}
+
+
+.yc-value-item span {
+
+    display:
+        block;
+
+    margin-top:
+        3px;
+
+    color:
+        var(--yc-text-3);
+
+    font-size:
+        .63rem;
+
+    line-height:
+        1.5;
+
+}
+
+
+/* =========================================================
+   COMPARISON
+========================================================= */
+
+.yc-comparison-section {
+
+    margin-top:
+        68px;
+
+}
+
+
+.yc-comparison-card {
+
+    overflow:
+        hidden;
+
+    background:
+        var(--yc-surface-raised);
+
+    border:
+        1px solid
+        var(--yc-border);
+
+    border-radius:
+        14px;
+
+    box-shadow:
+        var(--yc-shadow-sm);
+
+}
+
+
+.yc-comparison-table {
+
+    width:
+        100%;
+
+    border-collapse:
+        collapse;
+
+}
+
+
+.yc-comparison-table th,
+.yc-comparison-table td {
+
+    padding:
+        14px 17px;
+
+    border-bottom:
+        1px solid
+        var(--yc-border);
+
+    color:
+        var(--yc-text-2);
+
+    font-size:
+        .74rem;
+
+}
+
+
+.yc-comparison-table th {
+
+    background:
+        var(--yc-surface);
+
+    color:
+        var(--yc-text);
+
+    font-size:
+        .62rem;
+
+    font-weight:
+        800;
+
+    text-transform:
+        uppercase;
+
+    letter-spacing:
+        .08em;
+
+}
+
+
+.yc-comparison-table td:not(:first-child),
+.yc-comparison-table th:not(:first-child) {
+
+    text-align:
+        center;
+
+}
+
+
+.yc-comparison-table tbody tr:last-child td {
+
+    border-bottom:
+        0;
+
+}
+
+
+.yc-comparison-table
+.is-featured {
+
+    background:
+        var(--yc-primary-soft);
+
+}
+
+
+.yc-comparison-table td i {
+
+    color:
+        var(--yc-success);
+
+    font-size:
+        .9rem;
+
+}
+
+
+/* =========================================================
+   FOOTNOTE
+========================================================= */
+
+.yc-pricing-footnote {
+
+    display:
+        flex;
+
+    justify-content:
+        center;
+
+    margin-top:
+        18px;
+
+}
+
+
+.yc-pricing-footnote > div {
+
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    gap:
+        7px;
+
+    padding:
+        9px 12px;
+
+    border:
+        1px solid
+        var(--yc-border);
+
+    border-radius:
+        8px;
+
+    background:
+        var(--yc-surface);
+
+    color:
+        var(--yc-text-3);
+
+    font-size:
+        .64rem;
+
+}
+
+
+.yc-pricing-footnote i {
+
+    color:
+        var(--yc-primary);
+
+}
+
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+.yc-purchase-modal {
+
+    overflow:
+        hidden;
+
+    background:
+        var(--yc-surface-raised);
+
+    color:
+        var(--yc-text);
+
+    border:
+        1px solid
+        var(--yc-border);
+
+    border-radius:
+        15px;
+
+}
+
+
+.yc-purchase-modal
+.modal-header {
+
+    border-bottom:
+        1px solid
+        var(--yc-border);
+
+}
+
+
+.yc-purchase-modal
+.modal-footer {
+
+    border-top:
+        1px solid
+        var(--yc-border);
+
+}
+
+
+.yc-purchase-modal
+.btn-close {
+
+    opacity:
+        .7;
+
+}
+
+
+.yc-modal-kicker {
+
+    display:
+        block;
+
+    margin-bottom:
+        4px;
+
+    color:
+        var(--yc-primary);
+
+    font-size:
+        .57rem;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        .12em;
+
+}
+
+
+.yc-purchase-modal
+.modal-title {
+
+    color:
+        var(--yc-text);
+
+    font-size:
+        1.2rem;
+
+}
+
+
+.yc-modal-plan {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        12px;
+
+    padding:
+        13px;
+
+    background:
+        var(--yc-surface);
+
+    border:
+        1px solid
+        var(--yc-border);
+
+    border-radius:
+        10px;
+
+}
+
+
+.yc-modal-plan-icon {
+
+    width:
+        42px;
+
+    height:
+        42px;
+
+    display:
+        grid;
+
+    place-items:
+        center;
+
+    border-radius:
+        10px;
+
+    background:
+        var(--yc-primary-soft);
+
+    color:
+        var(--yc-primary);
+
+}
+
+
+.yc-modal-plan span {
+
+    display:
+        block;
+
+    color:
+        var(--yc-text-3);
+
+    font-size:
+        .65rem;
+
+}
+
+
+.yc-modal-plan strong {
+
+    display:
+        block;
+
+    margin-top:
+        3px;
+
+    color:
+        var(--yc-text);
+
+    font-size:
+        1rem;
+
+}
+
+
+.yc-modal-price {
+
+    display:
+        flex;
+
+    justify-content:
+        space-between;
+
+    align-items:
+        baseline;
+
+    margin-top:
+        17px;
+
+    padding-bottom:
+        14px;
+
+    border-bottom:
+        1px solid
+        var(--yc-border);
+
+}
+
+
+.yc-modal-price span {
+
+    color:
+        var(--yc-text-3);
+
+    font-size:
+        .68rem;
+
+}
+
+
+.yc-modal-price strong {
+
+    color:
+        var(--yc-text);
+
+    font-size:
+        1.25rem;
+
+}
+
+
+.yc-modal-grid {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        repeat(
+            3,
+            1fr
+        );
+
+    gap:
+        7px;
+
+    margin-top:
+        14px;
+
+}
+
+
+.yc-modal-grid > div {
+
+    padding:
+        10px;
+
+    border:
+        1px solid
+        var(--yc-border);
+
+    border-radius:
+        8px;
+
+    background:
+        var(--yc-surface);
+
+}
+
+
+.yc-modal-grid span {
+
+    display:
+        block;
+
+    color:
+        var(--yc-text-3);
+
+    font-size:
+        .56rem;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        .08em;
+
+}
+
+
+.yc-modal-grid strong {
+
+    display:
+        block;
+
+    margin-top:
+        4px;
+
+    color:
+        var(--yc-text);
+
+    font-size:
+        .77rem;
+
+}
+
+
+.yc-modal-notice {
+
+    display:
+        flex;
+
+    gap:
+        9px;
+
+    margin-top:
+        13px;
+
+    padding:
+        11px;
+
+    border:
+        1px solid
+        var(--yc-border);
+
+    border-radius:
+        9px;
+
+    background:
+        var(--yc-primary-soft);
+
+}
+
+
+.yc-modal-notice i {
+
+    color:
+        var(--yc-primary);
+
+}
+
+
+.yc-modal-notice p {
+
+    margin:
+        0;
+
+    color:
+        var(--yc-text-2);
+
+    font-size:
+        .68rem;
+
+    line-height:
+        1.6;
+
+}
+
+
+.yc-modal-footnote {
+
+    margin:
+        12px 0 0;
+
+    color:
+        var(--yc-text-3);
+
+    font-size:
+        .62rem;
+
+    line-height:
+        1.5;
+
+}
+
+
+.yc-modal-btn {
+
+    min-height:
+        42px;
+
+    padding:
+        10px 14px;
+
+    border-radius:
+        8px;
+
+    font-size:
+        .72rem;
+
+    font-weight:
+        750;
+
+}
+
+
+.yc-modal-btn-cancel {
+
+    border:
+        1px solid
+        var(--yc-border-strong);
+
+    background:
+        transparent;
+
+    color:
+        var(--yc-text);
+
+}
+
+
+.yc-modal-btn-confirm {
+
+    border:
+        0;
+
+    background:
+        var(--yc-primary);
+
+    color:
+        #fff;
+
+}
+
+
+.yc-modal-btn-confirm:hover {
+
+    color:
+        #fff;
+
+    filter:
+        brightness(
+            .96
+        );
+
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (
+    max-width: 1000px
+) {
+
+    .yc-pricing-hero {
+
+        grid-template-columns:
+            1fr;
+
+        gap:
+            30px;
+
+    }
+
+
+    .yc-pricing-hero-copy {
+
+        max-width:
+            720px;
+
+    }
+
+
+    .yc-pricing-hero-visual {
+
+        min-height:
+            320px;
+
+    }
+
+
+    .yc-plan-grid {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+
+    .yc-value-strip {
+
+        grid-template-columns:
+            repeat(
+                2,
+                1fr
+            );
+
+    }
+
+}
+
+
+@media (
+    max-width: 760px
+) {
+
+    .yc-pricing-shell {
+
+        padding:
+            20px 14px 60px;
+
+    }
+
+
+    .yc-pricing-hero {
+
+        padding:
+            22px 0 42px;
+
+    }
+
+
+    .yc-pricing-hero h1 {
+
+        font-size:
+            2.75rem;
+
+    }
+
+
+    .yc-pricing-hero-visual {
+
+        min-height:
+            270px;
+
+    }
+
+
+    .yc-hero-window {
+
+        transform:
+            none;
+
+    }
+
+
+    .yc-window-content {
+
+        min-height:
+            260px;
+
+    }
+
+
+    .yc-account-stats {
+
+        grid-template-columns:
+            repeat(
+                2,
+                1fr
+            );
+
+    }
+
+
+    .yc-section-heading {
+
+        align-items:
+            flex-start;
+
+        flex-direction:
+            column;
+
+    }
+
+
+    .yc-value-strip {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+
+    .yc-comparison-table th,
+    .yc-comparison-table td {
+
+        white-space:
+            nowrap;
+
+    }
+
+}
+
+
+@media (
+    max-width: 480px
+) {
+
+    .yc-account-plan-main {
+
+        align-items:
+            flex-start;
+
+        flex-direction:
+            column;
+
+    }
+
+
+    .yc-account-stats {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+
+    .yc-pricing-trust {
+
+        flex-direction:
+            column;
+
+        gap:
+            7px;
+
+    }
+
+
+    .yc-modal-grid {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+}
+
+</style>
+
+
+
+{% endblock %}
+
+
+
+{% block scripts %}
+
+{% if current_user.is_authenticated %}
+
+<script>
+
+(function () {
+
+    "use strict";
+
+
+    /* =====================================================
+       STATE
+    ====================================================== */
+
+    let selectedPlan =
+        null;
+
+
+    let purchaseModal =
+        null;
+
+
+
+    /* =====================================================
+       PLAN DATA
+    ====================================================== */
+
+    const PLAN_DATA = {
+
+        basic: {
+
+            name:
+                "Basic",
+
+            price:
+                "Rp29.000 / bulan",
+
+            limit:
+                50,
+
+            duration:
+                120,
+
+            quality:
+                "1080p",
+
+            icon:
+                "bi-lightning-charge"
+
+        },
+
+
+        pro: {
+
+            name:
+                "Pro",
+
+            price:
+                "Rp59.000 / bulan",
+
+            limit:
+                150,
+
+            duration:
+                180,
+
+            quality:
+                "1080p",
+
+            icon:
+                "bi-gem"
+
+        }
+
+    };
+
+
+
+    /* =====================================================
+       MODAL
+    ====================================================== */
+
+    const modalElement =
+        document.getElementById(
+            "purchaseModal"
+        );
+
+
+    if (
+        modalElement
+        &&
+        typeof bootstrap !==
+            "undefined"
+    ) {
+
+        purchaseModal =
+            new bootstrap.Modal(
+                modalElement
+            );
+
+    }
+
+
+
+    /* =====================================================
+       LOAD USAGE
+    ====================================================== */
+
+    async function loadUsage() {
+
+        const response =
+            await fetch(
+                "/api/usage",
+                {
+
+                    method:
+                        "GET",
+
+                    headers:
+                        {
+                            "Accept":
+                                "application/json"
+                        },
+
+                    cache:
+                        "no-store"
+
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            !response.ok
+            ||
+            !data.success
+        ) {
+
+            throw new Error(
+
+                data.error
+                ||
+                "Gagal mengambil data penggunaan."
+
+            );
+
+        }
+
+
+        /* =================================================
+           BASIC INFO
+        ================================================= */
+
+        const currentPlan =
+            document.getElementById(
+                "currentPlanName"
+            );
+
+
+        if (currentPlan) {
+
+            currentPlan.textContent =
+                data.plan_name;
+
+        }
+
+
+        /* =================================================
+           USAGE
+        ================================================= */
+
+        const usageText =
+            document.getElementById(
+                "usageText"
+            );
+
+
+        if (usageText) {
+
+            usageText.textContent =
+                `${data.used} / ${data.limit}`;
+
+        }
+
+
+        const usageBar =
+            document.getElementById(
+                "usageBar"
+            );
+
+
+        if (usageBar) {
+
+            const percentage =
+                data.limit > 0
+
+                ?
+
+                (
+                    data.used
+                    /
+                    data.limit
+                )
+                *
+                100
+
+                :
+
+                0;
+
+
+            usageBar.style.width =
+                `${Math.min(
+                    percentage,
+                    100
+                )}%`;
+
+        }
+
+
+        const usageRemaining =
+            document.getElementById(
+                "usageRemaining"
+            );
+
+
+        if (usageRemaining) {
+
+            usageRemaining.textContent =
+                `${data.remaining} remaining`;
+
+        }
+
+
+        const usagePeriod =
+            document.getElementById(
+                "usagePeriod"
+            );
+
+
+        if (usagePeriod) {
+
+            usagePeriod.textContent =
+                data.period;
+
+        }
+
+
+        /* =================================================
+           LIMITS
+        ================================================== */
+
+        const maxDuration =
+            document.getElementById(
+                "maxDuration"
+            );
+
+
+        if (maxDuration) {
+
+            maxDuration.textContent =
+                `${data.max_source_minutes} min`;
+
+        }
+
+
+        const maxQuality =
+            document.getElementById(
+                "maxQuality"
+            );
+
+
+        if (maxQuality) {
+
+            maxQuality.textContent =
+                data.max_quality;
+
+        }
+
+
+        const remainingCount =
+            document.getElementById(
+                "remainingCount"
+            );
+
+
+        if (remainingCount) {
+
+            remainingCount.textContent =
+                data.remaining;
+
+        }
+
+
+        /* =================================================
+           ACTIVE CARD
+        ================================================== */
+
+        document
+            .querySelectorAll(
+                "[data-plan-card]"
+            )
+            .forEach(
+                function (
+                    card
+                ) {
+
+                    card.removeAttribute(
+                        "data-current"
+                    );
+
+                }
+            );
+
+
+        const activeCard =
+            document.querySelector(
+
+                `[data-plan-card="${data.plan}"]`
+
+            );
+
+
+        if (activeCard) {
+
+            activeCard.setAttribute(
+                "data-current",
+                "true"
+            );
+
+        }
+
+
+        /* =================================================
+           BUTTON STATES
+        ================================================== */
+
+        const basicButton =
+            document.querySelector(
+                '[data-plan-target="basic"]'
+            );
+
+
+        const proButton =
+            document.querySelector(
+                '[data-plan-target="pro"]'
+            );
+
+
+        if (
+            basicButton
+            &&
+            data.plan === "basic"
+        ) {
+
+            basicButton.innerHTML =
+                `
+                <span>
+                    Paket Saat Ini
+                </span>
+
+                <i class="bi bi-check2"></i>
+                `;
+
+            basicButton.disabled =
+                true;
+
+        }
+
+
+        if (
+            proButton
+            &&
+            data.plan === "pro"
+        ) {
+
+            proButton.innerHTML =
+                `
+                <span>
+                    Paket Saat Ini
+                </span>
+
+                <i class="bi bi-check2"></i>
+                `;
+
+            proButton.disabled =
+                true;
+
+        }
+
+
+        /*
+         * Kalau sudah PRO, jangan menawarkan
+         * Basic lagi.
+         */
+
+        if (
+            basicButton
+            &&
+            data.plan === "pro"
+        ) {
+
+            basicButton.innerHTML =
+                `
+                <span>
+                    Tidak Tersedia
+                </span>
+
+                <i class="bi bi-lock"></i>
+                `;
+
+            basicButton.disabled =
+                true;
+
+        }
+
+    }
+
+
+
+    /* =====================================================
+       OPEN PURCHASE MODAL
+    ====================================================== */
+
+    function openPurchaseModal(
+        plan
+    ) {
+
+        const config =
+            PLAN_DATA[
+                plan
+            ];
+
+
+        if (!config) {
+
+            return;
+
+        }
+
+
+        selectedPlan =
+            plan;
+
+
+        document.getElementById(
+            "purchaseModalTitle"
+        ).textContent =
+            `Upgrade ke ${config.name}`;
+
+
+        document.getElementById(
+            "selectedPlanName"
+        ).textContent =
+            config.name;
+
+
+        document.getElementById(
+            "selectedPlanPrice"
+        ).textContent =
+            config.price;
+
+
+        document.getElementById(
+            "selectedPlanLimit"
+        ).textContent =
+            `${config.limit} / bulan`;
+
+
+        document.getElementById(
+            "selectedPlanDuration"
+        ).textContent =
+            `${config.duration} menit`;
+
+
+        document.getElementById(
+            "selectedPlanQuality"
+        ).textContent =
+            config.quality;
+
+
+        document.getElementById(
+            "purchaseDescription"
+        ).textContent =
+
+            `Dengan konfirmasi ini, paket ${config.name} `
+
+            +
+
+            `akan langsung diaktifkan pada akun kamu `
+
+            +
+
+            `selama 30 hari. `
+
+            +
+
+            `Ini hanya simulasi pembelian untuk development.`;
+
+
+        const icon =
+            document.getElementById(
+                "selectedPlanIcon"
+            );
+
+
+        if (icon) {
+
+            icon.className =
+                `bi ${config.icon}`;
+
+        }
+
+
+        if (purchaseModal) {
+
+            purchaseModal.show();
+
+        }
+
+    }
+
+
+
+    /* =====================================================
+       UPGRADE BUTTONS
+    ====================================================== */
+
+    document
+        .querySelectorAll(
+            "[data-plan-target]"
+        )
+        .forEach(
+            function (
+                button
+            ) {
+
+                button.addEventListener(
+                    "click",
+                    function () {
+
+                        const plan =
+                            button.dataset.planTarget;
+
+
+                        openPurchaseModal(
+                            plan
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+
+
+    /* =====================================================
+       CONFIRM PURCHASE
+    ====================================================== */
+
+    const confirmButton =
+        document.getElementById(
+            "confirmPurchaseButton"
+        );
+
+
+    if (confirmButton) {
+
+        confirmButton.addEventListener(
+            "click",
+            async function () {
+
+                if (!selectedPlan) {
+
+                    return;
+
+                }
+
+
+                const originalHtml =
+                    confirmButton.innerHTML;
+
+
+                confirmButton.disabled =
+                    true;
+
+
+                confirmButton.innerHTML =
+                    `
+                    <span
+                        class="
+                            spinner-border
+                            spinner-border-sm
+                        "
+                    ></span>
+
+                    Mengaktifkan...
+                    `;
+
+
+                try {
+
+                    const response =
+                        await fetch(
+                            "/api/mock-purchase",
+                            {
+
+                                method:
+                                    "POST",
+
+                                headers:
+                                    {
+                                        "Content-Type":
+                                            "application/json",
+
+                                        "Accept":
+                                            "application/json"
+                                    },
+
+                                body:
+                                    JSON.stringify(
+                                        {
+                                            plan:
+                                                selectedPlan
+                                        }
+                                    )
+
+                            }
+                        );
+
+
+                    const data =
+                        await response.json();
+
+
+                    if (
+                        !response.ok
+                        ||
+                        !data.success
+                    ) {
+
+                        throw new Error(
+
+                            data.error
+
+                            ||
+
+                            "Paket gagal diaktifkan."
+
+                        );
+
+                    }
+
+
+                    if (purchaseModal) {
+
+                        purchaseModal.hide();
+
+                    }
+
+
+                    const activatedName =
+                        data.plan_name
+                        ||
+                        PLAN_DATA[
+                            selectedPlan
+                        ].name;
+
+
+                    alert(
+
+                        `Paket ${activatedName} `
+                        +
+
+                        `berhasil diaktifkan.`
+
+                    );
+
+
+                    selectedPlan =
+                        null;
+
+
+                    await loadUsage();
+
+
+                }
+                catch (
+                    error
+                ) {
+
+                    console.error(
+                        "Mock purchase:",
+                        error
+                    );
+
+
+                    alert(
+                        error.message
+                    );
+
+                }
+                finally {
+
+                    confirmButton.disabled =
+                        false;
+
+
+                    confirmButton.innerHTML =
+                        originalHtml;
+
+                }
+
+            }
+        );
+
+    }
+
+
+
+    /* =====================================================
+       INITIAL LOAD
+    ====================================================== */
+
+    loadUsage().catch(
+        function (
+            error
+        ) {
+
+            console.error(
+                "Pricing usage:",
+                error
+            );
+
+        }
+    );
+
+
+
+    /* =====================================================
+       REFRESH WHEN TAB RETURNS
+    ====================================================== */
+
+    document.addEventListener(
+        "visibilitychange",
+        function () {
+
+            if (
+                document.visibilityState
+                ===
+                "visible"
+            ) {
+
+                loadUsage().catch(
+                    console.error
+                );
+
+            }
+
+        }
+    );
+
+
+})();
+
+</script>
+
+{% endif %}
+
+{% endblock %}
