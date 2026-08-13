@@ -1,0 +1,47 @@
+services:
+  app:
+    build: .
+    env_file: .env
+    environment:
+      DATABASE_URL: sqlite:////data/youcut.db
+      TEMP_DIR: /data/temp
+      APP_BASE_URL: https://youcut.my.id
+      YOUTUBE_COOKIES_FILE: /run/secrets/youtube-cookies.txt
+    volumes:
+      - ./data:/data
+      - ./secrets/youtube-cookies.txt:/run/secrets/youtube-cookies.txt:ro
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/healthz', timeout=5).read()"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  caddy:
+    image: caddy:2.10.0-alpine
+    depends_on:
+      app:
+        condition: service_healthy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  caddy_data:
+  caddy_config:

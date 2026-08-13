@@ -8,3 +8,6 @@ temp/
 .playwright-mcp/
 .sisyphus/
 /3600
+.env
+data/
+secrets/
