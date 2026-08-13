@@ -311,6 +311,10 @@ def _download_with_options(
 
     }
 
+    cookies_file = os.environ.get("YOUTUBE_COOKIES_FILE")
+    if cookies_file:
+        options["cookiefile"] = cookies_file
+
 
     if extra_options:
         options.update(
