@@ -1,4 +1,4 @@
-const CACHE_NAME = "youcut-v1";
+const CACHE_NAME = "youcut-v2";
 
 const STATIC_ASSETS = [
     "/",
@@ -88,6 +88,10 @@ self.addEventListener(
          */
 
         if (
+            url.protocol !== "http:" && url.protocol !== "https:"
+            ||
+            url.origin !== self.location.origin
+            ||
             request.method !== "GET"
             ||
             url.pathname.startsWith(
