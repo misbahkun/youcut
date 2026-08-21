@@ -314,6 +314,15 @@ def _download_with_options(
     cookies_file = os.environ.get("YOUTUBE_COOKIES_FILE")
     if cookies_file:
         options["cookiefile"] = cookies_file
+        options["extractor_args"] = {
+            "youtube": {
+                "player_client": [
+                    "web_safari",
+                    "web_embedded",
+                    "-tv_downgraded",
+                ]
+            }
+        }
 
 
     if extra_options:
