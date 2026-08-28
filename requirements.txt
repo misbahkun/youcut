@@ -3,7 +3,6 @@ Flask-SQLAlchemy==3.0.5
 Flask-Login==0.6.3
 Flask-Bcrypt==1.0.1
 Flask-Migrate==4.0.5
-stripe==6.5.0
 yt-dlp[default]>=2026.1.0
 ffmpeg-python==0.2.0
 APScheduler==3.10.4

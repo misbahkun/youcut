@@ -37,40 +37,11 @@ class Config:
 
 
     # =====================================================
-    # STRIPE
-    #
-    # Masih dipertahankan untuk kompatibilitas
-    # dengan kode lama.
-    # =====================================================
+    MIDTRANS_MERCHANT_ID = os.environ.get("MIDTRANS_MERCHANT_ID")
 
-    STRIPE_PUBLIC_KEY = os.environ.get(
-        "STRIPE_PUBLISHABLE_KEY"
-    )
+    MIDTRANS_CLIENT_KEY = os.environ.get("MIDTRANS_CLIENT_KEY")
 
-    STRIPE_SECRET_KEY = os.environ.get(
-        "STRIPE_SECRET_KEY"
-    )
-
-    STRIPE_WEBHOOK_SECRET = os.environ.get(
-        "STRIPE_WEBHOOK_SECRET"
-    )
-
-
-    # =====================================================
-    # XENDIT
-    # =====================================================
-
-    XENDIT_SECRET_KEY = os.environ.get(
-        "XENDIT_SECRET_KEY"
-    )
-
-    XENDIT_WEBHOOK_TOKEN = os.environ.get(
-        "XENDIT_WEBHOOK_TOKEN"
-    )
-
-    XENDIT_API_BASE_URL = os.environ.get(
-        "XENDIT_API_BASE_URL"
-    ) or "https://api.xendit.co"
+    MIDTRANS_SERVER_KEY = os.environ.get("MIDTRANS_SERVER_KEY")
 
 
     # =====================================================
@@ -87,9 +58,7 @@ class Config:
     # https://xxxx.ngrok-free.app
     # =====================================================
 
-    APP_BASE_URL = os.environ.get(
-        "APP_BASE_URL"
-    )
+    APP_BASE_URL = os.environ.get("APP_BASE_URL")
 
 
     # =====================================================
@@ -108,13 +77,9 @@ class Config:
         )
     )
 
-    SMTP_USERNAME = os.environ.get(
-        "SMTP_USERNAME"
-    )
+    SMTP_USERNAME = os.environ.get("SMTP_USERNAME")
 
-    SMTP_PASSWORD = os.environ.get(
-        "SMTP_PASSWORD"
-    )
+    SMTP_PASSWORD = os.environ.get("SMTP_PASSWORD")
 
     MAIL_FROM = (
         os.environ.get("MAIL_FROM")
