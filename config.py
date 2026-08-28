@@ -93,6 +93,41 @@ class Config:
 
 
     # =====================================================
+    # EMAIL / SMTP VERIFICATION
+    # =====================================================
+
+    SMTP_HOST = os.environ.get(
+        "SMTP_HOST",
+        "smtp.gmail.com"
+    )
+
+    SMTP_PORT = int(
+        os.environ.get(
+            "SMTP_PORT",
+            "587"
+        )
+    )
+
+    SMTP_USERNAME = os.environ.get(
+        "SMTP_USERNAME"
+    )
+
+    SMTP_PASSWORD = os.environ.get(
+        "SMTP_PASSWORD"
+    )
+
+    MAIL_FROM = (
+        os.environ.get("MAIL_FROM")
+        or SMTP_USERNAME
+    )
+
+    MAIL_FROM_NAME = os.environ.get(
+        "MAIL_FROM_NAME",
+        "Youcut"
+    )
+
+
+    # =====================================================
     # VIDEO
     # =====================================================
 
