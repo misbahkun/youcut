@@ -309,20 +309,24 @@ def _download_with_options(
         "concurrent_fragment_downloads":
             1,
 
+        "extractor_args": {
+            "youtube": {
+                "player_client": [
+                    "web_embedded",
+                ]
+            }
+        },
+
     }
 
     cookies_file = os.environ.get("YOUTUBE_COOKIES_FILE")
     if cookies_file:
         options["cookiefile"] = cookies_file
-        options["extractor_args"] = {
-            "youtube": {
-                "player_client": [
-                    "web_safari",
-                    "web_embedded",
-                    "-tv_downgraded",
-                ]
-            }
-        }
+        options["extractor_args"]["youtube"]["player_client"] = [
+            "web_safari",
+            "web_embedded",
+            "-tv_downgraded",
+        ]
 
 
     if extra_options:
