@@ -20,6 +20,7 @@ from flask import (
     send_from_directory,
     abort,
     make_response,
+    session,
 )
 
 from flask_login import (
@@ -65,6 +66,12 @@ from utils.usage import (
     get_max_source_seconds,
     get_max_source_minutes,
     is_quality_allowed,
+)
+
+from utils.email_verification import (
+    issue_otp,
+    verify_otp,
+    mask_email,
 )
 
 
@@ -171,6 +178,45 @@ XENDIT_PLANS = {
     },
 
 }
+
+
+def ensure_email_verification_columns():
+
+    from sqlalchemy import inspect, text
+
+    inspector = inspect(db.engine)
+
+    if "users" not in inspector.get_table_names():
+        return
+
+    columns = {
+        column["name"]
+        for column in inspector.get_columns("users")
+    }
+
+    migrations = {
+        "email_verified":
+            "ALTER TABLE users ADD COLUMN email_verified BOOLEAN NOT NULL DEFAULT 1",
+        "otp_hash":
+            "ALTER TABLE users ADD COLUMN otp_hash VARCHAR(64)",
+        "otp_expires_at":
+            "ALTER TABLE users ADD COLUMN otp_expires_at DATETIME",
+        "otp_attempts":
+            "ALTER TABLE users ADD COLUMN otp_attempts INTEGER NOT NULL DEFAULT 0",
+        "otp_last_sent_at":
+            "ALTER TABLE users ADD COLUMN otp_last_sent_at DATETIME",
+    }
+
+    for name, statement in migrations.items():
+        if name not in columns:
+            db.session.execute(text(statement))
+
+    db.session.commit()
+
+
+with app.app_context():
+    db.create_all()
+    ensure_email_verification_columns()
 
 
 # =========================================================
@@ -2939,6 +2985,26 @@ def timeline_download_all_zip():
 # REGISTER
 # =========================================================
 
+def safe_next_url(candidate):
+
+    if (
+        candidate
+        and candidate.startswith("/")
+        and not candidate.startswith("//")
+        and "\\" not in candidate
+    ):
+        return candidate
+
+    return url_for("index")
+
+
+def delivery_error_message(error):
+
+    if error.startswith("Gagal mengirim email OTP:"):
+        return "Kode verifikasi gagal dikirim. Silakan coba lagi nanti."
+
+    return error
+
 @app.route(
     "/register",
     methods=["GET", "POST"]
@@ -2954,19 +3020,43 @@ def register():
 
     if request.method == "POST":
 
-        username = request.form[
-            "username"
-        ]
+        username = request.form.get(
+            "username",
+            ""
+        ).strip()
 
 
-        email = request.form[
-            "email"
-        ]
+        email = request.form.get(
+            "email",
+            ""
+        ).strip().lower()
 
 
-        password = request.form[
-            "password"
-        ]
+        password = request.form.get(
+            "password",
+            ""
+        )
+
+
+        next_page = safe_next_url(
+            request.args.get("next")
+        )
+
+
+        if not username or not email or not password:
+
+            return render_template(
+                "register.html",
+                error="Semua field wajib diisi."
+            )
+
+
+        if len(password) < 6:
+
+            return render_template(
+                "register.html",
+                error="Password minimal 6 karakter."
+            )
 
 
         existing_user = (
@@ -3038,6 +3128,12 @@ def register():
             subscription_type=
                 "free",
 
+            email_verified=
+                False,
+
+            otp_attempts=
+                0,
+
         )
 
 
@@ -3046,34 +3142,130 @@ def register():
         )
 
 
+        db.session.flush()
+
+
+        otp_result = issue_otp(
+            user,
+            force=True,
+            commit=False
+        )
+
+
+        if not otp_result["success"]:
+
+            db.session.rollback()
+
+            return render_template(
+                "register.html",
+                error=delivery_error_message(
+                    otp_result["error"]
+                )
+            )
+
+
         db.session.commit()
 
 
-        login_user(
-            user
-        )
-
-
-        next_page = request.args.get(
-            "next"
-        )
+        session["pending_verification_user_id"] = user.id
+        session["pending_verification_next"] = next_page
 
 
         return redirect(
 
-            next_page
-
-            or
-
-            url_for(
-                "index"
-            )
+            url_for("verify_email")
 
         )
 
 
     return render_template(
         "register.html"
+    )
+
+
+@app.route(
+    "/verify-email",
+    methods=["GET", "POST"]
+)
+def verify_email():
+
+    user_id = session.get("pending_verification_user_id")
+
+    if not user_id:
+        return redirect(url_for("register"))
+
+    user = db.session.get(User, int(user_id))
+
+    if not user:
+        session.pop("pending_verification_user_id", None)
+        session.pop("pending_verification_next", None)
+        return redirect(url_for("register"))
+
+    if user.email_verified:
+        next_page = safe_next_url(
+            session.pop("pending_verification_next", url_for("index"))
+        )
+        session.pop("pending_verification_user_id", None)
+        return redirect(next_page)
+
+    if request.method == "POST":
+        otp = request.form.get("otp", "").strip()
+        result = verify_otp(user, otp)
+
+        if not result["success"]:
+            return render_template(
+                "verify_email.html",
+                masked_email=mask_email(user.email),
+                error=result["error"]
+            )
+
+        next_page = safe_next_url(
+            session.pop("pending_verification_next", url_for("index"))
+        )
+        session.pop("pending_verification_user_id", None)
+        login_user(user)
+        return redirect(next_page)
+
+    return render_template(
+        "verify_email.html",
+        masked_email=mask_email(user.email)
+    )
+
+
+@app.route(
+    "/resend-verification",
+    methods=["POST"]
+)
+def resend_verification():
+
+    user_id = session.get("pending_verification_user_id")
+
+    if not user_id:
+        return redirect(url_for("register"))
+
+    user = db.session.get(User, int(user_id))
+
+    if not user:
+        session.pop("pending_verification_user_id", None)
+        session.pop("pending_verification_next", None)
+        return redirect(url_for("register"))
+
+    if user.email_verified:
+        return redirect(url_for("login"))
+
+    result = issue_otp(user, force=False)
+
+    if not result["success"]:
+        return render_template(
+            "verify_email.html",
+            masked_email=mask_email(user.email),
+            error=delivery_error_message(result["error"])
+        )
+
+    return render_template(
+        "verify_email.html",
+        masked_email=mask_email(user.email),
+        success="Kode OTP baru sudah dikirim ke email kamu."
     )
 
 
@@ -3135,36 +3327,27 @@ def login():
 
         ):
 
+            next_page = safe_next_url(
+                request.args.get("next")
+                or request.form.get("next")
+            )
+
+
+            if not user.email_verified:
+
+                session["pending_verification_user_id"] = user.id
+                session["pending_verification_next"] = next_page
+
+                return redirect(
+                    url_for("verify_email")
+                )
+
             login_user(
                 user
             )
 
-
-            next_page = (
-
-                request.args.get(
-                    "next"
-                )
-
-                or
-
-                request.form.get(
-                    "next"
-                )
-
-            )
-
-
             return redirect(
-
                 next_page
-
-                or
-
-                url_for(
-                    "index"
-                )
-
             )
 
 
@@ -4637,11 +4820,6 @@ def not_found(error):
 # =========================================================
 
 if __name__ == "__main__":
-
-    with app.app_context():
-
-        db.create_all()
-
 
     app.run(
         debug=True

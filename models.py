@@ -72,6 +72,42 @@ class User(UserMixin, db.Model):
     )
 
 
+    # =====================================================
+    # EMAIL VERIFICATION
+    # =====================================================
+
+    email_verified = db.Column(
+        db.Boolean,
+        nullable=False,
+        default=False
+    )
+
+
+    otp_hash = db.Column(
+        db.String(64),
+        nullable=True
+    )
+
+
+    otp_expires_at = db.Column(
+        db.DateTime,
+        nullable=True
+    )
+
+
+    otp_attempts = db.Column(
+        db.Integer,
+        nullable=False,
+        default=0
+    )
+
+
+    otp_last_sent_at = db.Column(
+        db.DateTime,
+        nullable=True
+    )
+
+
 # =========================================================
 # MONTHLY USAGE
 # =========================================================

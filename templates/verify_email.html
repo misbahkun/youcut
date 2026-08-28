@@ -1,0 +1,258 @@
+{% extends "base.html" %}
+
+{% block title %}
+Verifikasi Email - Youcut
+{% endblock %}
+
+{% block content %}
+
+<div class="yc-verify-page">
+
+    <div class="yc-verify-card">
+
+        <div class="yc-verify-icon">
+            <i class="bi bi-envelope-check"></i>
+        </div>
+
+        <span class="yc-verify-kicker">
+            EMAIL VERIFICATION
+        </span>
+
+        <h1>
+            Verifikasi email kamu.
+        </h1>
+
+        <p class="yc-verify-description">
+            Kami mengirim kode 6 digit ke
+            <strong>{{ masked_email }}</strong>.
+            Masukkan kode tersebut untuk mengaktifkan akun Youcut.
+        </p>
+
+        {% if error %}
+        <div class="yc-verify-alert error">
+            <i class="bi bi-exclamation-circle"></i>
+            <span>{{ error }}</span>
+        </div>
+        {% endif %}
+
+        {% if success %}
+        <div class="yc-verify-alert success">
+            <i class="bi bi-check-circle"></i>
+            <span>{{ success }}</span>
+        </div>
+        {% endif %}
+
+        <form method="POST" action="{{ url_for('verify_email') }}">
+
+            <label for="otp" class="yc-verify-label">
+                Kode OTP
+            </label>
+
+            <input
+                id="otp"
+                name="otp"
+                class="yc-verify-input"
+                type="text"
+                inputmode="numeric"
+                autocomplete="one-time-code"
+                pattern="[0-9]{6}"
+                maxlength="6"
+                placeholder="000000"
+                required
+                autofocus
+            >
+
+            <button
+                type="submit"
+                class="yc-verify-submit"
+            >
+                Verifikasi Email
+                <i class="bi bi-arrow-right"></i>
+            </button>
+
+        </form>
+
+        <form
+            method="POST"
+            action="{{ url_for('resend_verification') }}"
+            class="yc-verify-resend-form"
+        >
+            <button
+                type="submit"
+                class="yc-verify-resend"
+            >
+                Kirim ulang OTP
+            </button>
+        </form>
+
+        <div class="yc-verify-note">
+            <i class="bi bi-clock"></i>
+            Kode berlaku selama 5 menit dan maksimal 5 kali percobaan.
+        </div>
+
+        <a
+            href="{{ url_for('logout') }}"
+            class="yc-verify-logout"
+        >
+            Gunakan akun lain
+        </a>
+
+    </div>
+
+</div>
+
+<style>
+.yc-verify-page {
+    min-height: calc(100vh - 150px);
+    display: grid;
+    place-items: center;
+    padding: 40px 16px 70px;
+}
+
+.yc-verify-card {
+    width: min(470px, 100%);
+    padding: 36px;
+    text-align: center;
+    background: var(--yc-surface-raised);
+    border: 1px solid var(--yc-border);
+    border-radius: 18px;
+    box-shadow: var(--yc-shadow-md);
+}
+
+.yc-verify-icon {
+    width: 58px;
+    height: 58px;
+    margin: 0 auto 18px;
+    display: grid;
+    place-items: center;
+    border-radius: 14px;
+    background: var(--yc-primary-soft);
+    color: var(--yc-primary);
+    font-size: 1.35rem;
+}
+
+.yc-verify-kicker {
+    color: var(--yc-primary);
+    font-size: .7rem;
+    font-weight: 800;
+    letter-spacing: .12em;
+}
+
+.yc-verify-card h1 {
+    margin: 8px 0 10px;
+    font-size: 2rem;
+}
+
+.yc-verify-description {
+    margin-bottom: 24px;
+    font-size: .88rem;
+}
+
+.yc-verify-description strong {
+    color: var(--yc-text);
+}
+
+.yc-verify-alert {
+    display: flex;
+    gap: 9px;
+    align-items: flex-start;
+    margin-bottom: 16px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    text-align: left;
+    font-size: .82rem;
+}
+
+.yc-verify-alert.error {
+    background: color-mix(in srgb, var(--yc-danger) 10%, var(--yc-surface-raised));
+    border: 1px solid color-mix(in srgb, var(--yc-danger) 25%, var(--yc-border));
+    color: var(--yc-danger);
+}
+
+.yc-verify-alert.success {
+    background: color-mix(in srgb, var(--yc-success) 10%, var(--yc-surface-raised));
+    border: 1px solid color-mix(in srgb, var(--yc-success) 25%, var(--yc-border));
+    color: var(--yc-success);
+}
+
+.yc-verify-label {
+    display: block;
+    margin-bottom: 7px;
+    text-align: left;
+    color: var(--yc-text);
+    font-size: .82rem;
+    font-weight: 650;
+}
+
+.yc-verify-input {
+    width: 100%;
+    min-height: 54px;
+    padding: 8px 12px;
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: 750;
+    letter-spacing: .45em;
+    background: var(--yc-surface-raised);
+    color: var(--yc-text);
+    border: 1.5px solid var(--yc-border-strong);
+    border-radius: 10px;
+    outline: none;
+}
+
+.yc-verify-input:focus {
+    border-color: var(--yc-primary);
+    box-shadow: 0 0 0 4px var(--yc-focus);
+}
+
+.yc-verify-submit {
+    width: 100%;
+    min-height: 46px;
+    margin-top: 14px;
+    border: 0;
+    border-radius: 10px;
+    background: var(--yc-primary);
+    color: #fff;
+    font-weight: 700;
+}
+
+.yc-verify-submit:hover {
+    background: var(--yc-primary-hover);
+}
+
+.yc-verify-resend-form {
+    margin-top: 12px;
+}
+
+.yc-verify-resend {
+    border: 0;
+    background: transparent;
+    color: var(--yc-primary);
+    font-size: .82rem;
+    font-weight: 650;
+}
+
+.yc-verify-note {
+    margin-top: 20px;
+    color: var(--yc-text-3);
+    font-size: .76rem;
+}
+
+.yc-verify-logout {
+    display: inline-block;
+    margin-top: 18px;
+    color: var(--yc-text-3);
+    font-size: .78rem;
+}
+
+.yc-verify-logout:hover {
+    color: var(--yc-primary);
+}
+
+@media (max-width: 576px) {
+    .yc-verify-card {
+        padding: 28px 20px;
+    }
+}
+</style>
+
+{% endblock %}
