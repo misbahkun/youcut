@@ -1165,9 +1165,8 @@ Pricing — Youcut
             <i class="bi bi-info-circle"></i>
 
             <span>
-                Payment gateway belum diaktifkan.
-                Tombol upgrade saat ini menggunakan
-                simulasi pembelian untuk development.
+                Payment gateway terintegrasi dengan
+                Midtrans Sandbox untuk development.
             </span>
 
         </div>
@@ -1179,7 +1178,7 @@ Pricing — Youcut
 
 
 <!-- =====================================================
-     MOCK PURCHASE MODAL
+     PURCHASE MODAL
 ====================================================== -->
 
 <div
@@ -1264,7 +1263,7 @@ Pricing — Youcut
                 <div class="yc-modal-price">
 
                     <span>
-                        Simulasi pembelian
+                        Total tagihan
                     </span>
 
 
@@ -1343,9 +1342,8 @@ Pricing — Youcut
 
                 <p class="yc-modal-footnote">
 
-                    Untuk sementara pembelian ini hanya
-                    simulasi. Tidak ada pembayaran sungguhan
-                    dan tidak ada transaksi finansial.
+                    Pembayaran aman melalui Midtrans Sandbox.
+                    Pembelian bersifat satu kali untuk 30 hari.
 
                 </p>
 
@@ -1362,7 +1360,7 @@ Pricing — Youcut
                     "
                     data-bs-dismiss="modal"
                 >
-                    Batal Beli
+                    Batal
                 </button>
 
 
@@ -1375,7 +1373,7 @@ Pricing — Youcut
                     id="confirmPurchaseButton"
                 >
 
-                    Beli Paket Ini
+                    Bayar Sekarang
 
                     <i class="bi bi-arrow-right"></i>
 
@@ -3906,6 +3904,12 @@ Pricing — Youcut
 {% block scripts %}
 
 {% if current_user.is_authenticated %}
+{% if midtrans_client_key %}
+<script
+    src="https://app.sandbox.midtrans.com/snap/snap.js"
+    data-client-key="{{ midtrans_client_key }}">
+</script>
+{% endif %}
 
 <script>
 
@@ -4392,19 +4396,15 @@ Pricing — Youcut
             "purchaseDescription"
         ).textContent =
 
-            `Dengan konfirmasi ini, paket ${config.name} `
+            `Dengan konfirmasi ini, kamu akan diarahkan ke halaman `
 
             +
 
-            `akan langsung diaktifkan pada akun kamu `
+            `pembayaran untuk paket ${config.name} `
 
             +
 
-            `selama 30 hari. `
-
-            +
-
-            `Ini hanya simulasi pembelian untuk development.`;
+            `selama 30 hari.`;
 
 
         const icon =
@@ -4504,15 +4504,19 @@ Pricing — Youcut
                         "
                     ></span>
 
-                    Mengaktifkan...
+                    Memproses...
                     `;
 
 
                 try {
 
+                    if (typeof window.snap === 'undefined') {
+                        throw new Error("Sistem pembayaran belum siap atau key tidak tersedia.");
+                    }
+
                     const response =
                         await fetch(
-                            "/api/mock-purchase",
+                            "/api/create-payment",
                             {
 
                                 method:
@@ -4547,6 +4551,8 @@ Pricing — Youcut
                         !response.ok
                         ||
                         !data.success
+                        ||
+                        !data.snap_token
                     ) {
 
                         throw new Error(
@@ -4555,7 +4561,7 @@ Pricing — Youcut
 
                             ||
 
-                            "Paket gagal diaktifkan."
+                            "Gagal membuat pesanan."
 
                         );
 
@@ -4569,30 +4575,23 @@ Pricing — Youcut
                     }
 
 
-                    const activatedName =
-                        data.plan_name
-                        ||
-                        PLAN_DATA[
-                            selectedPlan
-                        ].name;
-
-
-                    alert(
-
-                        `Paket ${activatedName} `
-                        +
-
-                        `berhasil diaktifkan.`
-
-                    );
-
-
-                    selectedPlan =
-                        null;
-
-
-                    await loadUsage();
-
+                    window.snap.pay(data.snap_token, {
+                        onSuccess: function(result){
+                            selectedPlan = null;
+                            loadUsage();
+                        },
+                        onPending: function(result){
+                            alert("Menunggu pembayaran Anda.");
+                            selectedPlan = null;
+                        },
+                        onError: function(result){
+                            alert("Pembayaran gagal.");
+                            selectedPlan = null;
+                        },
+                        onClose: function(){
+                            loadUsage();
+                        }
+                    });
 
                 }
                 catch (
@@ -4600,7 +4599,7 @@ Pricing — Youcut
                 ) {
 
                     console.error(
-                        "Mock purchase:",
+                        "Midtrans purchase:",
                         error
                     );
 
