@@ -108,6 +108,79 @@ class User(UserMixin, db.Model):
     )
 
 
+class Payment(db.Model):
+
+    __tablename__ = "payments"
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True
+    )
+
+    order_id = db.Column(
+        db.String(80),
+        unique=True,
+        nullable=False
+    )
+
+    user_id = db.Column(
+        db.Integer,
+        db.ForeignKey(
+            "users.id",
+            ondelete="CASCADE"
+        ),
+        nullable=False
+    )
+
+    plan = db.Column(
+        db.String(20),
+        nullable=False
+    )
+
+    gross_amount = db.Column(
+        db.Integer,
+        nullable=False
+    )
+
+    snap_token = db.Column(
+        db.String(255),
+        nullable=False
+    )
+
+    status = db.Column(
+        db.String(20),
+        nullable=False,
+        default="pending"
+    )
+
+    midtrans_id = db.Column(
+        db.String(100),
+        nullable=True
+    )
+
+    created_at = db.Column(
+        db.DateTime,
+        nullable=False,
+        default=datetime.utcnow
+    )
+
+    updated_at = db.Column(
+        db.DateTime,
+        nullable=False,
+        default=datetime.utcnow,
+        onupdate=datetime.utcnow
+    )
+
+    user = db.relationship(
+        "User",
+        backref=db.backref(
+            "payments",
+            lazy=True,
+            cascade="all, delete-orphan"
+        )
+    )
+
+
 # =========================================================
 # MONTHLY USAGE
 # =========================================================
