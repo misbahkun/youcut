@@ -3930,6 +3930,10 @@ Pricing — Youcut
         null;
 
 
+    let preSnapStyle =
+        "";
+
+
 
     /* =====================================================
        PLAN DATA
@@ -4423,6 +4427,9 @@ Pricing — Youcut
 
         if (purchaseModal) {
 
+            preSnapStyle =
+                document.body.style.cssText;
+
             purchaseModal.show();
 
         }
@@ -4574,21 +4581,26 @@ Pricing — Youcut
 
                     }
 
+                    const restoreStyle = () => { document.body.style.cssText = preSnapStyle; };
 
                     window.snap.pay(data.snap_token, {
                         onSuccess: function(result){
+                            restoreStyle();
                             selectedPlan = null;
                             loadUsage();
                         },
                         onPending: function(result){
+                            restoreStyle();
                             alert("Menunggu pembayaran Anda.");
                             selectedPlan = null;
                         },
                         onError: function(result){
+                            restoreStyle();
                             alert("Pembayaran gagal.");
                             selectedPlan = null;
                         },
                         onClose: function(){
+                            restoreStyle();
                             loadUsage();
                         }
                     });
