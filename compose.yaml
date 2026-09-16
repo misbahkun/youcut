@@ -1,6 +1,6 @@
 services:
   app:
-    build: .
+    image: ghcr.io/misbahkun/youcut:latest
     env_file: .env
     environment:
       DATABASE_URL: sqlite:////data/youcut.db
