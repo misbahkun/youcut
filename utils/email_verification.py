@@ -199,3 +199,129 @@ def verify_otp(user, submitted_otp):
     db.session.commit()
 
     return {"success": True}
+
+
+def send_payment_notification(
+    recipient,
+    username,
+    plan,
+    amount,
+    order_id,
+    status,
+    expiry_date=None,
+):
+    if not email_verification_configured():
+        return False
+
+    host = str(_setting("SMTP_HOST"))
+    port = int(_setting("SMTP_PORT", 587))
+    username_smtp = str(_setting("SMTP_USERNAME"))
+    password_smtp = str(_setting("SMTP_PASSWORD"))
+    mail_from = str(_setting("MAIL_FROM"))
+    mail_from_name = str(_setting("MAIL_FROM_NAME", "Youcut"))
+
+    plan_title = str(plan).capitalize() if plan else "Free"
+    try:
+        formatted_amount = f"Rp{int(float(amount)):,}".replace(",", ".")
+    except (ValueError, TypeError):
+        formatted_amount = f"Rp{amount}"
+
+    if status == "success":
+        subject = f"[Youcut] Pembayaran Berhasil — Paket {plan_title}"
+        expiry_str = (
+            expiry_date.strftime("%d %B %Y")
+            if isinstance(expiry_date, datetime)
+            else str(expiry_date or "30 Hari ke depan")
+        )
+        badge_color = "#10b981"
+        badge_text = "PEMBAYARAN BERHASIL"
+        headline = "Terima kasih atas pembayaran Anda!"
+        subheadline = f"Akun Youcut Anda telah resmi di-upgrade ke paket <strong>{plan_title}</strong>."
+        detail_rows = f"""
+            <tr><td style="padding:8px 0;color:#666">Order ID</td><td style="padding:8px 0;font-weight:bold;text-align:right;color:#111">{order_id}</td></tr>
+            <tr><td style="padding:8px 0;color:#666">Paket</td><td style="padding:8px 0;font-weight:bold;text-align:right;color:#111">{plan_title}</td></tr>
+            <tr><td style="padding:8px 0;color:#666">Total Pembayaran</td><td style="padding:8px 0;font-weight:bold;text-align:right;color:#10b981">{formatted_amount}</td></tr>
+            <tr><td style="padding:8px 0;color:#666">Berlaku Hingga</td><td style="padding:8px 0;font-weight:bold;text-align:right;color:#111">{expiry_str}</td></tr>
+        """
+        plain_text = (
+            f"Halo {username},\n\n"
+            f"Pembayaran Anda untuk Paket {plan_title} sebesar {formatted_amount} telah BERHASIL diverifikasi!\n"
+            f"Order ID: {order_id}\n"
+            f"Berlaku hingga: {expiry_str}\n\n"
+            f"Terima kasih telah berlangganan Youcut!\n"
+            f"Buka aplikasi: https://youcut.my.id\n"
+        )
+    elif status == "pending":
+        subject = f"[Youcut] Menunggu Pembayaran — Paket {plan_title}"
+        badge_color = "#f59e0b"
+        badge_text = "MENUNGGU PEMBAYARAN"
+        headline = "Pesanan Anda Sedang Menunggu Pembayaran"
+        subheadline = f"Tagihan pesanan paket <strong>{plan_title}</strong> telah dibuat. Silakan selesaikan pembayaran."
+        detail_rows = f"""
+            <tr><td style="padding:8px 0;color:#666">Order ID</td><td style="padding:8px 0;font-weight:bold;text-align:right;color:#111">{order_id}</td></tr>
+            <tr><td style="padding:8px 0;color:#666">Paket</td><td style="padding:8px 0;font-weight:bold;text-align:right;color:#111">{plan_title}</td></tr>
+            <tr><td style="padding:8px 0;color:#666">Total Tagihan</td><td style="padding:8px 0;font-weight:bold;text-align:right;color:#f59e0b">{formatted_amount}</td></tr>
+        """
+        plain_text = (
+            f"Halo {username},\n\n"
+            f"Tagihan pesanan Anda untuk Paket {plan_title} sebesar {formatted_amount} sedang menunggu pembayaran.\n"
+            f"Order ID: {order_id}\n\n"
+            f"Silakan selesaikan pembayaran Anda via Midtrans agar paket langsung aktif secara otomatis.\n"
+        )
+    else:
+        return False
+
+    html = f"""
+    <div style="background-color:#f4f5f7;padding:30px 15px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#171716">
+      <div style="max-width:540px;margin:0 auto;background:#ffffff;border-radius:12px;overflow:hidden;border:1px solid #e5e7eb;box-shadow:0 4px 6px -1px rgba(0,0,0,0.05)">
+        <div style="background:#0f172a;padding:24px 30px;text-align:center">
+          <span style="color:#ffffff;font-size:20px;font-weight:800;letter-spacing:2px">YOUCUT</span>
+        </div>
+        <div style="padding:30px">
+          <div style="display:inline-block;padding:4px 12px;border-radius:20px;background:{badge_color};color:#ffffff;font-size:11px;font-weight:700;letter-spacing:1px;margin-bottom:16px">
+            {badge_text}
+          </div>
+          <h2 style="margin:0 0 10px;font-size:20px;color:#0f172a">{headline}</h2>
+          <p style="margin:0 0 24px;color:#475569;font-size:14px;line-height:1.5">Halo <strong>{username}</strong>, {subheadline}</p>
+          
+          <table style="width:100%;border-collapse:collapse;border-top:1px solid #e2e8f0;border-bottom:1px solid #e2e8f0;margin-bottom:24px;font-size:14px">
+            <tbody>
+              {detail_rows}
+            </tbody>
+          </table>
+
+          <div style="text-align:center;margin-top:20px">
+            <a href="https://youcut.my.id" style="display:inline-block;background:#2563eb;color:#ffffff;padding:12px 28px;text-decoration:none;border-radius:8px;font-size:14px;font-weight:600">Buka Youcut</a>
+          </div>
+        </div>
+        <div style="background:#f8fafc;padding:16px 30px;text-align:center;border-top:1px solid #e2e8f0;font-size:12px;color:#94a3b8">
+          Jika Anda tidak merasa melakukan transaksi ini, silakan hubungi tim support Youcut.
+        </div>
+      </div>
+    </div>
+    """
+
+    message = MIMEMultipart("alternative")
+    message["Subject"] = subject
+    message["From"] = f"{mail_from_name} <{mail_from}>"
+    message["To"] = recipient
+    message.attach(MIMEText(plain_text, "plain", "utf-8"))
+    message.attach(MIMEText(html, "html", "utf-8"))
+
+    try:
+        if port == 465:
+            with smtplib.SMTP_SSL(host, port, timeout=20) as server:
+                server.login(username_smtp, password_smtp)
+                server.sendmail(mail_from, [recipient], message.as_string())
+        else:
+            with smtplib.SMTP(host, port, timeout=20) as server:
+                server.ehlo()
+                server.starttls()
+                server.ehlo()
+                server.login(username_smtp, password_smtp)
+                server.sendmail(mail_from, [recipient], message.as_string())
+        return True
+    except Exception as exc:
+        if current_app:
+            current_app.logger.error("Gagal mengirim email notifikasi payment: %s", exc)
+        return False

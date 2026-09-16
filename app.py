@@ -76,6 +76,7 @@ from utils.email_verification import (
     issue_otp,
     verify_otp,
     mask_email,
+    send_payment_notification,
 )
 
 
@@ -3554,15 +3555,43 @@ def midtrans_webhook():
         payment.midtrans_id = status_data.get("transaction_id")
         user.subscription_type = payment.plan
         user.subscription_expiry = datetime.utcnow() + timedelta(days=30)
+        db.session.commit()
+        try:
+            if user and user.email:
+                send_payment_notification(
+                    recipient=user.email,
+                    username=user.username,
+                    plan=payment.plan,
+                    amount=payment.gross_amount,
+                    order_id=payment.order_id,
+                    status="success",
+                    expiry_date=user.subscription_expiry,
+                )
+        except Exception as exc:
+            app.logger.error("Failed to send payment success email: %s", exc)
     elif transaction_status == "pending":
         payment.status = "pending"
+        db.session.commit()
+        try:
+            user = db.session.get(User, payment.user_id)
+            if user and user.email:
+                send_payment_notification(
+                    recipient=user.email,
+                    username=user.username,
+                    plan=payment.plan,
+                    amount=payment.gross_amount,
+                    order_id=payment.order_id,
+                    status="pending",
+                )
+        except Exception as exc:
+            app.logger.error("Failed to send payment pending email: %s", exc)
     elif transaction_status in ("deny", "cancel", "expire", "failure"):
         payment.status = transaction_status
         payment.midtrans_id = status_data.get("transaction_id")
+        db.session.commit()
     else:
         return jsonify({"error": "Unsupported payment status."}), 400
 
-    db.session.commit()
     return jsonify({"received": True})
 
 

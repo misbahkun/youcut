@@ -2,7 +2,8 @@ FROM denoland/deno:2.9.5 AS deno
 
 FROM python:3.11-slim-bookworm
 
-RUN apt-get update \
+RUN sed -i 's|http://deb.debian.org/debian|http://kartolo.sby.datautama.net.id/debian|g' /etc/apt/sources.list.d/debian.sources \
+    && apt-get update \
     && apt-get install --no-install-recommends -y ffmpeg ca-certificates \
     && rm -rf /var/lib/apt/lists/* \
     && groupadd --gid 10001 youcut \

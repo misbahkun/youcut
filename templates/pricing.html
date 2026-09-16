@@ -4581,13 +4581,25 @@ Pricing — Youcut
 
                     }
 
-                    const restoreStyle = () => { document.body.style.cssText = preSnapStyle; };
+                    const restoreStyle = () => {
+                        document.body.style.cssText = preSnapStyle;
+                        document.body.classList.remove("modal-open");
+                        document.body.style.overflow = "";
+                        document.body.style.position = "";
+                        document.body.style.paddingRight = "";
+                        document.documentElement.style.overflow = "";
+                        document.documentElement.style.height = "";
+                        document.querySelectorAll(".modal-backdrop").forEach(function(el){ el.remove(); });
+                        const snapEl = document.getElementById("snap-midtrans");
+                        if (snapEl) snapEl.remove();
+                    };
 
                     window.snap.pay(data.snap_token, {
                         onSuccess: function(result){
                             restoreStyle();
                             selectedPlan = null;
-                            loadUsage();
+                            alert("Pembayaran berhasil! Paket kamu telah aktif.");
+                            window.location.reload();
                         },
                         onPending: function(result){
                             restoreStyle();
